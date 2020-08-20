@@ -2,25 +2,27 @@ version: "3"
 services:
   postgres:
     image: postgres:latest
-    network_mode: bridge
+#    network_mode: bridge
     container_name: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    expose:
-      - 5432
     ports:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=123456
       - POSTGRES_USER=postgres
       - POSTGRES_DB=Identification
-    restart: unless-stopped
+#    restart: unless-stopped
   springbootapp:
     container_name: identification-server
 #    image: app-springboot-postgresql
     build: ./
     ports:
       - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/Identification
+#      SPRING_DATASOURCE_USERNAME: postgres1
+#      SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       - postgres
 volumes:
