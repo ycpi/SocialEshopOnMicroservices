@@ -1,8 +1,11 @@
 package com.socialeshop.identification.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity(name = "sessions")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,7 +14,18 @@ public class Session {
     @Column
     String username;
 
+    @Column
+    String test;
+
     public Session() {
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 
     public String getUsername() {

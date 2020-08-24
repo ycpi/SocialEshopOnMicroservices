@@ -12,10 +12,12 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USER: postgres
       POSTGRES_DB: Identification
-    restart: unless-stopped
+#    restart: unless-stopped
   springbootapp:
     container_name: identification-server
     build: ./
+    user: root
+    command: sh -c "./gradlew build && java -jar build/libs/identification-0.0.1-SNAPSHOT.jar"
     ports:
       - "8080:8080"
     depends_on:
