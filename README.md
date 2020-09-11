@@ -23,6 +23,14 @@ Nowadays, many social apps will match you with others based on some quiz. But we
     			- Item Admin(could change items outside the business org): delete Item
      	- Function:
 			1. Provide authentication and verification for users 
+	- API design:
+		- URL: http://localhost/profile
+		- GET /profile -> Get all profile list
+		- POST /profile ->  Create a new profile
+		- GET /profile/001 -> Get the profile with user ID 001
+		- PUT /profile/001 -> Admend the profile with user 001
+		- DELETE /profile/001 -> Delete the profile with user ID 001
+		- GET /profile/001/all -> Get all the information in the profile with user ID 001
   			 
     1. Basket module
         - Database:
