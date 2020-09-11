@@ -85,9 +85,8 @@ Nowadays, many social apps will match you with others based on some quiz. But we
 	| Tools   | Info                                                                    |
 	|---------|-------------------------------------------------------------------------|
 	| Docker  | containers                                                              |
-	|         | open\-source platform for managing containerized workloads and services |
+	| Kubernetes| open\-source platform for managing containerized workloads and services |
 	| Jenkins | CI/CD                                                                   |
-	|         |                                                                         |
 
 ## User Interface
 
