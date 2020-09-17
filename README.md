@@ -1,5 +1,5 @@
-
-
+  <img src="https://img.shields.io/badge/Spring%20Boot-2.2.9.RELEASE-blue" alt="Downloads"/>
+  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton.SR6-blue" alt="Downloads"/>
 [![CircleCI](https://circleci.com/gh/vercel/micro/tree/master.svg?style=shield)](https://circleci.com/gh/vercel/micro/tree/master)
 [![Install Size](https://packagephobia.now.sh/badge?p=micro)](https://packagephobia.now.sh/result?p=micro)
 
