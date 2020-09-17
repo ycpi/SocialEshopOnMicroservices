@@ -1,4 +1,4 @@
-![Gradle Package](https://github.com/ycpi/SocialEshopOnMicroservices/workflows/Gradle%20Package/badge.svg)
+
 
 [![CircleCI](https://circleci.com/gh/vercel/micro/tree/master.svg?style=shield)](https://circleci.com/gh/vercel/micro/tree/master)
 [![Install Size](https://packagephobia.now.sh/badge?p=micro)](https://packagephobia.now.sh/result?p=micro)
