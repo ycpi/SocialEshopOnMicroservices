@@ -1,9 +1,4 @@
 ![Gradle Package](https://github.com/ycpi/SocialEshopOnMicroservices/workflows/Gradle%20Package/badge.svg)
-![GitHub Workflow Status](https://github.com/ycpi/SocialEshopOnMicroservices/workflows/CI/badge.svg)
-[![GoDev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/go-kit/kit?tab=doc)
-[![codecov](https://codecov.io/gh/go-kit/kit/branch/master/graph/badge.svg)](https://codecov.io/gh/go-kit/kit)
-[![Go Report Card](https://goreportcard.com/badge/go-kit/kit)](https://goreportcard.com/report/go-kit/kit)
-[![Sourcegraph](https://sourcegraph.com/github.com/go-kit/kit/-/badge.svg)](https://sourcegraph.com/github.com/go-kit/kit?badge)
 
 
 # SocialEshopOnMicroservices
