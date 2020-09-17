@@ -1,4 +1,5 @@
-﻿## Statement of goals
+![Gradle Package](https://github.com/ycpi/SocialEshopOnMicroservices/workflows/Gradle%20Package/badge.svg)
+## Statement of goals
 Nowadays, many social apps will match you with others based on some quiz. But we think these quizzes can hardly be used to predict one's appetite in making friends. So we are thinking about using the transaction history data to match people up. 
 
 ## Functional Description
