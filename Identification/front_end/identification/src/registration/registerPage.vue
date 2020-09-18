@@ -68,7 +68,7 @@
             ref="address"
             v-model="loginForm.address"
             placeholder="Address"
-            name="adress"
+            name="address"
             type="text"
             tabindex="1"
             autocomplete="on"
