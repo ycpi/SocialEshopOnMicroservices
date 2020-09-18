@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "User")
+@Table(name = "\"User\"")
 public class User {
     @Id
     @GeneratedValue(generator = "increment")
