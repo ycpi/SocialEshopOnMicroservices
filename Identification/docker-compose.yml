@@ -17,9 +17,7 @@ services:
     container_name: identification-server
     build: ./
     user: root
-    volumes:
-      - .:/app
-    command: sh -c "cat /app/src/main/resources/application.properties && ./gradlew build && java -jar /app/build/libs/identification-0.0.1-SNAPSHOT.jar"
+    command: sh -c "./gradlew clean && ./gradlew build && java -jar ./build/libs/identification-0.0.1-SNAPSHOT.jar"
     ports:
       - "8080:8080"
     depends_on:
