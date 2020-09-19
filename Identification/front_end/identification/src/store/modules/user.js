@@ -22,7 +22,12 @@ const mutations = {
 const actions = {
     login({commit}, userPwd) {
         return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-            axios.post('/api/auth',userPwd).then(response => {
+            axios.post('http://localhost:9090',{
+                data: {
+                    username: userPwd.username,
+                    password: userPwd.password
+                },
+            }).then(response => {
                 const { data } = response
                 commit('SET_TOKEN', data.token)
                 setToken(data.token)
