@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 
 Vue.use(ElementUI);
-
+/*
 //检查每一个router的权限
 router.beforeEach((to, from, next) => {
   if (store.getters.token) { // 判断是否有token
@@ -31,6 +31,7 @@ router.beforeEach((to, from, next) => {
       next('/login'); // 无权限全部重定向到登录页
   }
 });
+*/
 new Vue({
   el: '#app',
   router,
