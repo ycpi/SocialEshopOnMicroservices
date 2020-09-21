@@ -1,5 +1,6 @@
 import {getToken, setToken, removeToken} from '@/utils/authTool'
 import axios from 'axios'
+//axios.defaults.baseURL = "api";
 const state = {
     token: getToken(),
     name: '',
@@ -22,7 +23,7 @@ const mutations = {
 const actions = {
     login({commit}, userPwd) {
         return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-            axios.post('http://localhost:9090/hello',{
+            axios.post('/api/hello',{
                 data: {
                     username: userPwd.username,
                     password: userPwd.password
@@ -40,7 +41,7 @@ const actions = {
     },
     register(userInfo) {
         return new Promise((resolve, reject) => {
-            axios.post('/api/register',userInfo).then(response => {
+            axios.post('/api/auth/signup',userInfo).then(response => {
                 resolve(response)
             }).catch (error => {
                 alert(String(error))

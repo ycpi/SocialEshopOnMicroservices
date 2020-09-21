@@ -106,7 +106,7 @@ export default {
         if (validAddress(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct email address with format \'xxx@xxx.xxx\''))
+            callback(new Error('Please enter the correct address'))
         }
     }
     const validatePassword = (rule, value, callback) => {
@@ -183,7 +183,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('register', this.loginForm)
+          this.$store.dispatch('user/register', this.loginForm)
             .then(() => {
               this.$router.push('/')
               this.loading = false
