@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -53,12 +54,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        String password = passwordEncoder().encode("123456");
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser("test")
-                .password(password)
-                .roles("admin");
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//        String password = passwordEncoder().encode("123456");
+//        authenticationManagerBuilder.inMemoryAuthentication()
+//                .withUser("test")
+//                .password(password)
+//                .roles("admin");
     }
 
     @Override
@@ -76,6 +77,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .formLogin().and()
                     .httpBasic();
 
-//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
