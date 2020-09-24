@@ -3,7 +3,7 @@ import axios from 'axios'
 //axios.defaults.baseURL = "api";
 const state = {
     token: getToken(),
-    name: '',
+    name: 'ss',
     roles: []
 }
 const mutations = {
@@ -22,29 +22,35 @@ const mutations = {
 }
 const actions = {
     login({commit}, userPwd) {
+        const { username, password } = userPwd
         return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-            axios.post('/api/hello',{
-                data: {
-                    username: userPwd.username,
-                    password: userPwd.password
-                },
+            axios.post('/api/auth/logins',{
+                username: username,
+                password: password
             }).then(response => {
-                console.log("reponsed!")
                 const { data } = response
-                commit('SET_TOKEN', data.token)
+                commit('SET_TOKEN', data.accessToken)
                 setToken(data.token)
                 resolve()
             }).catch(error => {
+                alert("Login Failed")
                 reject(error)
             })
         })
     },
-    register(userInfo) {
+    register(nullcontext, userInfo) {
+        console.log(nullcontext)
+        const { username, password, email, address } = userInfo
         return new Promise((resolve, reject) => {
-            axios.post('/api/auth/signup',userInfo).then(response => {
+            axios.post('/api/auth/signup',{
+                username: username,
+                password: password,
+                email: email,
+                address: address
+            }).then(response => {
                 resolve(response)
             }).catch (error => {
-                alert(String(error))
+                alert(error.response.data.message)
                 reject(error)
             })
         })

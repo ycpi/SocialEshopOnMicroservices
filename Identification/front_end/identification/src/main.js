@@ -15,9 +15,9 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' });
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('getInfo').then(res => { // 拉取info
+        store.dispatch('user/getInfo').then(res => { // 拉取info
           const roles = res.data.role;
-          store.dispatch('generateRoutes', { roles }).then(() => { // 生成可访问的路由表
+          store.dispatch('permission/generateRoutes', { roles }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
           })
@@ -31,9 +31,8 @@ router.beforeEach((to, from, next) => {
   } else {
       next('/login'); // 无权限全部重定向到登录页
   }
-});
+})
 */
-
 new Vue({
   el: '#app',
   router,

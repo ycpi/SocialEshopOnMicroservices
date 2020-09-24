@@ -15,7 +15,7 @@ export function validUsername(username) {
  * @returns {Boolean}
  */
 export function validAddress(address) {
-    return /^[0-9a-zA-Z_.-/#()]+$/.test(address);
+    return /^[0-9a-zA-Z_.-/#()\s,]+$/.test(address);
 }
 
 /**
