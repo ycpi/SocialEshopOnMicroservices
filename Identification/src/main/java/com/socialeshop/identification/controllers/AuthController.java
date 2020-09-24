@@ -4,6 +4,7 @@ package com.socialeshop.identification.controllers;
 import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.Security.jwt.JwtUtils;
 import com.socialeshop.identification.models.User;
+import com.socialeshop.identification.payloads.LoginRequest;
 import com.socialeshop.identification.payloads.MessageResponse;
 import com.socialeshop.identification.payloads.SignupRequest;
 import com.socialeshop.identification.repositories.UserRepository;
@@ -14,17 +15,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -37,6 +35,7 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -53,7 +52,7 @@ public class AuthController {
         }
 
         // Create new user's account
-
+        System.out.println("username:"+signUpRequest.getUsername());
         User user = new User(signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getAddress(),
@@ -96,25 +95,26 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-//    @PostMapping("/signin")
-//    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-//
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String jwt = jwtUtils.generateJwtToken(authentication);
-//
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 //        List<String> roles = userDetails.getAuthorities().stream()
 //                .map(item -> item.getAuthority())
 //                .collect(Collectors.toList());
-//
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 //        return ResponseEntity.ok(new JwtResponse(jwt,
 //                userDetails.getId(),
 //                userDetails.getUsername(),
 //                userDetails.getEmail(),
 //                roles));
-//    }
+    }
 
 }
