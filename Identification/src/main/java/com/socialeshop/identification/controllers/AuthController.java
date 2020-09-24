@@ -4,6 +4,7 @@ package com.socialeshop.identification.controllers;
 import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.Security.jwt.JwtUtils;
 import com.socialeshop.identification.models.User;
+import com.socialeshop.identification.payloads.JwtResponse;
 import com.socialeshop.identification.payloads.LoginRequest;
 import com.socialeshop.identification.payloads.MessageResponse;
 import com.socialeshop.identification.payloads.SignupRequest;
@@ -90,13 +91,14 @@ public class AuthController {
 //        }
 
 //        user.setRoles(roles);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/logins")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        System.out.println(loginRequest.getUsername()+","+loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -109,12 +111,12 @@ public class AuthController {
 //                .map(item -> item.getAuthority())
 //                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-//        return ResponseEntity.ok(new JwtResponse(jwt,
-//                userDetails.getId(),
-//                userDetails.getUsername(),
-//                userDetails.getEmail(),
-//                roles));
+//        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                null));
     }
 
 }

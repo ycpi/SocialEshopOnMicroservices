@@ -29,6 +29,7 @@ public class User {
     private String email;
 
     public User(String username, String password, String address, String email) {
+        this.id = 0L;
         this.username = username;
         this.password = password;
         this.address = address;
