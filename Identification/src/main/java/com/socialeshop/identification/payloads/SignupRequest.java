@@ -19,7 +19,6 @@ public class SignupRequest {
     private String address;
 //    private Set<String> role;
 
-
     public String getAddress() {
         return address;
     }
