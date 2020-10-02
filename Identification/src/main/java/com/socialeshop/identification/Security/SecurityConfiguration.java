@@ -30,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
@@ -55,11 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//        String password = passwordEncoder().encode("123456");
-//        authenticationManagerBuilder.inMemoryAuthentication()
-//                .withUser("test")
-//                .password(password)
-//                .roles("admin");
     }
 
     @Override
@@ -70,10 +66,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
 //                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                    .antMatchers("/api/auth/**").permitAll()
+                    .antMatchers("/auth/**").permitAll()
+                    .antMatchers("/category/**").permitAll()
 //                    .antMatchers("/resources/**").permitAll()
-                    .anyRequest().permitAll().and()
-//                    .anyRequest().authenticated().and()
+//                    .anyRequest().permitAll().and()
+                    .anyRequest().authenticated().and()
                     .formLogin().and()
                     .httpBasic();
 

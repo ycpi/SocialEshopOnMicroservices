@@ -19,7 +19,7 @@ services:
     user: root
     command: sh -c "./gradlew clean && ./gradlew build && java -jar ./build/libs/identification-0.0.1-SNAPSHOT.jar"
     ports:
-      - "8080:8080"
+      - "9090:9090"
     depends_on:
       - postgres
 volumes:
