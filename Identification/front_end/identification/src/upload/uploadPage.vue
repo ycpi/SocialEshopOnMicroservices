@@ -3,73 +3,64 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
         <div class="title-container">
-            <h3 class="title">Sign Up</h3>
+            <h3 class="title">Post Item</h3>
         </div>
 
-        <el-form-item prop="username">
+        <el-form-item prop="itemname">
             <span>
-            <i class="el-icon-user"></i>
+            <i class="el-icon-goods"></i>
             </span>
             <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
+            ref="itemname"
+            v-model="loginForm.itemname"
+            placeholder="Item Name"
+            name="itemname"
             type="text"
             tabindex="1"
             autocomplete="on"
             />
         </el-form-item>
 
-        <el-form-item prop="email">
+        <el-form-item prop="price">
             <span>
-            <i class="el-icon-message"></i>
+            <i class="el-icon-money"></i>
             </span>
             <el-input
-            ref="email"
-            v-model="loginForm.email"
-            placeholder="Email"
-            name="email"
+            ref="price"
+            v-model="loginForm.price"
+            placeholder="Price"
+            name="price"
             type="text"
             tabindex="1"
             autocomplete="on"
             />
         </el-form-item>
 
-        <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-            <el-form-item prop="password">
+        <el-form-item prop="amount">
             <span>
-                <i class="el-icon-key"></i>
+            <i class="el-icon-coin"></i>
             </span>
             <el-input
-                :key="passwordType"
-                ref="password"
-                v-model="loginForm.password"
-                :type="passwordType"
-                placeholder="Password"
-                name="password"
-                tabindex="2"
-                autocomplete="on"
-                @keyup.native="checkCapslock"
-                @blur="capsTooltip = false"
-                @keyup.enter.native="handleLogin"
-            />
-            <span class="show-pwd" @click="showPwd">
-                <i class="el-icon-view"></i>
-            </span>
-            </el-form-item>
-        </el-tooltip>
-
-        <el-form-item prop="address">
-            <span>
-            <i class="el-icon-house"></i>
-            </span>
-            <el-input
-            ref="address"
-            v-model="loginForm.address"
-            placeholder="Address"
-            name="address"
+            ref="amount"
+            v-model="loginForm.amount"
+            placeholder="Amount"
+            name="amount"
             type="text"
+            tabindex="1"
+            autocomplete="on"
+            />
+        </el-form-item>
+
+        <el-form-item prop="description">
+            <span>
+            <i class="el-icon-more-outline"></i>
+            </span>
+            <el-input
+            ref="description"
+            v-model="loginForm.description"
+            placeholder="Description"
+            name="description"
+            type="textarea"
             tabindex="1"
             autocomplete="on"
             />
@@ -78,61 +69,57 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
 
     </el-form>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickLogin">Have Account? Login!</el-button>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickBReg">Sign Up as Business Owner</el-button>
+    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickPersonal">Personal Page</el-button>
   </div>
 </template>
 
 <script>
-import { validEmail, validUsername, validAddress } from '../utils/validate'
+import { validPrice, validItemname, validAmount, validDescription } from '../utils/validate'
 export default {
   name: 'RegisterPage',
   components: {},
   data() {
-    const validateUsername = (rule, value, callback) => {
-        if (validUsername(value)) {
+    const validateItemname = (rule, value, callback) => {
+        if (validItemname(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct user name with A-Z, a-z, 0-9'))
+            callback(new Error('Please enter the correct item name without special characters.'))
         }
     }
-    const validateEmail = (rule, value, callback) => {
-        if (validEmail(value)) {
+    const validatePrice = (rule, value, callback) => {
+        if (validPrice(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct email address with format \'xxx@xxx.xxx\''))
+            callback(new Error('Please enter the correct price with only numbers and \'.\''))
         }
     }
-    const validateAddress = (rule, value, callback) => {
-        if (validAddress(value)) {
+    const validateAmount = (rule, value, callback) => {
+        if (validAmount(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct address'))
+            callback(new Error('Please enter a correct positive integer number as the amount.'))
         }
     }
-    const validatePassword = (rule, value, callback) => {
-        if (value.length < 6) {
-            callback(new Error('The password can not be less than 6 digits'))
+    const validateDescription = (rule, value, callback) => {
+        if (!validDescription(value)) {
+            callback(new Error('Please enter 1-3 sentences of description'))
         } else {
             callback()
         }
     }
     return {
       loginForm: {
-        username: '',
-        password: '',
-        email:    '',
-        adress:   '',
-        isBusiness: false,
+        itemname: '',
+        amount: '',
+        price:    '',
+        description:   ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
-        address: [{ required: true, trigger: 'blur', validator: validateAddress }]
+        itemname: [{ required: true, trigger: 'blur', validator: validateItemname }],
+        amount: [{ required: true, trigger: 'blur', validator: validateAmount }],
+        price: [{ required: true, trigger: 'blur', validator: validatePrice }],
+        description: [{ required: true, trigger: 'blur', validator: validateDescription }]
       },
-      passwordType: 'password',
-      capsTooltip: false,
       loading: false,
       showDialog: false,
       redirect: undefined,
@@ -155,12 +142,14 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.loginForm.email === '') {
-      this.$refs.email.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
+    if (this.loginForm.itemname === '') {
+        this.$refs.itemname.focus()
+    } else if (this.loginForm.price === '') {
+        this.$refs.email.focus()
+    } else if (this.loginForm.amount === '') {
+        this.$refs.password.focus()
+    } else if (this.loginForm.description === '') {
+        this.$refs.password.focus()
     }
   },
   destroyed() {
@@ -171,29 +160,15 @@ export default {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
     },
-    onClickLogin() {
-        this.$router.push('/login');
-    },
-    onClickBReg() {
-        this.$router.push('/business/register');
-    },
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+    onClickPersonal() {
+        this.$router.push('/profile');
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/register', this.loginForm, this.isBusiness)
+          this.$store.dispatch('user/upload', this.loginForm)
             .then(() => {
-              this.$router.push('/')
               this.loading = false
             })
             .catch((error) => {

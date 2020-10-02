@@ -2,82 +2,134 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
-      <div class="title-container">
-        <h3 class="title">Login</h3>
-      </div>
+        <div class="title-container">
+            <h3 class="title">Sign Up as Business Owner</h3>
+        </div>
 
-      <el-form-item prop="username">
-        <span>
-          <i class="el-icon-user"></i>
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
-          <span>
-            <i class="el-icon-key"></i>
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
+        <el-form-item prop="username">
+            <span>
+            <i class="el-icon-user"></i>
+            </span>
+            <el-input
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="Username"
+            name="username"
+            type="text"
+            tabindex="1"
             autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <i class="el-icon-view"></i>
-          </span>
+            />
         </el-form-item>
-      </el-tooltip>
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Login</el-button>
+
+        <el-form-item prop="email">
+            <span>
+            <i class="el-icon-message"></i>
+            </span>
+            <el-input
+            ref="email"
+            v-model="loginForm.email"
+            placeholder="Email"
+            name="email"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+            />
+        </el-form-item>
+
+        <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+            <el-form-item prop="password">
+            <span>
+                <i class="el-icon-key"></i>
+            </span>
+            <el-input
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
+                placeholder="Password"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+                @keyup.native="checkCapslock"
+                @blur="capsTooltip = false"
+                @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+                <i class="el-icon-view"></i>
+            </span>
+            </el-form-item>
+        </el-tooltip>
+
+        <el-form-item prop="address">
+            <span>
+            <i class="el-icon-house"></i>
+            </span>
+            <el-input
+            ref="address"
+            v-model="loginForm.address"
+            placeholder="Address"
+            name="address"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+            />
+        </el-form-item>
+
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
+
     </el-form>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickRegister">No Account? Sign Up!</el-button>
+    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickLogin">Have Account? Login!</el-button>
+    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickBReg">Sign Up as Client</el-button>
   </div>
 </template>
 
 <script>
-import { validUsername } from '../utils/validate'
+import { validEmail, validUsername, validAddress } from '../utils/validate'
 export default {
-  name: 'LoginPage',
+  name: 'RegisterPage',
   components: {},
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (validUsername(value)) {
-        callback()
-      } else {
-        callback(new Error('Please enter the correct user name'))
-      }
+        if (validUsername(value)) {
+            callback()
+        } else {
+            callback(new Error('Please enter the correct user name with A-Z, a-z, 0-9'))
+        }
+    }
+    const validateEmail = (rule, value, callback) => {
+        if (validEmail(value)) {
+            callback()
+        } else {
+            callback(new Error('Please enter the correct email address with format \'xxx@xxx.xxx\''))
+        }
+    }
+    const validateAddress = (rule, value, callback) => {
+        if (validAddress(value)) {
+            callback()
+        } else {
+            callback(new Error('Please enter the correct address'))
+        }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
+        if (value.length < 6) {
+            callback(new Error('The password can not be less than 6 digits'))
+        } else {
+            callback()
+        }
     }
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        email:    '',
+        adress:   '',
+        isBusiness: true,
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
+        address: [{ required: true, trigger: 'blur', validator: validateAddress }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -105,6 +157,8 @@ export default {
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
+    } else if (this.loginForm.email === '') {
+      this.$refs.email.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
@@ -117,7 +171,10 @@ export default {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
     },
-    onClickRegister() {
+    onClickLogin() {
+        this.$router.push('/login');
+    },
+    onClickBReg() {
         this.$router.push('/register');
     },
     showPwd() {
@@ -134,15 +191,16 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store.dispatch('user/register', this.loginForm)
             .then(() => {
               this.$router.push('/')
               this.loading = false
             })
-            .catch(() => {
+            .catch((error) => {
               this.$notify.error({
-                    title: 'Login Failed',
-                    message: 'Wrong Username/Password',
+                    title: 'Sign Up Error',
+                    message: error.response.data.message,
+                    duration: 0
                 });
               this.loading = false
             })
@@ -160,24 +218,6 @@ export default {
         return acc
       }, {})
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>

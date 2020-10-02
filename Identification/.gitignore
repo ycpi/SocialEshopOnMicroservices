@@ -33,3 +33,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+# Ignore DevSpace cache and log folder
+.devspace/

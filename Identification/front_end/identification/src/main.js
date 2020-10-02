@@ -6,15 +6,16 @@ import router from './router'
 import store from './store'
 
 Vue.use(ElementUI);
-
-//检查每一个router的权限
 /*
+//检查每一个router的权限
 router.beforeEach((to, from, next) => {
+  console.log("triggered");
   if (store.getters.token) { // 判断是否有token
     if (to.path === '/login') {
       next({ path: '/' });
     } else {
-      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
+      next();
+      if (store.getters.role.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('user/getInfo').then(res => { // 拉取info
           const roles = res.data.role;
           store.dispatch('permission/generateRoutes', { roles }).then(() => { // 生成可访问的路由表

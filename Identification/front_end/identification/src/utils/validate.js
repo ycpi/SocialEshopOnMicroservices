@@ -10,6 +10,22 @@ export function validUsername(username) {
     return /^[0-9a-zA-Z_.-]+$/.test(username);
 }
 
+export function validItemname(itemname) {
+  return /^[0-9a-zA-Z_.-/#()\s,]+$/.test(itemname);
+}
+
+export function validPrice(price) {
+  return /^(0|[1-9]\d*)(\.\d+)?$/.test(price);
+}
+
+export function validAmount(amount) {
+  return /^[1-9][0-9]*$/.test(amount);
+}
+
+export function validDescription(description) {
+  return /^(.|\s)*[a-zA-Z]+(.|\s)*$/.test(description);
+}
+
 /**
  * @param {string} address
  * @returns {Boolean}

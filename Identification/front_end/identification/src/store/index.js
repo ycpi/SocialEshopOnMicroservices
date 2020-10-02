@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
@@ -15,12 +16,15 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 }, {})
 
 export default new Vuex.Store({
+  plugins: [createPersistedState({ storage: window.sessionStorage })],
   getters: {
     token: state => state.user.token,
     name: state => state.user.name,
-    roles: state => state.user.roles,
+    role: state => state.user.role,
     addRoutes: state => state.permission.addRoutes,
-    routes: state => state.permission.routes
+    routes: state => state.permission.routes,
+    cart: state => state.user.cart.cart,
+    item: state => state.category.items
   },
   modules
 });
