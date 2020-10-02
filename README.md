@@ -61,13 +61,13 @@ Nowadays, many social apps will match you with others based on some quiz. But we
 
     4. Catalog module
 		- Database:
-			ID|Bussiness_User_ID|Name|Type|Price|Count|Discount|Description
+			ID|name|cost|amount|Description
 		- Function:
 			1. CRUD
 			2. add item to basket 
    
    - FrontEnd logic:
-	1. Login\Signup page:
+	3. Login\Signup page:
 		call function in Identification service
 	3. Profile page:
 		call function in Baskets,Ordering services
