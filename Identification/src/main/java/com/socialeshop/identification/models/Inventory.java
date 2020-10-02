@@ -16,6 +16,10 @@ public class Inventory {
     @Column(name = "ID", unique = true, nullable = false)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Column(name = "itemName", unique = true, nullable = false)
     private String itemName;
 
@@ -28,7 +32,8 @@ public class Inventory {
     @Column(name = "description", nullable = false)
     private String description;
 
-    public Inventory(String itemName, int cost, int amount, String description) {
+    public Inventory(User user,String itemName, int cost, int amount, String description) {
+        this.user = user;
         this.itemName = itemName;
         this.cost = cost;
         this.amount = amount;
@@ -36,6 +41,14 @@ public class Inventory {
     }
 
     public Inventory() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {
