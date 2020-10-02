@@ -33,15 +33,17 @@ Nowadays, many social apps will match you with others based on some quiz. But we
 			1. Provide authentication and verification for users 
    
       	- API design:(Followed the format of /ResourceName/{ResourceID}/ChildResourceName/{ChildResourceID})
-      		- URL: http://localhost/profile
+      		- URL: http://localhost/9090/auth
+      		- POST .../signup -> Normal user Sign up
+    		- POST .../signup/business -> Business user sign up
+      		- POST .../login -> Log in
+ 
       		- GET /profile -> Get all profile list
       		- POST /profile ->  Create a new profile
       		- GET /profile/{ID} -> Get the profile with user ID 
       		- PUT /profile/{ID} -> Admend the profile with user ID
       		- DELETE /profile/{ID} -> Delete the profile with user ID 
       		- GET /profile/{ID}/all -> Get all the information in the profile with user ID 
-      		- POST /authorization -> Log in
-      		- DELETE /authorization -> Log out
 					 
     1. Basket module
         - Database:

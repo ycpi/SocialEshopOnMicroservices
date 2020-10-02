@@ -22,4 +22,9 @@ public class InventoryController {
         return ResponseEntity.ok(new InventoryResponse(inventoryRepository.findAll()));
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadInventory(){
+        return ResponseEntity.ok(new MessageResponse("upload success"));
+    }
+
 }
