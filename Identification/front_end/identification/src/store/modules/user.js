@@ -69,6 +69,7 @@ const actions = {
     },
     upload(nullcontext, uploadInfo) {
         console.log(nullcontext)
+        
         var url = '/api/category/upload'
         const { itemname, price, amount, description } = uploadInfo
         return new Promise((resolve, reject) => {
