@@ -32,9 +32,15 @@ public class InventoryController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadInventory(@Valid @RequestBody Inventory inventory){
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.getOne(userDetails.getId());
-        inventory.setUser(user);
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("upload userName:"+userName);
+        Optional<User> user = userRepository.findByUsername(userName);
+        if(user.isPresent()){
+            inventory.setUser(user.get());
+        } else {
+            inventory.setUser(null);
+        }
+
         inventoryRepository.saveAndFlush(inventory);
         return ResponseEntity.ok(new MessageResponse("upload success"));
     }
