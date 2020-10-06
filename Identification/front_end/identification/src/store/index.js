@@ -23,7 +23,7 @@ export default new Vuex.Store({
     role: state => state.user.role,
     addRoutes: state => state.permission.addRoutes,
     routes: state => state.permission.routes,
-    cart: state => state.user.cart.cart,
+    cart: state => state.cart.cart,
     item: state => state.category.items
   },
   modules
