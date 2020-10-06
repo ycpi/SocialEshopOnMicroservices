@@ -12,7 +12,7 @@
         <el-row v-else>
           <el-button v-if="checkClient()" type="primary" @click="onClickShop">Shopping</el-button>
           <el-button v-else type="primary" @click="onClickUpload">Post Item</el-button>
-          <el-button type="primary" @click="onClickJump">Personal Page</el-button>
+          <el-button type="primary" @click="onClickJump">Profile</el-button>
           <el-button type="danger" @click="onClickLogout">Log Out</el-button>
         </el-row>
       </el-main>
@@ -28,13 +28,10 @@ export default {
       },
       checkLogin() {
         var tk = this.$store.getters.token
-        console.log(tk)
-        console.log(typeof tk)
         if (tk === undefined) {
           return true
         }
         if (tk === 'undefined') {
-          console.log('here!')
           this.$store.dispatch('user/clearToken').then(() => {
             console.log(this.$store.getters.token)
             return true

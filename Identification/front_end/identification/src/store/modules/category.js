@@ -1,3 +1,4 @@
+import {getToken} from '@/utils/authTool'
 import axios from 'axios'
 
 const state = {
@@ -8,7 +9,7 @@ const mutations = {
         state.items = items
     },
     ADD_ITEM: (state, item) => {
-        state.items.append(item)
+        state.items.push(item)
     },
     REMOVE_ITEM: (state, ID) => {
         state.items.splice(ID,1)
@@ -28,7 +29,43 @@ const actions = {
                 }
                 commit('SET_ITEM', items)
             })
-          .catch(console.error);
+          .catch(alert("Get Item Client Failed"));
+    },
+    getBusinessItems({ commit }, name) {
+        axios.get('/api/category/business',{
+            username: name
+        }).then(result => {
+                var items = []
+                var item = result.data.inventoryList
+                for (var i = 0; i < item.length; i++) {
+                    items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id});
+                }
+                commit('SET_ITEM', items)
+            })
+        .catch(alert("Get Item Business Failed"));
+    },
+    uploadItem({commit}, uploadInfo) {
+        var url = '/api/category/upload'
+        var token = getToken()
+        console.log(token)
+        const { itemname, price, amount, description} = uploadInfo
+        var config = {headers:{Authorization: 'Bearer '+ token}}
+        return new Promise((resolve, reject) => {
+            axios.post(url,{
+                    itemName: itemname,
+                    cost: price,
+                    amount: amount,
+                    description: description
+                },config
+                ).then(response => {
+                    //response.data.ID
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: 1}
+                    commit('ADD_ITEM', item)
+                    resolve(response)
+            }).catch (error => {
+                reject(error)
+            })
+        })
     },
     testAndSetNum({ commit, state }, order) {
         const {item, num} = order

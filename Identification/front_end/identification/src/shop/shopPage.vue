@@ -2,7 +2,7 @@
   <div class="ShopPageContainer">
         <h3 class="title">{{this.$store.getters.name}}, Please Shop Here!</h3>
         <el-button type="primary" @click="onClickHome">Home</el-button>
-        <el-button type="primary" @click="onClickProfile">Personal Page</el-button>
+        <el-button type="primary" @click="onClickProfile">Profile</el-button>
         <el-button type="danger" @click="onClickLogout">Log Out</el-button>
         <h3 class="title">Items</h3>
         <table>
@@ -33,7 +33,7 @@
                     {{item.description}}
                 </td>
                 <td class="check">
-                    <el-button type="primary" icon="el-icon-shopping-cart-1" @click="onClickCheck(item.name)"></el-button>
+                    <el-button type="primary" icon="el-icon-arrow-right" @click="onClickCheck(item.name)"></el-button>
                 </td>
                 </tr>
             </tbody>
