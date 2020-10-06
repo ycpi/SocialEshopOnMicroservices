@@ -15,7 +15,7 @@ const mutations = {
         state.token = token
     },
     REMOVE_TOKEN: (state) => {
-        state.token = null
+        state.token = undefined
     },
     SET_NAME: (state, name) => {
         state.name = name
@@ -67,18 +67,18 @@ const actions = {
             })
         })
     },
-    upload(nullcontext, uploadInfo) {
-        console.log(nullcontext)
-        
+    upload({state}, uploadInfo) {
         var url = '/api/category/upload'
         const { itemname, price, amount, description } = uploadInfo
+        var config = {headers:{Authorization: 'Bearer '+state.token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                itemName: itemname,
-                cost: price,
-                amount: amount,
-                description: description
-            }).then(response => {
+                    itemName: itemname,
+                    cost: price,
+                    amount: amount,
+                    description: description
+                },config
+                ).then(response => {
                 resolve(response)
             }).catch (error => {
                 reject(error)
@@ -99,6 +99,13 @@ const actions = {
                 commit('SET_ROLES', role)
             }).catch(console.error);
     },
+    clearToken({ commit }) {
+        return new Promise((resolve) => {
+            commit('REMOVE_TOKEN')
+            removeToken() // clear your user's token from localstorage
+            resolve()
+        })
+    }
     /*
     getInfo({state}) {
         return new Promise((resolve, reject) => {

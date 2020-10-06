@@ -170,10 +170,11 @@ export default {
           this.$store.dispatch('user/upload', this.loginForm)
             .then(() => {
               this.loading = false
+              this.clearForm()
             })
             .catch((error) => {
               this.$notify.error({
-                    title: 'Sign Up Error',
+                    title: 'Post Item Error',
                     message: error.response.data.message,
                     duration: 0
                 });
@@ -184,6 +185,17 @@ export default {
           return false
         }
       })
+    },
+    clearForm() {
+        this.itemname = ''
+        this.amount = ''
+        this.price = ''
+        this.description = ''
+        this.$notify({
+          title: 'Success',
+          message: 'Post Item Success',
+          type: 'success'
+        });
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {

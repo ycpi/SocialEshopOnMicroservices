@@ -17,6 +17,8 @@
                 <th class="description">
                     Description
                 </th>
+                <th class="check">
+                </th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +31,9 @@
                 </td>
                 <td class="description">
                     {{item.description}}
+                </td>
+                <td class="check">
+                    <el-button type="primary" icon="el-icon-shopping-cart-1" @click="onClickCheck(item.name)"></el-button>
                 </td>
                 </tr>
             </tbody>
@@ -44,7 +49,6 @@ export default {
     },
     computed: {
         availableItems() {
-            console.log(this.$store.getters.item);
             return this.$store.getters.item;
         }
     },
@@ -55,6 +59,9 @@ export default {
         },
         onClickProfile() {
             this.$router.push('/profile');
+        },
+        onClickCheck(name) {
+            this.$router.push({ name: 'Buy', params: { name: name } })
         },
         onClickLogout() {
             this.$store.dispatch('user/logout')

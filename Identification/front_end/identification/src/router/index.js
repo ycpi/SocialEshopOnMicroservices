@@ -7,6 +7,7 @@ import businessRegisterPage  from '../registration/businessRegister.vue';
 import ProfilePage from '../profile/profilePage.vue'
 import ShopPage from '../shop/shopPage.vue'
 import UploadPage from '../upload/uploadPage.vue'
+import BuyPage from '../buy/buyPage.vue'
 import store from '../store';
 
 Vue.use(Router);
@@ -15,6 +16,7 @@ const checkAuthenticated = (to, from, next) => {
   const { authorize } = to.meta;
   if (authorize.length > 0 && !authorize.includes(store.getters.role)) {
     next('/')
+    return
   }
   if (to.path === '/login' || to.path === '/register' || to.path === '/business/register') {
     if (store.getters.token) {
@@ -85,6 +87,14 @@ export const constantRoutes = [
       default: UploadPage,
     },
     meta: { authorize: ['business'] }
+  },{
+    path: '/buy/:name',
+    name: 'Buy',
+    beforeEnter: checkAuthenticated,
+    components: {
+      default: BuyPage,
+    },
+    meta: { authorize: ['normal'] }
   },{ path: '*', redirect: '/' }
 ]
 export default new Router({

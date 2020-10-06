@@ -27,7 +27,20 @@ export default {
        return (this.$store.getters.role === 'normal')
       },
       checkLogin() {
-        return (this.$store.getters.token === null)
+        var tk = this.$store.getters.token
+        console.log(tk)
+        console.log(typeof tk)
+        if (tk === undefined) {
+          return true
+        }
+        if (tk === 'undefined') {
+          console.log('here!')
+          this.$store.dispatch('user/clearToken').then(() => {
+            console.log(this.$store.getters.token)
+            return true
+          })
+        }
+        return false
       },
       onClickLogin() {
         this.$router.push('/login');
