@@ -20,7 +20,7 @@ const mutations = {
 }
 const actions = {
     getItems({ commit }) {
-        axios.get('/api/category')
+        axios.get('/api/category/normal')
           .then(result => {
                 var items = []
                 var item = result.data.inventoryList
