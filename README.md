@@ -34,9 +34,11 @@ Nowadays, many social apps will match you with others based on some quiz. But we
    
       	- API design:(Followed the format of /ResourceName/{ResourceID}/ChildResourceName/{ChildResourceID})
       		- URL: http://localhost/9090/auth
-      		- POST .../signup -> Normal user Sign up
-    		- POST .../signup/business -> Business user sign up
-      		- POST .../login -> Log in
+			| Method | Path             | Description           | User Authenticated | Available from UI |
+			|--------|------------------|-----------------------|--------------------|-------------------|
+			| POST   | /signup          | Normal user Sign up   | X                  |                   |
+			| POST   | /signup/business | Business user sign up | X                  |                   |
+			| POST   | /login           | log in                | X                  |                   |
  
       		- GET /profile -> Get all profile list
       		- POST /profile ->  Create a new profile

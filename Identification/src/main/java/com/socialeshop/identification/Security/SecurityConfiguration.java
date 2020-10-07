@@ -30,7 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
