@@ -35,7 +35,7 @@
                     {{order.price}}
                 </td>
                 <td class="check">
-                    <el-button type="primary" icon="el-icon-arrow-right" @click="onClickCheck(item.name)"></el-button>
+                    <el-button type="primary" icon="el-icon-arrow-right" @click="onClickOrder(item.name)"></el-button>
                 </td>
               </tr>
             </tbody>
@@ -60,6 +60,8 @@
                 </th>
                 <th class="check">
                 </th>
+                <th class="delete">
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -77,7 +79,10 @@
                     {{item.description}}
                 </td>
                 <td class="check">
-                    <el-button type="primary" icon="el-icon-arrow-right" @click="onClickCheck(item.name)"></el-button>
+                    <el-button type="primary" icon="el-icon-edit" @click="onClickChange(item.name, item.id)"></el-button>
+                </td>
+                <td class="check">
+                    <el-button type="danger" icon="el-icon-delete" @click="onClickDeleteItem(item.id)"></el-button>
                 </td>
               </tr>
             </tbody>
@@ -117,6 +122,30 @@ export default {
       },
       checkClient() {
        return (this.$store.getters.role === 'normal')
+      },
+      onClickChange(name,id) {
+        this.$router.push({ name: 'Edit', params: { name: name, id: id } })
+      },
+      onClickDeleteItem(id) {
+        this.$confirm('This would Remove the Item Permanetly, Continue?', 'Alert', {
+          confirmButtonText: 'Continue',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('category/deleteItem',id).then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Deleted'
+            });
+          }).catch((error) => {
+            this.$message.error('Delete Failed: '+error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete Canceled'
+          });          
+        });
       },
       onClickHome() {
         this.$router.push('/');

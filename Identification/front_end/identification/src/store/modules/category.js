@@ -20,16 +20,17 @@ const mutations = {
 }
 const actions = {
     getItems({ commit }) {
-        axios.get('/api/category/normal')
-          .then(result => {
+        axios.get('/api/category').then(result => {
+                console.log(result)            
                 var items = []
                 var item = result.data.inventoryList
                 for (var i = 0; i < item.length; i++) {
                     items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id});
                 }
                 commit('SET_ITEM', items)
-            })
-          .catch(alert("Get Item Client Failed"));
+            }).catch (error => {
+                console.log('err:'+error)
+            });
     },
     getBusinessItems({ commit }, name) {
         axios.get('/api/category/business',{
@@ -42,12 +43,13 @@ const actions = {
                 }
                 commit('SET_ITEM', items)
             })
-        .catch(alert("Get Item Business Failed"));
+            .catch (error => {
+                console.log(error)
+            })
     },
     uploadItem({commit}, uploadInfo) {
         var url = '/api/category/upload'
         var token = getToken()
-        console.log(token)
         const { itemname, price, amount, description} = uploadInfo
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
@@ -61,6 +63,57 @@ const actions = {
                     //response.data.ID
                     var item = {name: itemname, cost: price, description: description, amount: amount, id: 1}
                     commit('ADD_ITEM', item)
+                    resolve(response)
+            }).catch (error => {
+                reject(error)
+            })
+        })
+    },
+    editItem({commit, state}, uploadInfo) {
+        var url = '/api/category/edit'
+        var token = getToken()
+        const { orgid, itemname, price, amount, description} = uploadInfo
+        var config = {headers:{Authorization: 'Bearer '+ token}}
+        return new Promise((resolve, reject) => {
+            axios.post(url,{
+                    id: orgid,
+                    itemName: itemname,
+                    cost: price,
+                    amount: amount,
+                    description: description
+                },config
+                ).then(response => {
+                    for (var i = 0; i < state.items.length; i++) {
+                        if (state.items[i].id === orgid) {
+                            commit('REMOVE_ITEM',i)
+                            break
+                        }
+                    }
+                    //response.data.ID
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: 1}
+                    commit('ADD_ITEM', item)
+                    resolve(response)
+            }).catch (error => {
+                reject(error)
+            })
+        })
+    },
+    deleteItem({commit, state}, itemID) {
+        var url = '/api/category/delete'
+        var token = getToken()
+        const { id } = itemID
+        var config = {headers:{Authorization: 'Bearer '+ token}}
+        return new Promise((resolve, reject) => {
+            axios.post(url,{
+                    id : id
+                },config
+                ).then(response => {
+                    for (var i = 0; i < state.items.length; i++) {
+                        if (state.items[i].id === id) {
+                            commit('REMOVE_ITEM',i)
+                            break
+                        }
+                    }
                     resolve(response)
             }).catch (error => {
                 reject(error)

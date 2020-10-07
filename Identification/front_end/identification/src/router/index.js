@@ -8,6 +8,7 @@ import ProfilePage from '../profile/profilePage.vue'
 import ShopPage from '../shop/shopPage.vue'
 import UploadPage from '../upload/uploadPage.vue'
 import BuyPage from '../buy/buyPage.vue'
+import ChangeItemPage from '../change/itemPage.vue'
 import store from '../store';
 
 Vue.use(Router);
@@ -95,6 +96,14 @@ export const constantRoutes = [
       default: BuyPage,
     },
     meta: { authorize: ['normal'] }
+  },{
+    path: '/edit/:name+:id',
+    name: 'Edit',
+    beforeEnter: checkAuthenticated,
+    components: {
+      default: ChangeItemPage,
+    },
+    meta: { authorize: ['business'] }
   },{ path: '*', redirect: '/' }
 ]
 export default new Router({
