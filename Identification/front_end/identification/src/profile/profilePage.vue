@@ -1,28 +1,85 @@
 <template>
   <div class="ProfilePageContainer">
-        <h3 class="title">{{this.$store.getters.name}}, Welcome!</h3>
+        <h3 class="title">{{this.name}}, Welcome!</h3>
         <el-button type="primary" @click="onClickHome">Home</el-button>
         <el-button v-if="checkClient()" type="primary" @click="onClickShop">Shopping</el-button>
         <el-button v-else type="primary" @click="onClickUpload">Post Item</el-button>
         <el-button type="danger" @click="onClickLogout">Log Out</el-button>
-        <div class="Cart">
-          <h3 class="title">Your Cart</h3>
+        <div class="Cart" v-if="checkClient()">
+          <h3 class="title">Cart</h3>
           <table>
             <thead>
               <tr>
                 <th class="item-title">
                   Item
                 </th>
-                <th class="cost">
+                <th class="Num">
                   Number
                 </th>
-                <th class="cost">
+                <th class="Price">
                   Cost
+                </th>
+                <th class="check">
                 </th>
               </tr>
             </thead>
             <tbody>
-              {{this.$store.getters.cart}}
+              <tr v-for="(order, index) in cart" :key="index">
+                <td class="item-title">
+                    {{order.item}}
+                </td>
+                <td class="Num">
+                    {{order.num}}
+                </td>
+                <td class="Price">
+                    {{order.price}}
+                </td>
+                <td class="check">
+                    <el-button type="primary" icon="el-icon-arrow-right" @click="onClickCheck(item.name)"></el-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="Items" v-else>
+          <h3 class="title">Posted Items</h3>
+          <table>
+            <thead>
+              <tr>
+                <th class="item-title">
+                  Item
+                </th>
+                <th class="Price">
+                  Price
+                </th>
+                <th class="Amount">
+                  Amount
+                </th>
+                <th class="Description">
+                  Description
+                </th>
+                <th class="check">
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in postedItems" :key="index">
+                <td class="item-title">
+                    {{item.name}}
+                </td>
+                <td class="Price">
+                    {{item.cost}}
+                </td>
+                <td class="Amount">
+                    {{item.amount}}
+                </td>
+                <td class="Description">
+                    {{item.description}}
+                </td>
+                <td class="check">
+                    <el-button type="primary" icon="el-icon-arrow-right" @click="onClickCheck(item.name)"></el-button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -31,12 +88,33 @@
 <script>
 export default {
   name: 'ProfilePage',
+  data() {
+    return {
+      name: '',
+      role: ''
+    }
+  },
+  created() {
+    this.getInfo()
+  },
   computed: {
     cart() {
-      return this.$store.state.robots.cart;
+      return this.$store.getters.cart;
     },
+    postedItems() {
+      return this.$store.getters.item;
+    }
   },
   methods: {
+      getInfo() {
+        this.name = this.$store.getters.name
+        this.role = this.$store.getters.role
+        if (this.role === 'business') {
+            //this.$store.dispatch('category/getBusinessItems',this.name)
+        } else if (this.role === 'normal') {
+            //this.$store.dispatch('cart/getCart',this.name)
+        }
+      },
       checkClient() {
        return (this.$store.getters.role === 'normal')
       },

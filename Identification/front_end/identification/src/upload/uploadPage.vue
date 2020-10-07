@@ -69,7 +69,7 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
 
     </el-form>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickPersonal">Personal Page</el-button>
+    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickPersonal">Profile</el-button>
   </div>
 </template>
 
@@ -112,7 +112,7 @@ export default {
         itemname: '',
         amount: '',
         price:    '',
-        description:   ''
+        description:   '',
       },
       loginRules: {
         itemname: [{ required: true, trigger: 'blur', validator: validateItemname }],
@@ -139,7 +139,6 @@ export default {
     }
   },
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
     if (this.loginForm.itemname === '') {
@@ -167,15 +166,20 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/upload', this.loginForm)
+          this.$store.dispatch('category/uploadItem', this.loginForm)
             .then(() => {
               this.loading = false
-              this.clearForm()
-            })
-            .catch((error) => {
+              this.$refs.loginForm.resetFields();
+              this.$notify({
+                title: 'Success',
+                message: 'Post Item Success',
+                type: 'success'
+            });
+            }).catch((error) => {
+              console.log(error)
               this.$notify.error({
                     title: 'Post Item Error',
-                    message: error.response.data.message,
+                    message: 'Test',
                     duration: 0
                 });
               this.loading = false
@@ -185,17 +189,6 @@ export default {
           return false
         }
       })
-    },
-    clearForm() {
-        this.itemname = ''
-        this.amount = ''
-        this.price = ''
-        this.description = ''
-        this.$notify({
-          title: 'Success',
-          message: 'Post Item Success',
-          type: 'success'
-        });
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {

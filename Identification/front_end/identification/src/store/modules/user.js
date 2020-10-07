@@ -1,6 +1,7 @@
 import {getToken, setToken, removeToken} from '@/utils/authTool'
 import axios from 'axios'
 import cartModule from './cart'
+import itemModule from './category'
 
 const state = {
     token: getToken(),
@@ -8,7 +9,8 @@ const state = {
     role: '',
 }
 const modules = {
-    cart: cartModule
+    cart: cartModule,
+    item: itemModule
 }
 const mutations = {
     SET_TOKEN: (state, token) => {
@@ -38,9 +40,10 @@ const actions = {
             }).then(response => {
                 const { data } = response
                 commit('SET_TOKEN', data.accessToken)
-                setToken(data.token)
+                setToken(data.accessToken)
                 commit('SET_NAME', username)
-                commit('SET_ROLES', response.data.roles[0])
+                var role = data.roles[0]
+                commit('SET_ROLES', role)
                 resolve()
             }).catch(error => {
                 reject(error)
@@ -61,24 +64,6 @@ const actions = {
                 address: address
             }).then(response => {
                 commit('RESET_USER')
-                resolve(response)
-            }).catch (error => {
-                reject(error)
-            })
-        })
-    },
-    upload({state}, uploadInfo) {
-        var url = '/api/category/upload'
-        const { itemname, price, amount, description } = uploadInfo
-        var config = {headers:{Authorization: 'Bearer '+state.token}}
-        return new Promise((resolve, reject) => {
-            axios.post(url,{
-                    itemName: itemname,
-                    cost: price,
-                    amount: amount,
-                    description: description
-                },config
-                ).then(response => {
                 resolve(response)
             }).catch (error => {
                 reject(error)
