@@ -34,19 +34,12 @@ Nowadays, many social apps will match you with others based on some quiz. But we
    
       	- API design:(Followed the format of /ResourceName/{ResourceID}/ChildResourceName/{ChildResourceID})
       		- URL: http://localhost/9090/auth
-		| Method | Path             | Description           | User Authenticated | Available from UI |
-		|--------|------------------|-----------------------|--------------------|-------------------|
-		| POST   | /signup          | Normal user Sign up   | X                  |                   |
-		| POST   | /signup/business | Business user sign up | X                  |                   |
-		| POST   | /login           | log in                | X                  |                   |
-
-      		- GET /profile -> Get all profile list
-      		- POST /profile ->  Create a new profile
-      		- GET /profile/{ID} -> Get the profile with user ID 
-      		- PUT /profile/{ID} -> Admend the profile with user ID
-      		- DELETE /profile/{ID} -> Delete the profile with user ID 
-      		- GET /profile/{ID}/all -> Get all the information in the profile with user ID 
-					 
+	| Method | Path             | Description           | User Authenticated | Available from UI |
+	|--------|------------------|-----------------------|--------------------|-------------------|
+	| POST   | /signup          | Normal user Sign up   | X                  |                   |
+	| POST   | /signup/business | Business user sign up | X                  |                   |
+	| POST   | /login           | log in                | X                  |                   |
+		
     1. Basket module
         - Database:
 			ID|Owner_ID|Item_ID|Count
