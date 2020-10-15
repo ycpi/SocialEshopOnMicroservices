@@ -1,6 +1,19 @@
+buildscript {
+    ext {
+        springBootVersion = '2.3.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
 plugins {
     id 'org.springframework.boot' version '2.3.3.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'io.spring.dependency-management' version "1.0.9.RELEASE"
     id 'java'
 }
 
@@ -9,20 +22,23 @@ bootJar {
     version =  '0.1.0'
 }
 
-group = 'com.socialEshop'
+group = 'com.socialEshop.core.identification'
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation project(':api')
+    implementation project(':util')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.jetbrains:annotations:19.0.0'
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
     compile "org.springframework.boot:spring-boot-starter-security"
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
