@@ -1,39 +1,64 @@
 <template>
   <div class="HomePageContainer">
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+      <el-menu-item index="2" v-if="checkLogin()">Log In</el-menu-item>
+      <el-menu-item index="3" v-if="checkLogin()">Sign Up</el-menu-item>
+      <el-menu-item index="4" v-else-if="checkClient()">Shopping</el-menu-item>
+      <el-menu-item index="5" v-else>Post Item</el-menu-item>
+      <el-menu-item index="8" v-if="!checkLogin()">Profile</el-menu-item>
+      <el-menu-item index="7" v-if="checkLogin()" class="right-menu-2"><a href="https://github.com/ycpi/SocialEshopOnMicroservices"><i class="el-icon-more"></i></a></el-menu-item>
+      <el-menu-item index="6" v-else class="right-menu-2">Log Out</el-menu-item>
+    </el-menu>
     <el-container>
       <el-header>
-        <h3 class="title">Welcome to My E-Commerce!</h3>
+        <h3 class="title">Welcome to HiDukeBuy!</h3>
       </el-header>
-      <el-main>
-        <el-row v-if="checkLogin()">
-          <el-button type="primary" @click="onClickLogin">Log In</el-button>
-          <el-button type="primary" @click="onClickRegister">Sign Up</el-button>
-        </el-row>
-        <el-row v-else>
-          <el-button v-if="checkClient()" type="primary" @click="onClickShop">Shopping</el-button>
-          <el-button v-else type="primary" @click="onClickUpload">Post Item</el-button>
-          <el-button type="primary" @click="onClickJump">Profile</el-button>
-          <el-button type="danger" @click="onClickLogout">Log Out</el-button>
-        </el-row>
-      </el-main>
     </el-container>
   </div>
 </template>
 <script>
 export default {
   name: 'HomePage',
+  data() {
+    return {
+      activeIndex: '1'
+    }
+  },
   methods: {
+      handleSelect(key) {
+        if (key === '1') {
+          console.log('nil')
+        } else if (key === '2') {
+          this.onClickLogin()
+        } else if (key === '3') {
+          this.onClickRegister()
+        } else if (key === '4') {
+          this.onClickShop()
+        } else if (key === '5') {
+          this.onClickUpload()
+        } else if (key === '6') {
+          this.onClickLogout()
+        } else if (key === '8') {
+          this.onClickJump()
+        }
+      },
       checkClient() {
        return (this.$store.getters.role === 'normal')
       },
       checkLogin() {
         var tk = this.$store.getters.token
+        var name = this.$store.getters.name
         if (tk === undefined) {
           return true
         }
         if (tk === 'undefined') {
           this.$store.dispatch('user/clearToken').then(() => {
-            console.log(this.$store.getters.token)
+            return true
+          })
+        }
+        if (name === '') {
+          this.$store.dispatch('user/clearToken').then(() => {
             return true
           })
         }
@@ -65,3 +90,13 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.right-menu-2 {
+  position:absolute;
+  right: 10px;
+}
+.right-menu-1 {
+  position:absolute;
+  right: 80px;
+}
+</style>

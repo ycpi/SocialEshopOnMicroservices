@@ -1,9 +1,13 @@
 <template>
   <div class="login-container">
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+        <el-menu-item index="2">Profile</el-menu-item>
+    </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
         <div class="title-container">
-            <h3 class="title">Change Posted Item: {{this.loginForm.orgname}}</h3>
+            <h3 class="title">Edit Posted Item: {{this.loginForm.orgname}}</h3>
         </div>
 
         <el-form-item prop="itemname">
@@ -69,7 +73,6 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
 
     </el-form>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickPersonal">Profile</el-button>
   </div>
 </template>
 
@@ -125,6 +128,7 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
+      activeIndex: '1',
       otherQuery: {}
     }
   },
@@ -141,10 +145,10 @@ export default {
     }
   },
   created() {
-      const name = this.$route.params.name
-      const id = this.$route.params.id
-      this.loginForm.orgname = name
-      this.loginForm.orgid = id
+      let nameId = this.CryptoJS.AES.decrypt(this.$route.params.nameid, this.$store.getters.key).toString(this.CryptoJS.enc.Utf8)
+      let nameIdSplit = nameId.split(',')
+      this.loginForm.orgname = nameIdSplit[0]
+      this.loginForm.orgid = nameIdSplit[1]
   },
   mounted() {
     if (this.loginForm.itemname === '') {
@@ -161,6 +165,13 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    handleSelect(key) {
+        if (key === '1') {
+          this.$router.push('/')
+        } else {
+            this.onClickPersonal()
+        }
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')

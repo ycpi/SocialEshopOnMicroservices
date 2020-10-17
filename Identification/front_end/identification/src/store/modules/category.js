@@ -20,8 +20,7 @@ const mutations = {
 }
 const actions = {
     getItems({ commit }) {
-        axios.get('/api/category').then(result => {
-                console.log(result)            
+        axios.get('/api/category').then(result => {   
                 var items = []
                 var item = result.data.inventoryList
                 for (var i = 0; i < item.length; i++) {
@@ -32,6 +31,7 @@ const actions = {
                 console.log('err:'+error)
             });
     },
+    //new
     getBusinessItems({ commit }, name) {
         axios.get('/api/category/business',{
             username: name
@@ -47,6 +47,7 @@ const actions = {
                 console.log(error)
             })
     },
+    //new
     uploadItem({commit}, uploadInfo) {
         var url = '/api/category/upload'
         var token = getToken()
@@ -69,6 +70,7 @@ const actions = {
             })
         })
     },
+    //new
     editItem({commit, state}, uploadInfo) {
         var url = '/api/category/edit'
         var token = getToken()
@@ -98,6 +100,7 @@ const actions = {
             })
         })
     },
+    //new
     deleteItem({commit, state}, itemID) {
         var url = '/api/category/delete'
         var token = getToken()

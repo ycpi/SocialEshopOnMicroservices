@@ -5,8 +5,10 @@ import itemModule from './category'
 
 const state = {
     token: getToken(),
-    name: 'init',
+    name: '',
     role: '',
+    email: '',
+    address: '',
 }
 const modules = {
     cart: cartModule,
@@ -24,6 +26,12 @@ const mutations = {
     },
     SET_ROLES: (state, role) => {
         state.role = role
+    },
+    SET_EMAIL: (state, email) => {
+        state.email = email
+    },
+    SET_ADDRESS: (state, address) => {
+        state.address = address
     },
     RESET_USER: (state) => {
         state.name = ''
@@ -44,6 +52,13 @@ const actions = {
                 commit('SET_NAME', username)
                 var role = data.roles[0]
                 commit('SET_ROLES', role)
+                //new
+                /*
+                var email = data.email
+                commit('SET_EMAIL', email)
+                var address = data.address
+                commit('SET_ADDRESS', address)
+                */
                 resolve()
             }).catch(error => {
                 reject(error)

@@ -1,5 +1,11 @@
 <template>
   <div class="login-container">
+    <div class="HomePageContainer">
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+      </el-menu>
+    </div>
+    <div class="FormArea">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
@@ -45,8 +51,9 @@
         </el-form-item>
       </el-tooltip>
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Login</el-button>
+        <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickRegister">No Account? Sign Up!</el-button>
     </el-form>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickRegister">No Account? Sign Up!</el-button>
+    </div>
   </div>
 </template>
 
@@ -84,6 +91,7 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
+      activeIndex: '1',
       otherQuery: {}
     }
   },
@@ -152,6 +160,11 @@ export default {
         }
       })
     },
+    handleSelect(key) {
+        if (key === '1') {
+          this.$router.push('/')
+        }
+      },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
@@ -232,8 +245,8 @@ $text:black;
   .login-form {
     position: relative;
     width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
+    max-width: 60%;
+    padding: 80px 35px 0;
     margin: 0 auto;
     overflow: hidden;
   }

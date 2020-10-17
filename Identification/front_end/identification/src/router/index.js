@@ -9,6 +9,7 @@ import ShopPage from '../shop/shopPage.vue'
 import UploadPage from '../upload/uploadPage.vue'
 import BuyPage from '../buy/buyPage.vue'
 import ChangeItemPage from '../change/itemPage.vue'
+import CheckoutPage from '../checkout/checkoutPage.vue'
 import store from '../store';
 
 Vue.use(Router);
@@ -97,13 +98,21 @@ export const constantRoutes = [
     },
     meta: { authorize: ['normal'] }
   },{
-    path: '/edit/:name+:id',
+    path: '/edit/:nameid',
     name: 'Edit',
     beforeEnter: checkAuthenticated,
     components: {
       default: ChangeItemPage,
     },
     meta: { authorize: ['business'] }
+  },{
+    path: '/checkout/:order',
+    name: 'Checkout',
+    beforeEnter: checkAuthenticated,
+    components: {
+      default: CheckoutPage,
+    },
+    meta: { authorize: ['normal'] }
   },{ path: '*', redirect: '/' }
 ]
 export default new Router({

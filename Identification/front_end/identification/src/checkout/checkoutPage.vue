@@ -1,19 +1,15 @@
 <template>
   <div class="buyPageContainer">
-        <el-row >
+        <el-row>
         <el-menu :default-active="activeIndex" class="el-menu-h" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
         <el-menu-item index="4" >Shopping</el-menu-item>
         <el-menu-item index="2" >Profile</el-menu-item>
         <el-menu-item index="3" class="right-menu-2">Log Out</el-menu-item>
         </el-menu>
-        </el-row>   
-        <h3 class="title">{{item.name}}</h3>
-        <li>Price: {{item.cost}}</li>
-        <li>Description: {{item.description}}</li>
-        <el-row class="pick">
-        <el-input-number class="picker" v-model="num" @change="pickNum" :min="1" :max="1000" size="small" label="pick number"></el-input-number>
-        <el-button type="success" @click="onClickPick" icon="el-icon-shopping-cart-1" round size="small">Add to Cart</el-button>
+        </el-row>
+        <el-row class="body">
+            Orders to be Checked Out: {{this.orders}}
         </el-row>
   </div>
 </template>
@@ -22,15 +18,17 @@ export default {
   name: 'buyPage',
   data() {
       return {
-          itemname: '',
+          orders: [],
           activeIndex: '1',
-          num: 1
       }
   },
   created() {
-      //console.log(this.$route.params)
-      const decryptedName = this.CryptoJS.AES.decrypt(this.$route.params.name, this.$store.getters.key).toString(this.CryptoJS.enc.Utf8)
-      this.itemname = decryptedName
+      let encryptedOrder = this.$route.params.order
+      const decryptedOrder = this.CryptoJS.AES.decrypt(encryptedOrder, this.$store.getters.key).toString(this.CryptoJS.enc.Utf8)
+      let orderSplit = decryptedOrder.split(',')
+      for (var i  = 0; i < orderSplit.length; i++) {
+          this.orders.push(orderSplit[i])
+      }
   },
   computed : {
       item() {
@@ -93,7 +91,9 @@ export default {
 } 
 </script>
 <style scoped>
-  
+  .body {
+      margin-top: 10%;
+  }
   td, th {
     padding: 5px;
   }

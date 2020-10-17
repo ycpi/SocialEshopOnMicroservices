@@ -1,7 +1,9 @@
 <template>
   <div class="login-container">
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+    </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
         <div class="title-container">
             <h3 class="title">Sign Up as Business Owner</h3>
         </div>
@@ -136,6 +138,7 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
+      activeIndex: '1',
       otherQuery: {}
     }
   },
@@ -210,6 +213,11 @@ export default {
         }
       })
     },
+    handleSelect(key) {
+        if (key === '1') {
+          this.$router.push('/')
+        }
+    },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
@@ -273,7 +281,7 @@ $text:black;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 70px 35px 0;
     margin: 0 auto;
     overflow: hidden;
   }

@@ -21,10 +21,13 @@ export default new Vuex.Store({
     token: state => state.user.token,
     name: state => state.user.name,
     role: state => state.user.role,
+    email: state => state.user.email,
+    address: state => state.user.address,
     addRoutes: state => state.permission.addRoutes,
     routes: state => state.permission.routes,
     cart: state => state.cart.cart,
-    item: state => state.category.items
+    item: state => state.category.items,
+    key: state => state.permission.vuepsw
   },
   modules
 });
