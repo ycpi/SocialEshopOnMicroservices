@@ -32,7 +32,7 @@ export default {
           return true
         }
         if (tk === 'undefined') {
-          this.$store.dispatch('user/clearToken').then(() => {
+          this.$store.dispatch('com.socialeshop.api.core.user/clearToken').then(() => {
             console.log(this.$store.getters.token)
             return true
           })
@@ -55,7 +55,7 @@ export default {
         this.$router.push('/register');
       },
       onClickLogout() {
-        this.$store.dispatch('user/logout')
+        this.$store.dispatch('com.socialeshop.api.core.user/logout')
           .then(() => {
           })
           .catch(() => {

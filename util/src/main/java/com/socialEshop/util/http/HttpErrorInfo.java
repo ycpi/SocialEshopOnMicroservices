@@ -1,4 +1,4 @@
-package http;
+package com.socialEshop.util.http;
 
 import org.springframework.http.HttpStatus;
 

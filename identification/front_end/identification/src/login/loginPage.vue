@@ -8,7 +8,7 @@
 
       <el-form-item prop="username">
         <span>
-          <i class="el-icon-user"></i>
+          <i class="el-icon-com.socialeshop.api.core.user"></i>
         </span>
         <el-input
           ref="username"
@@ -60,7 +60,7 @@ export default {
       if (validUsername(value)) {
         callback()
       } else {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('Please enter the correct com.socialeshop.api.core.user name'))
       }
     }
     const validatePassword = (rule, value, callback) => {
@@ -134,7 +134,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store.dispatch('com.socialeshop.api.core.user/login', this.loginForm)
             .then(() => {
               this.$router.push('/')
               this.loading = false
@@ -271,7 +271,7 @@ $text:black;
     font-size: 16px;
     color: $text;
     cursor: pointer;
-    user-select: none;
+    com.socialeshop.api.core.user-select: none;
   }
   .thirdparty-button {
     position: absolute;

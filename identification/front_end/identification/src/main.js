@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
       if (store.getters.role.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('user/getInfo').then(res => { // 拉取info
+        store.dispatch('com.socialeshop.api.core.user/getInfo').then(res => { // 拉取info
           const roles = res.data.role;
           store.dispatch('permission/generateRoutes', { roles }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表

@@ -11,21 +11,21 @@ Nowadays, many social apps will match you with others based on some quiz. But we
    	- Backend logic: 
 	1. Identification module
 		- Database: 
-            1. Normal user: ID|UserName|Password|Email|Address|Phone|Payment
-            2. Bussiness user: ID|UserName|Password|Email|Address|Phone|Company
-            3. Admin user: ID|UserName|Password
+            1. Normal com.socialeshop.api.core.user: ID|UserName|Password|Email|Address|Phone|Payment
+            2. Bussiness com.socialeshop.api.core.user: ID|UserName|Password|Email|Address|Phone|Company
+            3. Admin com.socialeshop.api.core.user: ID|UserName|Password
 		
 		- Security:
   		    - Using spring default security architecture
   		    - OATH 2(login with 3rd party service account)
         
 		- Permission:
-    		- Normal user's account permission
-    			- Social permission: follow user, unfollow user, blacklist, chat
+    		- Normal com.socialeshop.api.core.user's account permission
+    			- Social permission: follow com.socialeshop.api.core.user, unfollow com.socialeshop.api.core.user, blacklist, chat
     			- Buyer’s permission: browse the catalog, make the payment, request item, buy item
-    		- Bussiness user's account permission
+    		- Bussiness com.socialeshop.api.core.user's account permission
         		- Seller's permission: add item information, delete item information, publish item information, edit item information
-    		- Admin user's account permission
+    		- Admin com.socialeshop.api.core.user's account permission
         		- Certification: certify bussiness account application
     			- Item Admin(could change items outside the business org): delete Item
   			 
@@ -36,8 +36,8 @@ Nowadays, many social apps will match you with others based on some quiz. But we
       	  
 		| Method | Path             | Description           | User Authenticated | Available from UI |
 		|--------|------------------|-----------------------|--------------------|-------------------|
-		| POST   | /signup          | Normal user Sign up   | X                  |                   |
-		| POST   | /signup/business | Business user sign up | X                  |                   |
+		| POST   | /signup          | Normal com.socialeshop.api.core.user Sign up   | X                  |                   |
+		| POST   | /signup/business | Business com.socialeshop.api.core.user sign up | X                  |                   |
 		| POST   | /login           | log in                | X                  |                   |
 					 
     1. Basket module

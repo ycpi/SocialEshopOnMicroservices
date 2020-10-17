@@ -1,6 +1,4 @@
-package inventory;
-
-import user.User;
+package com.socialeshop.api.core.inventory;
 
 public class Inventory {
 
@@ -13,6 +11,11 @@ public class Inventory {
     private int amount;
 
     private String description;
+
+    public Inventory() {
+        this.id = 0L;
+        this.itemName = "test";
+    }
 
     public Inventory(Long id, String itemName, int cost, int amount, String description) {
         this.id = id;

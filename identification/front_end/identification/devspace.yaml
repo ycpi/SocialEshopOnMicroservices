@@ -22,7 +22,7 @@ dev:
     forward:
     - port: 8080
   open:
-  - url: http://localhost:8080
+  - url: com.socialEshop.util.http://localhost:8080
   sync:
   - imageName: app
     excludePaths:

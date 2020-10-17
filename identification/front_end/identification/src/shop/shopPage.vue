@@ -64,7 +64,7 @@ export default {
             this.$router.push({ name: 'Buy', params: { name: name } })
         },
         onClickLogout() {
-            this.$store.dispatch('user/logout')
+            this.$store.dispatch('com.socialeshop.api.core.user/logout')
             .then(() => {
                 this.$router.push('/')
             })

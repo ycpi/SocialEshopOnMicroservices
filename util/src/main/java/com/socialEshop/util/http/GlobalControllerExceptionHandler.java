@@ -1,7 +1,7 @@
-package http;
+package com.socialEshop.util.http;
 
-import exceptions.InvalidInputException;
-import exceptions.NotFoundException;
+import com.socialEshop.util.exceptions.InvalidInputException;
+import com.socialEshop.util.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

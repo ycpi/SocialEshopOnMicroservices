@@ -1,4 +1,4 @@
-package exceptions;
+package com.socialEshop.util.exceptions;
 
 public class InvalidInputException extends RuntimeException {
     public InvalidInputException() {

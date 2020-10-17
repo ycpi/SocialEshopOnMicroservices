@@ -1,4 +1,4 @@
-package user;
+package com.socialeshop.api.core.user;
 
 public class User {
     private Long id;

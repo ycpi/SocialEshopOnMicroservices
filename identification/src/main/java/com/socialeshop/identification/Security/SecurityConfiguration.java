@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.cors().and().csrf().disable()
+//        com.socialEshop.util.http.cors().and().csrf().disable()
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -67,7 +67,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .antMatchers("/auth/**").permitAll()
                     .antMatchers("/category/**").permitAll()
-//                    .antMatchers("/resources/**").permitAll()
 //                    .anyRequest().permitAll().and()
                     .anyRequest().authenticated().and()
                     .formLogin().and()

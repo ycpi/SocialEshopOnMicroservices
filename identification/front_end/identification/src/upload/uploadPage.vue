@@ -291,7 +291,7 @@ $text:black;
     font-size: 16px;
     color: $text;
     cursor: pointer;
-    user-select: none;
+    com.socialeshop.api.core.user-select: none;
   }
   .thirdparty-button {
     position: absolute;

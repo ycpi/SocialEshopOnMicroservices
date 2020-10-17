@@ -66,7 +66,7 @@ export default {
         this.$router.push('/profile');
         },
       onClickLogout() {
-        this.$store.dispatch('user/logout')
+        this.$store.dispatch('com.socialeshop.api.core.user/logout')
           .then(() => {
               this.$router.push('/')
           })

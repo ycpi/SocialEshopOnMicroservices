@@ -60,7 +60,7 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
+        // Create new com.socialeshop.api.core.user's account
         System.out.println("username:"+signUpRequest.getUsername());
         User user = new User(signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),
@@ -92,7 +92,7 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
+        // Create new com.socialeshop.api.core.user's account
         System.out.println("username:"+signUpRequest.getUsername());
         User user = new User(signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),

@@ -74,7 +74,7 @@ const actions = {
         return new Promise((resolve) => {
             commit('REMOVE_TOKEN')
             commit('RESET_USER')
-            removeToken() // clear your user's token from localstorage
+            removeToken() // clear your com.socialeshop.api.core.user's token from localstorage
             resolve()
         })
     },
@@ -87,7 +87,7 @@ const actions = {
     clearToken({ commit }) {
         return new Promise((resolve) => {
             commit('REMOVE_TOKEN')
-            removeToken() // clear your user's token from localstorage
+            removeToken() // clear your com.socialeshop.api.core.user's token from localstorage
             resolve()
         })
     }

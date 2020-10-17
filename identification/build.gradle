@@ -1,35 +1,11 @@
-buildscript {
-    ext {
-        springBootVersion = '2.3.3.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
-
 plugins {
-    id 'org.springframework.boot' version '2.3.3.RELEASE'
-    id 'io.spring.dependency-management' version "1.0.9.RELEASE"
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
     id 'java'
-}
-
-bootJar {
-    baseName = 'identification'
-    version =  '0.1.0'
+    id 'idea'
 }
 
 group = 'com.socialEshop.core.identification'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     implementation project(':api')
@@ -51,7 +27,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/javax.validation/validation-api
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
-
 
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'

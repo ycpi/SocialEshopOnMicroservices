@@ -157,7 +157,7 @@ export default {
         this.$router.push('/upload');
       },
       onClickLogout() {
-        this.$store.dispatch('user/logout')
+        this.$store.dispatch('com.socialeshop.api.core.user/logout')
           .then(() => {
               this.$router.push('/')
           })

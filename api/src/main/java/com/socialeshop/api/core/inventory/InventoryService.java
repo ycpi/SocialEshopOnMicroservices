@@ -1,12 +1,11 @@
-package inventory;
+package com.socialeshop.api.core.inventory;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import user.User;
 
 public interface InventoryService {
     @GetMapping(
-            value    = "/category/{inventoryId}",
+            value    = "/product/{inventoryId}",
             produces = "application/json")
-    User getUser(@PathVariable int inventoryId);
+    Inventory getInventory(@PathVariable int inventoryId);
 }
