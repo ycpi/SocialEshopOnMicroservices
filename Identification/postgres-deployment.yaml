@@ -34,8 +34,6 @@ spec:
           value: "123456"
         - name: POSTGRES_USER
           value: eshop
-        - name: PGDATA
-          value: "/var/lib/postgresql/data/data"
 
         image: library/postgres:12.0
         imagePullPolicy: ""

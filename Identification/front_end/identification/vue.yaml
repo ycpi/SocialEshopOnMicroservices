@@ -2,40 +2,40 @@
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "springapp-id"
+  name: "frontend"
   namespace: "default"
   labels:
-    app: "springapp-id"
+    app: "frontend"
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: "springapp-id"
+      app: "frontend"
   template:
     metadata:
       labels:
-        app: "springapp-id"
+        app: "frontend"
     spec:
       containers:
-        - name: "myspring-sha256-1"
-          image: "gcr.io/proven-wavelet-290518/myspring:v2"
+      - name: "myimage-sha256-1"
+        image: "gcr.io/proven-wavelet-290518/myvue:v4"
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "springapp-id-hpa-uv3k"
+  name: "frontend-hpa-vvhv"
   namespace: "default"
   labels:
-    app: "springapp-id"
+    app: "frontend"
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "springapp-id"
+    name: "frontend"
     apiVersion: "apps/v1"
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 3
   metrics:
-    - type: "Resource"
-      resource:
-        name: "cpu"
-        targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
