@@ -4,13 +4,11 @@ package com.socialeshop.identification.controllers;
 import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.Security.jwt.JwtUtils;
 import com.socialeshop.identification.models.ERole;
-import com.socialeshop.identification.models.Role;
 import com.socialeshop.identification.models.User;
 import com.socialeshop.identification.payloads.JwtResponse;
 import com.socialeshop.identification.payloads.LoginRequest;
 import com.socialeshop.identification.payloads.MessageResponse;
 import com.socialeshop.identification.payloads.SignupRequest;
-import com.socialeshop.identification.repositories.RoleRepository;
 import com.socialeshop.identification.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,9 +31,6 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -68,11 +61,12 @@ public class AuthController {
                 signUpRequest.getEmail()
         );
 
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.normal)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
+//        Set<Role> roles = new HashSet<>();
+//        Role userRole = roleRepository.findByName(ERole.normal)
+//                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        roles.add(userRole);
+//        user.setRoles(roles);
+        user.setRole(ERole.normal);
         userRepository.saveAndFlush(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -100,11 +94,12 @@ public class AuthController {
                 signUpRequest.getEmail()
         );
 
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.business)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
+//        Set<Role> roles = new HashSet<>();
+//        Role userRole = roleRepository.findByName(ERole.business)
+//                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        roles.add(userRole);
+//        user.setRoles(roles);
+        user.setRole(ERole.business);
         userRepository.saveAndFlush(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
