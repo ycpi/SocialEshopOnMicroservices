@@ -145,7 +145,7 @@ export default {
     }
   },
   created() {
-      let nameId = this.CryptoJS.AES.decrypt(this.$route.params.nameid, this.$store.getters.key).toString(this.CryptoJS.enc.Utf8)
+      let nameId = this.$route.params.nameid
       let nameIdSplit = nameId.split(',')
       this.loginForm.orgname = nameIdSplit[0]
       this.loginForm.orgid = nameIdSplit[1]

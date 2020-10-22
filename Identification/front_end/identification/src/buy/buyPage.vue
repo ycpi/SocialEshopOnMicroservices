@@ -29,8 +29,8 @@ export default {
   },
   created() {
       //console.log(this.$route.params)
-      const decryptedName = this.CryptoJS.AES.decrypt(this.$route.params.name, this.$store.getters.key).toString(this.CryptoJS.enc.Utf8)
-      this.itemname = decryptedName
+      const Name = this.$route.params.name
+      this.itemname = Name
   },
   computed : {
       item() {

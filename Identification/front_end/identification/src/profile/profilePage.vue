@@ -231,8 +231,7 @@ export default {
       },
       onClickChange(name,id) {
         let nameId = name + ',' + id
-        const encryptedNameID = this.CryptoJS.AES.encrypt(nameId, this.$store.getters.key).toString()
-        this.$router.push({ name: 'Edit', params: { nameid: encryptedNameID } })
+        this.$router.push({ name: 'Edit', params: { nameid: nameId } })
       },
       onClickRemoveCart() {
         let l = this.selected.length
@@ -276,8 +275,7 @@ export default {
             ids.push(this.selected[i].ID)
           }
           let idstr = ids.join(',')
-          const encryptedIds = this.CryptoJS.AES.encrypt(idstr, this.$store.getters.key).toString()
-          this.$router.push({ name: 'Checkout', params: { order:  encryptedIds} })
+          this.$router.push({ name: 'Checkout', params: { order:  idstr} })
         }
       },
       onClickDeleteItem(id) {

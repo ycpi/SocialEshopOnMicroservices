@@ -23,9 +23,8 @@ export default {
       }
   },
   created() {
-      let encryptedOrder = this.$route.params.order
-      const decryptedOrder = this.CryptoJS.AES.decrypt(encryptedOrder, this.$store.getters.key).toString(this.CryptoJS.enc.Utf8)
-      let orderSplit = decryptedOrder.split(',')
+      let Order = this.$route.params.order
+      let orderSplit = Order.split(',')
       for (var i  = 0; i < orderSplit.length; i++) {
           this.orders.push(orderSplit[i])
       }

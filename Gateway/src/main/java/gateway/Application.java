@@ -14,8 +14,8 @@ public class Application {
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         String authServer = "http://localhost:9090";
-        String cartServer = "http://localhost:9090";
-        String categoryServer = "http://localhost:9090";
+        String cartServer = "http://10.56.13.17:9090";
+        String categoryServer = "http://10.56.13.17:9090";
         return builder.routes()
                 .route(p -> p
                         .path("/auth/**")
