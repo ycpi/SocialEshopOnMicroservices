@@ -5,17 +5,17 @@ import com.socialeshop.identification.models.Inventory;
 import java.util.List;
 
 public class InventoryResponse {
-    private List<Inventory> inventoryList;
+    private List<SingleInventory> inventoryList;
 
-    public InventoryResponse(List<Inventory> inventoryList) {
+    public InventoryResponse(List<SingleInventory> inventoryList) {
         this.inventoryList = inventoryList;
     }
 
-    public List<Inventory> getInventoryList() {
+    public List<SingleInventory> getInventoryList() {
         return inventoryList;
     }
 
-    public void setInventoryList(List<Inventory> inventoryList) {
+    public void setInventoryList(List<SingleInventory> inventoryList) {
         this.inventoryList = inventoryList;
     }
 }

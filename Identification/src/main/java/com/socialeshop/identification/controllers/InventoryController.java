@@ -4,6 +4,7 @@ import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.models.Inventory;
 import com.socialeshop.identification.payloads.InventoryResponse;
 import com.socialeshop.identification.payloads.MessageResponse;
+import com.socialeshop.identification.payloads.SingleInventory;
 import com.socialeshop.identification.repositories.InventoryRepository;
 import com.socialeshop.identification.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,7 +30,12 @@ public class InventoryController {
 
     @GetMapping("")
     public ResponseEntity<?> getAllInventory(){
-        return ResponseEntity.ok(new InventoryResponse(inventoryRepository.findAll()));
+        List<Inventory> inventoryList_db = inventoryRepository.findAll();
+        List<SingleInventory> inventoryList = new ArrayList<>();
+        for(Inventory inventory:inventoryList_db){
+            inventoryList.add(new SingleInventory(inventory));
+        }
+        return ResponseEntity.ok(new InventoryResponse(inventoryList));
     }
 
     @PostMapping("/upload")
