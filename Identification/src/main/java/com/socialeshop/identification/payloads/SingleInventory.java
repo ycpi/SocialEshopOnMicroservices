@@ -3,14 +3,10 @@ package com.socialeshop.identification.payloads;
 import com.socialeshop.identification.models.Inventory;
 import com.socialeshop.identification.models.User;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 public class SingleInventory {
     private Long id;
     
-    private User user;
+    private String userName;
     
     private String itemName;
 
@@ -22,7 +18,7 @@ public class SingleInventory {
 
     public SingleInventory(Inventory inventory) {
         this.id = inventory.getId();
-        this.user = inventory.getUser();
+        this.userName = inventory.getUser().getUsername();
         this.itemName = inventory.getItemName();
         this.cost = inventory.getCost();
         this.amount = inventory.getAmount();
@@ -37,12 +33,12 @@ public class SingleInventory {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getItemName() {
