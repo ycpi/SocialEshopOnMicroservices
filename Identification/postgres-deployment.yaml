@@ -34,7 +34,8 @@ spec:
           value: "123456"
         - name: POSTGRES_USER
           value: eshop
-
+        - name: PGDATA
+          value: /var/lib/postgresql/data/id1
         image: library/postgres:12.0
         imagePullPolicy: ""
         name: postgres
@@ -42,7 +43,7 @@ spec:
         - containerPort: 5432
         resources: {}
         volumeMounts:
-        - mountPath: /var/lib/postgresql/data
+        - mountPath: /var/lib/postgresql/data/id1
           name: postgres-data
       restartPolicy: Always
       serviceAccountName: ""

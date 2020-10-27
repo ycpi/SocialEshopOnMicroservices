@@ -1,41 +1,40 @@
----
-apiVersion: "apps/v1"
-kind: "Deployment"
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: "springapp-id"
-  namespace: "default"
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
   labels:
-    app: "springapp-id"
+    io.kompose.service: springbootapp
+  name: springbootapp
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: "springapp-id"
+      io.kompose.service: springbootapp
+  strategy: {}
   template:
     metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
       labels:
-        app: "springapp-id"
+        io.kompose.service: springbootapp
     spec:
       containers:
-        - name: "myspring-sha256-1"
-          image: "gcr.io/proven-wavelet-290518/myspring:v2"
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "springapp-id-hpa-uv3k"
-  namespace: "default"
-  labels:
-    app: "springapp-id"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "springapp-id"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 5
-  metrics:
-    - type: "Resource"
-      resource:
-        name: "cpu"
-        targetAverageUtilization: 80
+      - args:
+        - sh
+        - -c
+        - java -jar ./build/libs/identification-0.1.0.jar
+        image: springbootapp
+        imagePullPolicy: ""
+        name: identification-server
+        ports:
+        - containerPort: 9090
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

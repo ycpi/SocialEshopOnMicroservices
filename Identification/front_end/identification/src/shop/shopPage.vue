@@ -77,8 +77,7 @@ export default {
             this.$router.push('/profile');
         },
         onClickCheck(name) {
-            const encryptedName = this.CryptoJS.AES.encrypt(name, this.$store.getters.key).toString()
-            this.$router.push({ name: 'Buy', params: { name: encryptedName } })
+            this.$router.push({ name: 'Buy', params: { name: name } })
         },
         onClickLogout() {
             this.$store.dispatch('user/logout')
