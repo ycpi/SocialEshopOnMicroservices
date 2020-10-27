@@ -20,7 +20,7 @@ metadata:
   labels:
     app: "postgres-id"
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: "postgres-id"
@@ -67,7 +67,7 @@ spec:
     name: "postgres-id"
     apiVersion: "apps/v1"
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 1
   metrics:
     - type: "Resource"
       resource:

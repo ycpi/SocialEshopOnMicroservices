@@ -7,7 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: postgres
-  name: postgres-id
+  name: postgres
 spec:
   ports:
   - name: "5432"
