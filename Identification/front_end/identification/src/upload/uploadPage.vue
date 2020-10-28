@@ -70,6 +70,20 @@
             />
         </el-form-item>
 
+        <el-form-item prop="tag">
+          <span>
+            <i class="el-icon-price-tag">Tag</i>
+          </span>
+          <el-radio-group v-model="loginForm.tag">
+            <el-radio label="Clothing"></el-radio>
+            <el-radio label="Electronics"></el-radio>
+            <el-radio label="Provisions"></el-radio>
+            <el-radio label="Cultural"></el-radio>
+            <el-radio label="Household"></el-radio>
+            <el-radio label="Others"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
 
     </el-form>
@@ -115,11 +129,13 @@ export default {
         itemname: '',
         amount: '',
         price:    '',
+        tag:      '',
         description:   '',
       },
       loginRules: {
         itemname: [{ required: true, trigger: 'blur', validator: validateItemname }],
         amount: [{ required: true, trigger: 'blur', validator: validateAmount }],
+        tag: [{ required: true, trigger: 'blur' }],
         price: [{ required: true, trigger: 'blur', validator: validatePrice }],
         description: [{ required: true, trigger: 'blur', validator: validateDescription }]
       },
