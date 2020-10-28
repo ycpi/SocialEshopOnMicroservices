@@ -293,6 +293,7 @@ export default {
             this.$message.error('Delete Failed: '+error);
           });
         }).catch(() => {
+          console.log('here')
           this.$message({
             type: 'info',
             message: 'Delete Canceled'

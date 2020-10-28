@@ -55,14 +55,13 @@ const actions = {
     uploadItem({commit}, uploadInfo) {
         var url = '/api/category/upload'
         var token = getToken()
-        const { itemname, price, amount, type, description} = uploadInfo
+        const { itemname, price, amount, description} = uploadInfo
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     itemName: itemname,
                     cost: price,
                     amount: amount,
-                    type: type,
                     description: description
                 },config
                 ).then(response => {
@@ -107,17 +106,16 @@ const actions = {
 
     //new: done
     deleteItem({commit, state}, itemID) {
-        console.log("Deleting: ",itemID)
         var url = '/api/category/delete'
         var token = getToken()
-        const { id } = itemID
+        let id = itemID
+        //console.log('in here: ', id)
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     id : 1
                 },config
                 ).then(response => {
-                    console.log('delete: ',id)
                     for (var i = 0; i < state.items.length; i++) {
                         if (state.items[i].id === id) {
                             commit('REMOVE_ITEM',i)
