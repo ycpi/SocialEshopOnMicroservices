@@ -104,6 +104,7 @@ const actions = {
             })
         })
     },
+    
     //new: done
     deleteItem({commit, state}, itemID) {
         console.log("Deleting: ",itemID)
