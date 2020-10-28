@@ -106,13 +106,14 @@ const actions = {
     },
     //new: done
     deleteItem({commit, state}, itemID) {
-        var url = '/api/category/delete'
+        console.log("Deleting: ",itemID)
+        var url = '/api/category/deletes'
         var token = getToken()
         const { id } = itemID
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                    id : id
+                    id : 1
                 },config
                 ).then(response => {
                     console.log('delete: ',id)
