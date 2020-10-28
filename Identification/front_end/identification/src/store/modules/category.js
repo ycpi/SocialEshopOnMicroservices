@@ -104,11 +104,11 @@ const actions = {
             })
         })
     },
-    
+
     //new: done
     deleteItem({commit, state}, itemID) {
         console.log("Deleting: ",itemID)
-        var url = '/api/category/deletes'
+        var url = '/api/category/delete'
         var token = getToken()
         const { id } = itemID
         var config = {headers:{Authorization: 'Bearer '+ token}}
