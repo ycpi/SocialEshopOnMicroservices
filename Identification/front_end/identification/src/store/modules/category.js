@@ -19,14 +19,16 @@ const mutations = {
     }
 }
 const actions = {
-    getItems({ commit }) {
-        axios.get('/api/category').then(result => {   
+    getItems({ commit }, tag) {
+        axios.get('/api/category',{
+            tag: tag
+        }).then(result => {   
                 var items = []
                 var item = result.data.inventoryList
                 console.log("result.data: ",result.data)
                 console.log("result.data.inv: ",result.data.inventoryList)
                 for (var i = 0; i < item.length; i++) {
-                    items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id});
+                    items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, tag: item[i].tag, id: item[i].id});
                 }
                 commit('SET_ITEM', items)
             }).catch (error => {
@@ -53,18 +55,18 @@ const actions = {
     uploadItem({commit}, uploadInfo) {
         var url = '/api/category/upload'
         var token = getToken()
-        const { itemname, price, amount, description} = uploadInfo
+        const { itemname, price, amount, type, description} = uploadInfo
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     itemName: itemname,
                     cost: price,
                     amount: amount,
+                    type: type,
                     description: description
                 },config
                 ).then(response => {
-                    //response.data.ID
-                    var item = {name: itemname, cost: price, description: description, amount: amount, id: 1}
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.ID}
                     commit('ADD_ITEM', item)
                     resolve(response)
             }).catch (error => {
@@ -76,7 +78,7 @@ const actions = {
     editItem({commit, state}, uploadInfo) {
         var url = '/api/category/edit'
         var token = getToken()
-        const { orgid, itemname, price, amount, description} = uploadInfo
+        const { orgid, itemname, price, amount, type, description} = uploadInfo
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
@@ -84,6 +86,7 @@ const actions = {
                     itemName: itemname,
                     cost: price,
                     amount: amount,
+                    type: type,
                     description: description
                 },config
                 ).then(response => {
@@ -93,8 +96,7 @@ const actions = {
                             break
                         }
                     }
-                    //response.data.ID
-                    var item = {name: itemname, cost: price, description: description, amount: amount, id: 1}
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.ID}
                     commit('ADD_ITEM', item)
                     resolve(response)
             }).catch (error => {
@@ -102,20 +104,23 @@ const actions = {
             })
         })
     },
-    //new
+    //new: done
     deleteItem({commit, state}, itemID) {
-        var url = '/api/category/delete'
+        console.log("Deleting: ",itemID)
+        var url = '/api/category/deletes'
         var token = getToken()
         const { id } = itemID
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                    id : id
+                    id : 1
                 },config
                 ).then(response => {
+                    console.log('delete: ',id)
                     for (var i = 0; i < state.items.length; i++) {
                         if (state.items[i].id === id) {
                             commit('REMOVE_ITEM',i)
+                            console.log('deleted: ',id)
                             break
                         }
                     }

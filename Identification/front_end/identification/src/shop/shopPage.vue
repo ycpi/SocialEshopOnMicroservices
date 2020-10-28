@@ -4,10 +4,26 @@
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
         <el-menu-item index="2">Profile</el-menu-item>
         <el-menu-item index="6" class="right-menu-2">Log Out</el-menu-item>
-    </el-menu>
-        <h3 class="title">{{this.$store.getters.name}}, Please Shop Here!</h3>
-        <h3 class="title">Items</h3>
-        <table>
+      </el-menu>
+      <el-col :span="6" class="nav">
+        <el-menu :default-active="activeIndex" class="el-menu-v" @select="handleSelectV">
+        <el-menu-item index="1" >Search for Items</el-menu-item>
+        <el-menu-item index="2" >Clothing</el-menu-item>
+        <el-menu-item index="3" >Electronics</el-menu-item>
+        <el-menu-item index="4" >Provisions</el-menu-item>
+        <el-menu-item index="5" >Cultural</el-menu-item>
+        <el-menu-item index="6" >Household</el-menu-item>
+        <el-menu-item index="7" >Others</el-menu-item>
+        </el-menu>
+      </el-col>
+      <el-col :span="15">
+            <h3 class="title">{{this.$store.getters.name}}, Please Shop Here!</h3>
+            <div class = "search" style="margin-top: 15px;" v-if="selectedSearch()">
+                <el-input placeholder="Search for Item" v-model="search" class="input-with-select">
+                    <el-button slot="append" icon="el-icon-search" @click="onClickSearch"></el-button>
+                </el-input>
+            </div>
+            <table>
             <thead>
                 <tr>
                 <th class="item-title">
@@ -40,19 +56,20 @@
                 </tr>
             </tbody>
         </table>
+      </el-col>
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
 export default {
     name: 'ShopPage',
     data() {
         return {
-            activeIndex: '1'
+            activeIndex: '1',
+            selectedContent: 'Search',
+            search: ''
         }
     },
     created() {
-        this.getItems();
     },
     computed: {
         availableItems() {
@@ -60,7 +77,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions('category', ['getItems','testAndSetNum','removeItem']),
         handleSelect(key) {
             if (key === '1') {
                 this.onClickHome()
@@ -70,6 +86,35 @@ export default {
                 this.onClickLogout()
             }
         },
+        handleSelectV(key) {
+            if (key === '1') {
+                this.selectedContent = 'Search'
+            } else {
+                if (key === '2') {
+                    this.selectedContent = 'Clothing'
+                } else if (key === '3') {
+                    this.selectedContent = 'Electronics'
+                } else if (key === '4') {
+                    this.selectedContent = 'Provisions'
+                } else if (key === '5') {
+                    this.selectedContent = 'Cultural'
+                } else if (key === '6') {
+                    this.selectedContent = 'Household'
+                } else if (key === '7') {
+                    this.selectedContent = 'Others'
+                }
+                this.getItems(this.selectedContent)
+            }
+        },
+        selectedSearch() { return this.selectedContent === 'Search'},
+        getItems(tag) {
+            this.$store.dispatch('category/getItems', tag)
+            .then(() => {
+            })
+            .catch(() => {
+                console.log("get failure")
+            })
+        },
         onClickHome() {
             this.$router.push('/');
         },
@@ -78,6 +123,13 @@ export default {
         },
         onClickCheck(name) {
             this.$router.push({ name: 'Buy', params: { name: name } })
+        },
+        onClickSearch() {
+            if (/\S/.test(this.search)) {
+            console.log(this.search)
+            } else {
+            this.$message.error('Search Contect Cannot be Empty');
+            }
         },
         onClickLogout() {
             this.$store.dispatch('user/logout')
@@ -92,6 +144,16 @@ export default {
 } 
 </script>
 <style scoped>
+    .el-menu-v {
+        height: 1000px;
+    }
+    .search {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
     table {
         margin-left: auto;
         margin-right: auto;
