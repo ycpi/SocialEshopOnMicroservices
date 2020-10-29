@@ -2,9 +2,7 @@ package com.socialeshop.identification.controllers;
 
 import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.models.Inventory;
-import com.socialeshop.identification.payloads.InventoryResponse;
-import com.socialeshop.identification.payloads.MessageResponse;
-import com.socialeshop.identification.payloads.SingleInventory;
+import com.socialeshop.identification.payloads.*;
 import com.socialeshop.identification.repositories.InventoryRepository;
 import com.socialeshop.identification.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +39,52 @@ public class InventoryController {
     @PostMapping("/upload")
     public ResponseEntity<?> uploadInventory(@Valid @RequestBody Inventory inventory){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("SecurityContextHolder.getContext():"+SecurityContextHolder.getContext());
+        System.out.println("SecurityContextHolder.getContext().getAuthentication()"+ SecurityContextHolder.getContext().getAuthentication());
         System.out.println("upload userName:"+userName);
         Optional<User> user = userRepository.findByUsername(userName);
         if(user.isPresent()){
             inventory.setUser(user.get());
+
+
         } else {
             inventory.setUser(null);
         }
-
         inventoryRepository.saveAndFlush(inventory);
-        return ResponseEntity.ok(new MessageResponse("upload success"));
+        System.out.println("Inventory ID:"+inventory.getId());
+        Long returnId = inventory.getId();
+        //return ID to the front end
+        //return ResponseEntity.ok(new MessageResponse("post success"));
+        return ResponseEntity.ok(new UploadResponse(returnId));
+    }
+    /*
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                                                     userDetails.getId(),
+                userDetails.getUsername(),
+                        userDetails.getEmail(),
+    roles));
+    */
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteInventory(@Valid @RequestBody DeleteRequest deleteRequest){
+        System.out.println("ID: " + deleteRequest.getId());
+        Long deleteID = deleteRequest.getId();
+
+
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("delete userName:"+userName+ "delete ID:"+deleteID);
+        Optional<Inventory> inventory = inventoryRepository.findById(deleteID);
+
+        if(inventory.isPresent()){
+            Inventory curInventory = inventory.get();
+            inventoryRepository.delete(curInventory);
+            System.out.println("Delete succesfully!");
+        }
+        else{
+            System.out.println("Inventory doesn't exist");
+        }
+        //inventoryRepository.saveAndFlush(inventory);
+        return ResponseEntity.ok(new MessageResponse("delete success"));
     }
 
 }
