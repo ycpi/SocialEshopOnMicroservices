@@ -34,6 +34,20 @@ const actions = {
             });
     },
     //new
+    searchItem({ commit }, search) {
+        let url = '/api/category/search?search=' + search
+        axios.get(url).then(result => {   
+                var items = []
+                var item = result.data.inventoryList
+                for (var i = 0; i < item.length; i++) {
+                    items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, tag: item[i].tag, id: item[i].id});
+                }
+                commit('SET_ITEM', items)
+            }).catch (error => {
+                console.log('err:'+error)
+            });
+    },
+    //new
     getBusinessItems({ commit }, name) {
         let url = '/api/category/business?name=' + name
         axios.get(url).then(result => {

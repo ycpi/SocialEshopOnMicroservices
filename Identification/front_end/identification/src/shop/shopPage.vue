@@ -126,7 +126,15 @@ export default {
         },
         onClickSearch() {
             if (/\S/.test(this.search)) {
-                console.log(this.search)
+                this.$store.dispatch('category/searchItem',this.search)
+                .then(() => {
+                    if (this.availableItems.length === 0) {
+                        this.$message('No Matching Item Found');
+                    }
+                })
+                .catch((error) => {
+                    this.$message.error('Search Error: ', error);
+                })
             } else {
                 this.$message.error('Search Contect Cannot be Empty');
             }
