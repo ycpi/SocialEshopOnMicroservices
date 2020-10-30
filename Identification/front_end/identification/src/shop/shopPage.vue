@@ -23,7 +23,7 @@
                     <el-button slot="append" icon="el-icon-search" @click="onClickSearch"></el-button>
                 </el-input>
             </div>
-            <table v-if="!isSearching()">
+            <table v-if="!selectedSearch() || (selectedSearch() && searchFound())">
             <thead>
                 <tr>
                 <th class="item-title">
@@ -67,7 +67,7 @@ export default {
             activeIndex: '1',
             selectedContent: 'Search',
             search: '',
-            searching: false
+            found: false
         }
     },
     created() {
@@ -104,11 +104,12 @@ export default {
                 } else if (key === '7') {
                     this.selectedContent = 'Others'
                 }
+                this.found = flase
                 this.getItems(this.selectedContent)
             }
         },
         selectedSearch() { return this.selectedContent === 'Search'},
-        isSearching() {return this.searching === true},
+        searchFound() {return this.found === true},
         getItems(tag) {
             this.$store.dispatch('category/getItems', tag)
             .then(() => {
@@ -127,22 +128,20 @@ export default {
             this.$router.push({ name: 'Buy', params: { name: name } })
         },
         onClickSearch() {
-            this.searching = true
             if (/\S/.test(this.search)) {
                 this.$store.dispatch('category/searchItem',this.search)
                 .then(() => {
                     if (this.availableItems.length === 0) {
                         this.$message('No Matching Item Found');
-                        this.searching = false
+                    } else {
+                        this.found = true
                     }
                 })
                 .catch((error) => {
                     this.$message.error('Search Error: ', error);
-                    this.searching = false
                 })
             } else {
                 this.$message.error('Search Contect Cannot be Empty');
-                this.searching = false
             }
         },
         onClickLogout() {
