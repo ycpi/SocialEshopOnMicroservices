@@ -20,6 +20,7 @@ const mutations = {
 }
 const actions = {
     getItems({ commit }, tag) {
+        console.log("tag: ",tag)
         axios.get('/api/category',{
             tag: tag
         }).then(result => {   
@@ -55,17 +56,18 @@ const actions = {
     uploadItem({commit}, uploadInfo) {
         var url = '/api/category/upload'
         var token = getToken()
-        const { itemname, price, amount, description} = uploadInfo
+        const { itemname, price, amount, tag, description} = uploadInfo
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     itemName: itemname,
                     cost: price,
                     amount: amount,
+                    tag: tag,
                     description: description
                 },config
                 ).then(response => {
-                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.ID}
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.id}
                     commit('ADD_ITEM', item)
                     resolve(response)
             }).catch (error => {
@@ -77,7 +79,7 @@ const actions = {
     editItem({commit, state}, uploadInfo) {
         var url = '/api/category/edit'
         var token = getToken()
-        const { orgid, itemname, price, amount, type, description} = uploadInfo
+        const { orgid, itemname, price, amount, tag, description} = uploadInfo
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
@@ -85,7 +87,7 @@ const actions = {
                     itemName: itemname,
                     cost: price,
                     amount: amount,
-                    type: type,
+                    tag: tag,
                     description: description
                 },config
                 ).then(response => {
@@ -109,11 +111,10 @@ const actions = {
         var url = '/api/category/delete'
         var token = getToken()
         let id = itemID
-        //console.log('in here: ', id)
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                    id : 1
+                    id : itemID
                 },config
                 ).then(response => {
                     for (var i = 0; i < state.items.length; i++) {

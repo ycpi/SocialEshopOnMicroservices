@@ -19,7 +19,7 @@
       <el-col :span="15">
             <h3 class="title">{{this.$store.getters.name}}, Please Shop Here!</h3>
             <div class = "search" style="margin-top: 15px;" v-if="selectedSearch()">
-                <el-input placeholder="Search for Item" v-model="search" class="input-with-select">
+                <el-input placeholder="Search for Items" v-model="search" class="input-with-select">
                     <el-button slot="append" icon="el-icon-search" @click="onClickSearch"></el-button>
                 </el-input>
             </div>
@@ -126,9 +126,9 @@ export default {
         },
         onClickSearch() {
             if (/\S/.test(this.search)) {
-            console.log(this.search)
+                console.log(this.search)
             } else {
-            this.$message.error('Search Contect Cannot be Empty');
+                this.$message.error('Search Contect Cannot be Empty');
             }
         },
         onClickLogout() {
