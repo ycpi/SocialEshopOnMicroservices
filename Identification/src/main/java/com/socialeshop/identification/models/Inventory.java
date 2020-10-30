@@ -32,12 +32,16 @@ public class Inventory {
     @Column(name = "description", nullable = false)
     private String description;
 
-    public Inventory(User user,String itemName, int cost, int amount, String description) {
+    @Column(name = "tag", nullable = false)
+    private String tag;
+
+    public Inventory(User user,String itemName, int cost, int amount, String description, String tag) {
         this.user = user;
         this.itemName = itemName;
         this.cost = cost;
         this.amount = amount;
         this.description = description;
+        this.tag = tag;
     }
 
     public Inventory() {
@@ -90,4 +94,8 @@ public class Inventory {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getTag(){return tag;}
+
+    public void setTag(String tag) {this.tag = tag; }
 }

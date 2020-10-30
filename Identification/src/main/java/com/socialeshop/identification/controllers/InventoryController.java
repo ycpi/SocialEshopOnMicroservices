@@ -38,6 +38,7 @@ public class InventoryController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadInventory(@Valid @RequestBody Inventory inventory){
+        System.out.println("Tag:"+inventory.getTag());
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("SecurityContextHolder.getContext():"+SecurityContextHolder.getContext());
         System.out.println("SecurityContextHolder.getContext().getAuthentication()"+ SecurityContextHolder.getContext().getAuthentication());
@@ -45,28 +46,57 @@ public class InventoryController {
         Optional<User> user = userRepository.findByUsername(userName);
         if(user.isPresent()){
             inventory.setUser(user.get());
-
-
         } else {
             inventory.setUser(null);
         }
         inventoryRepository.saveAndFlush(inventory);
         System.out.println("Inventory ID:"+inventory.getId());
+
         Long returnId = inventory.getId();
         //return ID to the front end
         //return ResponseEntity.ok(new MessageResponse("post success"));
         return ResponseEntity.ok(new UploadResponse(returnId));
     }
+
     /*
-            return ResponseEntity.ok(new JwtResponse(jwt,
-                                                     userDetails.getId(),
-                userDetails.getUsername(),
-                        userDetails.getEmail(),
-    roles));
-    */
+Json Fomat
+                    id: orgid,
+                    itemName: itemname,
+                    cost: price,
+                    amount: amount,
+                    tag: tag,
+                    description: description
+ */
+    @PostMapping("/edit")
+    public ResponseEntity<?> deleteInventory(@Valid @RequestBody EditRequest editRequest){
+        Long editID = editRequest.getId();
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("edit userName:"+userName+ "edit ID:"+ editID);
+        Optional<Inventory> inventory = inventoryRepository.findById(editID);
+
+        if(inventory.isPresent()){
+            String itemName = editRequest.getItemName();
+            Integer cost = editRequest.getCost();
+            Integer amount = editRequest.getAmount();
+            String tag = editRequest.getTag();
+            String description = editRequest.getDescription();
+            Inventory curInventory = inventory.get();
+            curInventory.setItemName(itemName);
+            curInventory.setAmount(amount);
+            curInventory.setTag(tag);
+            curInventory.setDescription(description);
+            System.out.println("Edit succesfully!");
+        }
+        else{
+            System.out.println("Inventory doesn't exist");
+        }
+        //inventoryRepository.saveAndFlush(inventory);
+        return ResponseEntity.ok(new MessageResponse("Edit success"));
+    }
+
 
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteInventory(@Valid @RequestBody DeleteRequest deleteRequest){
+    public ResponseEntity<?> editInventory(@Valid @RequestBody DeleteRequest deleteRequest){
         System.out.println("ID: " + deleteRequest.getId());
         Long deleteID = deleteRequest.getId();
 
@@ -86,5 +116,7 @@ public class InventoryController {
         //inventoryRepository.saveAndFlush(inventory);
         return ResponseEntity.ok(new MessageResponse("delete success"));
     }
+
+
 
 }
