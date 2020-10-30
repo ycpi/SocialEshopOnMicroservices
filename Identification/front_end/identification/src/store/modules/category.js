@@ -21,9 +21,8 @@ const mutations = {
 const actions = {
     getItems({ commit }, tag) {
         console.log("tag: ",tag)
-        axios.get('/api/category',{
-            tag: tag
-        }).then(result => {   
+        let url = '/api/category?tag=' + tag
+        axios.get(url).then(result => {   
                 var items = []
                 var item = result.data.inventoryList
                 for (var i = 0; i < item.length; i++) {
@@ -36,10 +35,8 @@ const actions = {
     },
     //new
     getBusinessItems({ commit }, name) {
-        console.log(name)
-        axios.get('/api/category/business',{
-            username: name
-        }).then(result => {
+        let url = '/api/category/business?name=' + name
+        axios.get(url).then(result => {
                 var items = []
                 var item = result.data.inventoryList
                 for (var i = 0; i < item.length; i++) {
