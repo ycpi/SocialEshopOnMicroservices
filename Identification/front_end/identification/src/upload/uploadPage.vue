@@ -199,7 +199,7 @@ export default {
               console.log(error)
               this.$notify.error({
                     title: 'Post Item Error',
-                    message: 'Test',
+                    message: error,
                     duration: 0
                 });
               this.loading = false

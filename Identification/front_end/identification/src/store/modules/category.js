@@ -55,6 +55,7 @@ const actions = {
         var url = '/api/category/upload'
         var token = getToken()
         const { itemname, price, amount, tag, description} = uploadInfo
+        console.log("tags: ",tag)
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
