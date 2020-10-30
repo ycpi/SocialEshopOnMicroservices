@@ -23,7 +23,7 @@
                     <el-button slot="append" icon="el-icon-search" @click="onClickSearch"></el-button>
                 </el-input>
             </div>
-            <table>
+            <table v-if="!isSearching()">
             <thead>
                 <tr>
                 <th class="item-title">
@@ -66,7 +66,8 @@ export default {
         return {
             activeIndex: '1',
             selectedContent: 'Search',
-            search: ''
+            search: '',
+            searching: false
         }
     },
     created() {
@@ -107,6 +108,7 @@ export default {
             }
         },
         selectedSearch() { return this.selectedContent === 'Search'},
+        isSearching() {return this.searching === true},
         getItems(tag) {
             this.$store.dispatch('category/getItems', tag)
             .then(() => {
@@ -125,19 +127,22 @@ export default {
             this.$router.push({ name: 'Buy', params: { name: name } })
         },
         onClickSearch() {
-            this.availableItems = []
+            this.searching = true
             if (/\S/.test(this.search)) {
                 this.$store.dispatch('category/searchItem',this.search)
                 .then(() => {
                     if (this.availableItems.length === 0) {
                         this.$message('No Matching Item Found');
+                        this.searching = false
                     }
                 })
                 .catch((error) => {
                     this.$message.error('Search Error: ', error);
+                    this.searching = false
                 })
             } else {
                 this.$message.error('Search Contect Cannot be Empty');
+                this.searching = false
             }
         },
         onClickLogout() {
