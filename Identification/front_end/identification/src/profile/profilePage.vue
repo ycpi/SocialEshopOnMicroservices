@@ -153,14 +153,14 @@ export default {
   },
   created() {
     this.getInfo()
+    this.getOrders()
   },
   computed: {
     cart() {
-      //this.$store.dispatch('cart/getCart',this.name).then(() => {return this.$store.getters.cart;})
       return this.$store.getters.cart;
     },
     postedItems() {
-      this.$store.dispatch('category/getBusinessItems',this.name).then(() => {return this.$store.getters.item;})
+      return this.$store.getters.item;
     },
     order() {
       //this.$store.dispatch('order/getOrder',this.name).then(() => {return this.$store.getters.order;})
@@ -180,9 +180,11 @@ export default {
       },
       getOrders() {
         if (this.role === 'business') {
-            this.$store.dispatch('category/getBusinessOrder',this.name)
+            this.$store.dispatch('category/getBusinessItems',this.name)
+            //this.$store.dispatch('category/getBusinessOrder',this.name)
         } else if (this.role === 'normal') {
             //this.$store.dispatch('cart/getOrder',this.name)
+            //this.$store.dispatch('cart/getCart',this.name)
         }
       },
       handleSelectH(key) {

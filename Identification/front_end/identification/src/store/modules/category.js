@@ -36,6 +36,7 @@ const actions = {
     },
     //new
     getBusinessItems({ commit }, name) {
+        console.log(name)
         axios.get('/api/category/business',{
             username: name
         }).then(result => {
@@ -55,7 +56,6 @@ const actions = {
         var url = '/api/category/upload'
         var token = getToken()
         const { itemname, price, amount, tag, description} = uploadInfo
-        console.log("tags: ",tag)
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
@@ -91,12 +91,13 @@ const actions = {
                 },config
                 ).then(response => {
                     for (var i = 0; i < state.items.length; i++) {
-                        if (state.items[i].id === orgid) {
+                        let dif = state.items[i].id-orgid
+                        if (dif === 0) {
                             commit('REMOVE_ITEM',i)
                             break
                         }
                     }
-                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.ID}
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: orgid}
                     commit('ADD_ITEM', item)
                     resolve(response)
             }).catch (error => {
