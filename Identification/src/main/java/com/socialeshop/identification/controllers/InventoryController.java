@@ -54,7 +54,19 @@ public class InventoryController {
         return ResponseEntity.ok(new InventoryResponse(inventoryList));
     }
 
+    // Search for items
+    @GetMapping("search")
+    public ResponseEntity<?> getAllInventoryBySearch(@Valid @RequestParam(value = "search") String itemName){
+        System.out.println("ItemName for search:"+ itemName);
+        List<Inventory> inventoryList_db = inventoryRepository.findAll();
+        List<SingleInventory> inventoryList = new ArrayList<>();
+        for(Inventory inventory:inventoryList_db){
+            if(inventory.getItemName().endsWith(itemName))
+                inventoryList.add(new SingleInventory(inventory));
+        }
+        return ResponseEntity.ok(new InventoryResponse(inventoryList));
 
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadInventory(@Valid @RequestBody Inventory inventory){
