@@ -26,15 +26,35 @@ public class InventoryController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllInventory(){
+
+    // Only return the business users' items
+    @GetMapping("/business")
+    public ResponseEntity<?> getAllInventoryByUser(@Valid @RequestParam(value = "name") String userName){
+        //String userName = input.getInput();
+        System.out.println("current bussiness userName:"+userName);
         List<Inventory> inventoryList_db = inventoryRepository.findAll();
         List<SingleInventory> inventoryList = new ArrayList<>();
         for(Inventory inventory:inventoryList_db){
-            inventoryList.add(new SingleInventory(inventory));
+            if(inventory.getUser().getUsername().endsWith(userName))
+                inventoryList.add(new SingleInventory(inventory));
         }
         return ResponseEntity.ok(new InventoryResponse(inventoryList));
     }
+
+    // Only return items under the tag
+    @GetMapping("")
+    public ResponseEntity<?> getAllInventoryByTag(@Valid @RequestParam(value = "tag") String tag){
+        System.out.println("current tag:"+tag);
+        List<Inventory> inventoryList_db = inventoryRepository.findAll();
+        List<SingleInventory> inventoryList = new ArrayList<>();
+        for(Inventory inventory:inventoryList_db){
+            if(inventory.getTag().endsWith(tag))
+                inventoryList.add(new SingleInventory(inventory));
+        }
+        return ResponseEntity.ok(new InventoryResponse(inventoryList));
+    }
+
+
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadInventory(@Valid @RequestBody Inventory inventory){
