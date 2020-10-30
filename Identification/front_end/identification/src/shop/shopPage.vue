@@ -104,7 +104,7 @@ export default {
                 } else if (key === '7') {
                     this.selectedContent = 'Others'
                 }
-                this.found = flase
+                this.found = false
                 this.getItems(this.selectedContent)
             }
         },
