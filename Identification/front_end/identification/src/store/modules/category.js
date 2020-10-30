@@ -26,8 +26,6 @@ const actions = {
         }).then(result => {   
                 var items = []
                 var item = result.data.inventoryList
-                console.log("result.data: ",result.data)
-                console.log("result.data.inv: ",result.data.inventoryList)
                 for (var i = 0; i < item.length; i++) {
                     items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, tag: item[i].tag, id: item[i].id});
                 }

@@ -16,7 +16,7 @@
         <el-menu-item index="7" >Others</el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="15">
+      <el-col :span="15" class="context">
             <h3 class="title">{{this.$store.getters.name}}, Please Shop Here!</h3>
             <div class = "search" style="margin-top: 15px;" v-if="selectedSearch()">
                 <el-input placeholder="Search for Items" v-model="search" class="input-with-select">
@@ -146,6 +146,9 @@ export default {
 <style scoped>
     .el-menu-v {
         height: 1000px;
+    }
+    .context {
+        padding-left: 10%;
     }
     .search {
         width: 50%;
