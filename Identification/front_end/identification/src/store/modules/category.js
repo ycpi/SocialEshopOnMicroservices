@@ -35,7 +35,6 @@ const actions = {
     },
     //new
     searchItem({ commit }, search) {
-        commit('SET_ITEM', [])
         let url = '/api/category/search?search=' + search
         axios.get(url).then(result => {   
                 var items = []

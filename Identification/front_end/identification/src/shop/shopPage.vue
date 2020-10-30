@@ -125,6 +125,7 @@ export default {
             this.$router.push({ name: 'Buy', params: { name: name } })
         },
         onClickSearch() {
+            this.availableItems = []
             if (/\S/.test(this.search)) {
                 this.$store.dispatch('category/searchItem',this.search)
                 .then(() => {
