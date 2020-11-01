@@ -131,11 +131,7 @@ export default {
             if (/\S/.test(this.search)) {
                 this.$store.dispatch('category/searchItem',this.search)
                 .then(() => {
-                    if (this.availableItems.length === 0) {
-                        this.$message('No Matching Item Found');
-                    } else {
-                        this.found = true
-                    }
+                    this.found = true
                 })
                 .catch((error) => {
                     this.$message.error('Search Error: ', error);

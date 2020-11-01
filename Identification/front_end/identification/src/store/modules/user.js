@@ -1,14 +1,15 @@
 import {getToken, setToken, removeToken} from '@/utils/authTool'
+import * as session from '@/utils/sessionData'
 import axios from 'axios'
 import cartModule from './cart'
 import itemModule from './category'
 
 const state = {
     token: getToken(),
-    name: '',
-    role: '',
-    email: '',
-    address: '',
+    name: session.getUsername(),
+    role: session.getRole(),
+    email: session.getEmail(),
+    address: session.getAddress()
 }
 const modules = {
     cart: cartModule,
@@ -23,19 +24,29 @@ const mutations = {
     },
     SET_NAME: (state, name) => {
         state.name = name
+        session.setUsername(name)
     },
     SET_ROLES: (state, role) => {
         state.role = role
+        session.setRole(role)
     },
     SET_EMAIL: (state, email) => {
         state.email = email
+        session.setEmail(email)
     },
     SET_ADDRESS: (state, address) => {
         state.address = address
+        session.setAddress(address)
     },
     RESET_USER: (state) => {
         state.name = ''
+        session.setUsername('')
         state.role = ''
+        session.setRole('')
+        state.email = ''
+        session.setEmail('')
+        state.address = ''
+        session.setAddress('')
     }
 }
 const actions = {
@@ -52,13 +63,10 @@ const actions = {
                 commit('SET_NAME', username)
                 var role = data.roles[0]
                 commit('SET_ROLES', role)
-                //new
-                /*
                 var email = data.email
                 commit('SET_EMAIL', email)
                 var address = data.address
                 commit('SET_ADDRESS', address)
-                */
                 resolve()
             }).catch(error => {
                 reject(error)
@@ -90,6 +98,7 @@ const actions = {
             commit('REMOVE_TOKEN')
             commit('RESET_USER')
             removeToken() // clear your user's token from localstorage
+            //session.removeData()
             resolve()
         })
     },

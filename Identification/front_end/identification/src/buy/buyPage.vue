@@ -12,7 +12,7 @@
         <li>Price: {{item.cost}}</li>
         <li>Description: {{item.description}}</li>
         <el-row class="pick">
-        <el-input-number class="picker" v-model="num" @change="pickNum" :min="1" :max="1000" size="small" label="pick number"></el-input-number>
+        <el-input-number class="picker" v-model="num" @change="pickNum" :min="1" :max="100" size="small" label="pick number"></el-input-number>
         <el-button type="success" @click="onClickPick" icon="el-icon-shopping-cart-1" round size="small">Add to Cart</el-button>
         </el-row>
   </div>
@@ -31,6 +31,7 @@ export default {
       //console.log(this.$route.params)
       const Name = this.$route.params.name
       this.itemname = Name
+      this.username = this.$store.getters.username
   },
   computed : {
       item() {
@@ -42,7 +43,7 @@ export default {
           console.log(this.num)
       },
       onClickPick() {
-          this.$store.dispatch('cart/addOrderToCart',this.itemname,this.num)
+          this.$store.dispatch('cart/addOrderToCart',this.username,this.itemname,this.num,this.item.id)
             .then(() => {
               this.$notify({
                     title: 'Order Added to Cart',

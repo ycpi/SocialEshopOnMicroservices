@@ -1,7 +1,7 @@
 import {getToken} from '@/utils/authTool'
 import axios from 'axios'
 const state = {
-    cart: [{ID: 1, price: 2, item: 3, num: 4}, {ID: 5, price: 6, item: 7, num: 8}]
+    cart: []
 }
 const mutations = {
     SET_CART: (state, cart) => {
@@ -16,15 +16,14 @@ const mutations = {
 }
 const actions = {
     getCart({commit}, username) {
-        const { name } = username
+        let url = '/api/category?username=' + username
         return new Promise((resolve, reject) => {
-            axios.get('/api/cart',{
-                username: name
+            axios.get(url,{
             }).then(response => {
                 var cart = []
-                var orders= response.data.cart
+                var orders= response.data.cartList
                 for (var i = 0; i < orders.length; i++) {
-                    cart.push({ID: orders[i].ID, price: orders[i].cost, item: orders[i].item, num: orders[i].num});
+                    cart.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id});
                 }
                 commit('SET_CART', cart)
                 resolve()
@@ -35,17 +34,19 @@ const actions = {
         })
     },
     //new
-    addOrderToCart({ commit }, item, num) {
+    addOrderToCart({ commit }, username, item, num, itemID) {
         var token = getToken()
         var url = '/api/cart/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                    itemName: item,
+                    username: username,
+                    item: item,
+                    itemID: itemID,
                     amount: num,
                 },config
                 ).then(response => {
-                    var order = {ID: response.data.ID, price: response.data.cost, item: item, num: num};
+                    var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id};
                     commit('ADD_CART', order)
                     resolve(response)
             }).catch (error => {

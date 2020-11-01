@@ -12,7 +12,7 @@
 
         <el-form-item prop="itemname">
             <span>
-            <i class="el-icon-goods"></i>
+            <i class="el-icon-goods"> Name</i>
             </span>
             <el-input
             ref="itemname"
@@ -27,7 +27,7 @@
 
         <el-form-item prop="price">
             <span>
-            <i class="el-icon-money"></i>
+            <i class="el-icon-money"> Price</i>
             </span>
             <el-input
             ref="price"
@@ -42,7 +42,7 @@
 
         <el-form-item prop="amount">
             <span>
-            <i class="el-icon-coin"></i>
+            <i class="el-icon-coin"> Amount</i>
             </span>
             <el-input
             ref="amount"
@@ -51,13 +51,13 @@
             name="amount"
             type="text"
             tabindex="1"
-            autocomplete="on"
-            />
+            autocomplete="on">
+            </el-input>
         </el-form-item>
 
         <el-form-item prop="description">
             <span>
-            <i class="el-icon-more-outline"></i>
+            Description
             </span>
             <el-input
             ref="description"
@@ -72,7 +72,7 @@
 
         <el-form-item prop="tag">
           <span>
-            <i class="el-icon-price-tag">Tag</i>
+            Category
           </span>
           <el-radio-group v-model="loginForm.tag">
             <el-radio label="Clothing"></el-radio>
