@@ -49,6 +49,8 @@ export default {
       checkLogin() {
         var tk = this.$store.getters.token
         var name = this.$store.getters.name
+        var role = this.$store.getters.role
+        console.log("name: ",name," role: ",role)
         if (tk === undefined) {
           return true
         }

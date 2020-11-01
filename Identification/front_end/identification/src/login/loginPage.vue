@@ -144,6 +144,11 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              this.$notify({
+                title: 'Success',
+                message: 'Log in as User: '+this.loginForm.username,
+                type: 'success'
+              });
               this.$router.push('/')
               this.loading = false
             })

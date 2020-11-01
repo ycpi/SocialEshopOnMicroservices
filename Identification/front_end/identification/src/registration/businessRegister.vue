@@ -196,6 +196,11 @@ export default {
           this.loading = true
           this.$store.dispatch('user/register', this.loginForm)
             .then(() => {
+              this.$notify({
+                title: 'Success',
+                message: 'Sign Up Success, User: '+this.loginForm.username,
+                type: 'success'
+              });
               this.$router.push('/')
               this.loading = false
             })

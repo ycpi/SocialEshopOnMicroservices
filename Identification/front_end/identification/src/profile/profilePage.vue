@@ -175,8 +175,8 @@ export default {
       getInfo() {
         this.name = this.$store.getters.name
         this.role = this.$store.getters.role
-        //this.email = this.$store.getters.email
-        //this.address = this.$store.getters.address
+        this.email = this.$store.getters.email
+        this.address = this.$store.getters.address
       },
       getOrders() {
         if (this.role === 'business') {

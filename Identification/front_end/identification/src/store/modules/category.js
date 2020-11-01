@@ -20,7 +20,6 @@ const mutations = {
 }
 const actions = {
     getItems({ commit }, tag) {
-        console.log("tag: ",tag)
         let url = '/api/category?tag=' + tag
         axios.get(url).then(result => {   
                 var items = []
@@ -53,8 +52,10 @@ const actions = {
         axios.get(url).then(result => {
                 var items = []
                 var item = result.data.inventoryList
+                console.log(item)
                 for (var i = 0; i < item.length; i++) {
-                    items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id});
+                    console.log(item[i].tag)
+                    items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id, tag:item[i].tag});
                 }
                 commit('SET_ITEM', items)
             })
@@ -77,7 +78,7 @@ const actions = {
                     description: description
                 },config
                 ).then(response => {
-                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.id}
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: response.data.id, tag:tag}
                     commit('ADD_ITEM', item)
                     resolve(response)
             }).catch (error => {
@@ -108,7 +109,7 @@ const actions = {
                             break
                         }
                     }
-                    var item = {name: itemname, cost: price, description: description, amount: amount, id: orgid}
+                    var item = {name: itemname, cost: price, description: description, amount: amount, id: orgid, tag: tag}
                     commit('ADD_ITEM', item)
                     resolve(response)
             }).catch (error => {

@@ -12,7 +12,7 @@
 
         <el-form-item prop="itemname">
             <span>
-            <i class="el-icon-goods"></i>
+            New Name
             </span>
             <el-input
             ref="itemname"
@@ -21,13 +21,13 @@
             name="itemname"
             type="text"
             tabindex="1"
-            autocomplete="on"
-            />
+            autocomplete="on">
+            </el-input>
         </el-form-item>
 
         <el-form-item prop="price">
             <span>
-            <i class="el-icon-money"></i>
+            New Price
             </span>
             <el-input
             ref="price"
@@ -42,7 +42,7 @@
 
         <el-form-item prop="amount">
             <span>
-            <i class="el-icon-coin"></i>
+            New Amount
             </span>
             <el-input
             ref="amount"
@@ -57,7 +57,7 @@
 
         <el-form-item prop="description">
             <span>
-            <i class="el-icon-more-outline"></i>
+            New Description
             </span>
             <el-input
             ref="description"
@@ -72,7 +72,7 @@
 
         <el-form-item prop="tag">
           <span>
-            <i class="el-icon-price-tag">Tag</i>
+            New Category
           </span>
           <el-radio-group v-model="loginForm.tag">
             <el-radio label="Clothing"></el-radio>
@@ -165,6 +165,17 @@ export default {
       let nameIdSplit = nameId.split(',')
       this.loginForm.orgname = nameIdSplit[0]
       this.loginForm.orgid = nameIdSplit[1]
+      let items = this.$store.getters.item
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].id - nameIdSplit[1] === 0) {
+          this.loginForm.itemname = items[i].name
+          this.loginForm.price = items[i].cost
+          this.loginForm.amount = items[i].amount
+          this.loginForm.description = items[i].description
+          this.loginForm.tag = items[i].tag
+          console.log(items[i].tag)
+        }
+      }
   },
   mounted() {
     if (this.loginForm.itemname === '') {
@@ -201,13 +212,14 @@ export default {
           this.loading = true
           this.$store.dispatch('category/editItem', this.loginForm)
             .then(() => {
-              this.loading = false
-              this.$refs.loginForm.resetFields();
               this.$notify({
                 title: 'Success',
                 message: 'Edit Item Success',
                 type: 'success'
-            });
+              });
+              this.loading = false
+              this.$refs.loginForm.resetFields();
+              this.$router.push('/profile')
             }).catch((error) => {
               console.log(error)
               this.$notify.error({
@@ -249,7 +261,7 @@ $cursor: black;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 80%;
     input {
       background: transparent;
       border: 0px;
