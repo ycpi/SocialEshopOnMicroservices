@@ -90,7 +90,7 @@ const actions = {
         })
     },
     getCart({commit}, username) {
-        let url = '/api/cart'
+        let url = '/api/cart/user'
         var token = getToken()
         var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
