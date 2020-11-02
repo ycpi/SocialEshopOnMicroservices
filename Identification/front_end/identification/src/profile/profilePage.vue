@@ -181,10 +181,10 @@ export default {
       getOrders() {
         if (this.role === 'business') {
             this.$store.dispatch('category/getBusinessItems',this.name)
-            //this.$store.dispatch('category/getBusinessOrder',this.name)
+            this.$store.dispatch('category/getOrder',this.name)
         } else if (this.role === 'normal') {
-            //this.$store.dispatch('cart/getOrder',this.name)
-            //this.$store.dispatch('cart/getCart',this.name)
+            this.$store.dispatch('cart/getCart',this.name)
+            this.$store.dispatch('cart/getOrder',this.name)
         }
       },
       handleSelectH(key) {
@@ -243,7 +243,7 @@ export default {
           });
           return
         }
-        this.$confirm('This would Remove Selected Order Permanetly, Continue?', 'Alert', {
+        this.$confirm('This Would Remove Selected Orders Permanetly, Continue?', 'Alert', {
           confirmButtonText: 'Continue',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -273,7 +273,7 @@ export default {
           });
         } else {
           for (var i = 0; i < l; i++) {
-            ids.push(this.selected[i].ID)
+            ids.push(this.selected[i].id)
           }
           let idstr = ids.join(',')
           this.$router.push({ name: 'Checkout', params: { order:  idstr} })
