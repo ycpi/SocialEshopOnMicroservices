@@ -22,16 +22,16 @@ export default {
   name: 'buyPage',
   data() {
       return {
+          username: '',
           itemname: '',
           activeIndex: '1',
           num: 1
       }
   },
   created() {
-      //console.log(this.$route.params)
       const Name = this.$route.params.name
       this.itemname = Name
-      this.username = this.$store.getters.username
+      this.username = this.$store.getters.name
   },
   computed : {
       item() {
@@ -43,8 +43,8 @@ export default {
           console.log(this.num)
       },
       onClickPick() {
-          this.$store.dispatch('cart/addOrderToCart',this.username,this.itemname,this.num,this.item.id)
-            .then(() => {
+          let orderInfo = {name:this.username, item: this.itemname, itemID: this.item.id, num: this.num}
+          this.$store.dispatch('cart/addOrderToCart',orderInfo).then(() => {
               this.$notify({
                     title: 'Order Added to Cart',
                     message: 'Order Added to Cart',
