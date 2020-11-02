@@ -34,10 +34,10 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addCart(@Valid @RequestBody AddCartRequest addCartRequest){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        //String userName = addCartRequest.getUserName();
-        Long itemId = addCartRequest.getItemId();
-        System.out.println("add Cart userName:"+userName + "item Name: " + addCartRequest.getItemName() + "item id: " + itemId);
+        //String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userName = addCartRequest.getUsername();
+        Long itemId = addCartRequest.getItemID();
+        System.out.println("add Cart userName:"+userName + "item Name: " + addCartRequest.getItem()+ "item id: " + itemId);
         Optional<User> user = userRepository.findByUsername(userName);
         // get the inventory via its id
         Optional<Inventory> inventory = inventoryRepository.findById(itemId);
@@ -49,17 +49,36 @@ public class CartController {
                 cart.setInventory(inventory.get());
             }
             else{
+                System.out.println("the item with id "+itemId+" doesnt exsit.");
                 cart.setInventory(new Inventory());
             }
         } else {
             cart.setUser(null);
         }
         cartRepository.saveAndFlush(cart);
-        System.out.println("Add Cart ID:"+cart.getId());
+        Long cartId = cart.getId();
+        //return price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id  to the front end
+        //return ResponseEntity.ok(new MessageResponse("post success"));
+        int cost = 0;
 
-        Long returnId = cart.getId();
-        //return ID to the front end
-        return ResponseEntity.ok(new MessageResponse("post success"));
-        //return ResponseEntity.ok(new UploadResponse(returnId));
+        if(inventory.isPresent()){
+            cost = inventory.get().getCost() * addCartRequest.getAmount();
+        }
+        System.out.println("Costs:"+cost +" itemName:" + addCartRequest.getItem()+" amount:"+ addCartRequest.getAmount() +" id:"+itemId);
+        return ResponseEntity.ok(new AddCartResponse(cost, addCartRequest.getItem(),addCartRequest.getAmount(),itemId));
     }
+
+    // remove items from cart
+    @PostMapping("/delete")
+    public ResponseEntity<?> removeItems(@Valid @RequestBody RemoveItemsRequest removeItemsRequest){
+        List<Cart> orders = removeItemsRequest.getOrders();
+        // orders will not be empty for sure
+        for(Cart item : orders){
+            System.out.println("To be remove - item id: "+ item.getId());
+            cartRepository.delete(item);
+        }
+        return ResponseEntity.ok(new MessageResponse("Remove success"));
+    }
+
+
 }

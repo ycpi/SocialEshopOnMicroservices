@@ -1,34 +1,42 @@
 package com.socialeshop.identification.payloads;
 
 public class AddCartRequest{
-    private String userName;
-    private String itemName;
-    private long itemId;
+    private String username;
+    private String item;
+    private long itemID;
     private int amount;
 
-    public String getItemName() {
-        return itemName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setItem(String item) {
+        this.item = item;
     }
 
-    public int getAmount() {
-        return amount;
+    public void setItemID(long itemID) {
+        this.itemID = itemID;
     }
 
     public void setAmount(int amount) {
         this.amount = amount;
     }
 
-    public String getUserName(){return  userName;}
+    public String getUsername() {
+        return username;
+    }
 
-    public void setUserName(String userName) {this.userName = userName; }
+    public String getItem() {
+        return item;
+    }
 
-    public long getItemId(){return itemId;}
+    public long getItemID() {
+        return itemID;
+    }
 
-    public void setItemId(long itemId){this.itemId = itemId;}
+    public int getAmount() {
+        return amount;
+    }
 }
 
 
