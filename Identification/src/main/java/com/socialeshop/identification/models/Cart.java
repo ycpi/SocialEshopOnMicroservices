@@ -38,6 +38,7 @@ public class Cart {
         this.amount = amount;
     }
     public Cart(){
+        this.id = 0L;
 
     }
 

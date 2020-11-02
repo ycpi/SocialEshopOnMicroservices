@@ -35,17 +35,17 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<?> addCart(@Valid @RequestBody AddCartRequest addCartRequest){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("add Cart userName:"+userName);
+        //String userName = addCartRequest.getUserName();
+        Long itemId = addCartRequest.getItemId();
+        System.out.println("add Cart userName:"+userName + "item Name: " + addCartRequest.getItemName() + "item id: " + itemId);
         Optional<User> user = userRepository.findByUsername(userName);
         // get the inventory via its id
-        // Optional<Inventory> inventory = inventoryRepository.findById(addCartRequest.getID());
-        Optional<Inventory> inventory = inventoryRepository.findById((long)0);
-        // get the inventory via its name
-
+        Optional<Inventory> inventory = inventoryRepository.findById(itemId);
         Cart cart = new Cart();
         if(user.isPresent()){
             cart.setUser(user.get());
             if(inventory.isPresent()){
+                System.out.println("add Cart - item name:"+inventory.get().getItemName());
                 cart.setInventory(inventory.get());
             }
             else{
@@ -54,8 +54,8 @@ public class CartController {
         } else {
             cart.setUser(null);
         }
-        //cartRepository.saveAndFlush(cart);
-        System.out.println("Cart ID:"+cart.getId());
+        cartRepository.saveAndFlush(cart);
+        System.out.println("Add Cart ID:"+cart.getId());
 
         Long returnId = cart.getId();
         //return ID to the front end
