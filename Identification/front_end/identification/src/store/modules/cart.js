@@ -113,7 +113,7 @@ const actions = {
                         let ID = order.id
                         for (let i = 0; i < state.cart.length; i++) {
                             if (state.cart[i].id - ID === 0) {
-                                commit('REMOVE_CART', ID)
+                                commit('REMOVE_CART', i)
                             }
                         }
                     }
