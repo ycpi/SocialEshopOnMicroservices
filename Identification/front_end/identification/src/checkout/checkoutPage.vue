@@ -34,10 +34,12 @@ export default {
   data() {
       return {
           orders: [],
+          username: '',
           activeIndex: '1',
       }
   },
   created() {
+      this.username = this.$store.getters.name
       let Order = this.$route.params.order
       let orderSplit = Order.split(',')
       let cart = this.$store.getters.cart
@@ -54,7 +56,15 @@ export default {
   },
   methods: {
       onClickPlaceOrder() {
-
+        for (let i = 0; i < this.orders.length; i++) {
+          let info = {username:this.username, cartID: this.orders[i].id}
+          this.$store.dispatch('cart/placeOrder',info)
+          .then(() => {
+          })
+          .catch(() => {
+              
+          })
+        }
       },
       handleSelect(key) {
         if (key === '1') {

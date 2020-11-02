@@ -43,6 +43,7 @@ export default {
           console.log(this.num)
       },
       onClickPick() {
+          console.log("id: ", this.item.id)
           let orderInfo = {name:this.username, item: this.itemname, itemID: this.item.id, num: this.num}
           this.$store.dispatch('cart/addOrderToCart',orderInfo).then(() => {
               this.$notify({

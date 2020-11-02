@@ -40,14 +40,14 @@ const actions = {
             })
         })
     },
-    placeOrder({commit}, username, cartID) {
+    placeOrder({commit}, orderInfo) {
         var token = getToken()
         var url = '/api/cart/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                    username: username,
-                    id: cartID
+                    username: orderInfo.username,
+                    id: orderInfo.cartID
                 },config
                 ).then(response => {
                     var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id, rate: -1, comment: ''};
@@ -85,7 +85,7 @@ const actions = {
             axios.post(url,{
                     username: orderInfo.name,
                     item: orderInfo.item,
-                    itemID: orderInfo.id,
+                    itemID: orderInfo.itemID,
                     amount: orderInfo.num
                 },config
                 ).then(response => {
