@@ -22,7 +22,6 @@ const mutations = {
     }
 }
 const actions = {
-    /*
     getCart({ commit }, username) {
         let url = '/api/cart/username=' + username
         axios.get(url).then(response => {   
@@ -49,7 +48,7 @@ const actions = {
                 console.log("Get Order Failed: ", error)
             });
     },
-    */
+   /*
     getOrder({commit}, username) {
         let url = '/api/order'
         var token = getToken()
@@ -71,6 +70,7 @@ const actions = {
             })
         })
     },
+    */
     placeOrder({commit}, orderInfo) {
         var token = getToken()
         var url = '/api/cart/add'
@@ -89,16 +89,18 @@ const actions = {
             })
         })
     },
-    getCart({commit}, username) {
+    /*
+    getCart({commit}, name) {
         let url = '/api/cart/user'
         var token = getToken()
         var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                username:username
+                username:name
             },config).then(response => {
                 var cart = []
                 var orders= response.data.cartList
+                console.log(response.data)
                 for (var i = 0; i < orders.length; i++) {
                     cart.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id});
                 }
@@ -110,6 +112,7 @@ const actions = {
             })
         })
     },
+    */
     //new
     addOrderToCart({ commit }, orderInfo) {
         console.log(orderInfo)
