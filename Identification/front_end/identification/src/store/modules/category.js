@@ -20,7 +20,7 @@ const mutations = {
 }
 const actions = {
     getItems({ commit }, tag) {
-        let url = '/api/category?tag=' + tag
+        let url = '/api/cart?username=' + tag
         axios.get(url).then(result => {   
                 var items = []
                 var item = result.data.inventoryList

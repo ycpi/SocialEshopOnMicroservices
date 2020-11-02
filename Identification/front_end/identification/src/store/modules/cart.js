@@ -22,11 +22,42 @@ const mutations = {
     }
 }
 const actions = {
-    getOrder({commit}, username) {
+    /*
+    getCart({ commit }, username) {
+        let url = '/api/cart/username=' + username
+        axios.get(url).then(response => {   
+            var cart = []
+                var orders= response.data.cartList
+                for (var i = 0; i < orders.length; i++) {
+                    cart.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id});
+                }
+                commit('SET_CART', cart)
+            }).catch(error => {
+                console.log("Get Cart Failed: ", error)
+            });
+    },
+    getOrder({ commit }, username) {
         let url = '/api/order?username=' + username
+        axios.get(url).then(response => {   
+            var ordersBuf = []
+            var orders= response.data.ordersList
+            for (var i = 0; i < orders.length; i++) {
+                ordersBuf.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id, rate: orders[i].rate, comment:orders[i].comment});
+            }
+            commit('SET_ORDER', ordersBuf)
+            }).catch(error => {
+                console.log("Get Order Failed: ", error)
+            });
+    },
+    */
+    getOrder({commit}, username) {
+        let url = '/api/order'
+        var token = getToken()
+        var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
-            axios.get(url,{
-            }).then(response => {
+            axios.post(url,{
+                username:username
+            },config).then(response => {
                 var ordersBuf = []
                 var orders= response.data.ordersList
                 for (var i = 0; i < orders.length; i++) {
@@ -47,7 +78,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     username: orderInfo.username,
-                    ids: orderInfo.itemIDs
+                    orders: orderInfo.orders
                 },config
                 ).then(response => {
                     var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id, rate: -1, comment: ''};
@@ -59,10 +90,13 @@ const actions = {
         })
     },
     getCart({commit}, username) {
-        let url = '/api/cart?username=' + username
+        let url = '/api/cart'
+        var token = getToken()
+        var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
-            axios.get(url,{
-            }).then(response => {
+            axios.post(url,{
+                username:username
+            },config).then(response => {
                 var cart = []
                 var orders= response.data.cartList
                 for (var i = 0; i < orders.length; i++) {
@@ -109,8 +143,8 @@ const actions = {
                     orders: orders
                 },config
                 ).then(response => {
-                    for (let order in orders) {
-                        let ID = order.id
+                    for (let j = 0; j < orders.length; j++) {
+                        let ID = orders[j].id
                         for (let i = 0; i < state.cart.length; i++) {
                             if (state.cart[i].id - ID === 0) {
                                 commit('REMOVE_CART', i)

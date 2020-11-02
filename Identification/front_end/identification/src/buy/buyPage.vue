@@ -52,7 +52,7 @@ export default {
                     type: 'success'
                 });
                 this.num = 1
-                this.$router.push('/profile')
+                this.$router.push('/shop')
             })
             .catch((error) => {
               this.$notify.error({
