@@ -31,7 +31,7 @@ public class CartController {
     @Autowired
     InventoryRepository inventoryRepository;
 
-    // Get method: input: username   return : list of cart
+/*    // Get method: input: username   return : list of cart
     @GetMapping("")
     public ResponseEntity<?> getAllItemsInCart(@Valid @RequestParam(value = "username") String username){
         System.out.println("Get cart: current username: "+ username);
@@ -39,6 +39,18 @@ public class CartController {
         List<Cart> cartList = new ArrayList<>();
         for(Cart cart: cartList_db){
             if(cart.getUser().getUsername().endsWith(username))
+                cartList.add(new Cart(cart));
+        }
+        return ResponseEntity.ok(new GetCartResponse(cartList));
+    }*/
+
+    @PostMapping("/user")
+    public ResponseEntity<?> getCart(@Valid @RequestBody GetUsernameRequest getUsernameRequest) {
+        System.out.println("Get cart: current username: "+ getUsernameRequest.getUsername());
+        List<Cart> cartList_db = cartRepository.findAll();
+        List<Cart> cartList = new ArrayList<Cart>();
+        for(Cart cart: cartList_db){
+            if(cart.getUser().getUsername().endsWith(getUsernameRequest.getUsername()))
                 cartList.add(new Cart(cart));
         }
         return ResponseEntity.ok(new GetCartResponse(cartList));
