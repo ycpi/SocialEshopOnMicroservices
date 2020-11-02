@@ -78,6 +78,7 @@ const actions = {
     },
     //new
     addOrderToCart({ commit }, orderInfo) {
+        console.log(orderInfo)
         var token = getToken()
         var url = '/api/cart/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
