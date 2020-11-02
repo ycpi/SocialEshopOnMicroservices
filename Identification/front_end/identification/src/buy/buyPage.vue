@@ -52,6 +52,7 @@ export default {
                     type: 'success'
                 });
                 this.num = 1
+                this.$router.push('/profile')
             })
             .catch((error) => {
               this.$notify.error({
@@ -95,7 +96,6 @@ export default {
 } 
 </script>
 <style scoped>
-  
   td, th {
     padding: 5px;
   }

@@ -56,15 +56,25 @@ export default {
   },
   methods: {
       onClickPlaceOrder() {
+        let info = {username:this.username, itemIDs: []}
         for (let i = 0; i < this.orders.length; i++) {
-          let info = {username:this.username, cartID: this.orders[i].id}
-          this.$store.dispatch('cart/placeOrder',info)
-          .then(() => {
-          })
-          .catch(() => {
-              
-          })
+          info.itemIDs.push(this.orders[i].id)
         }
+        this.$store.dispatch('cart/placeOrder',info)
+        .then(() => {
+          this.$notify({
+              title: 'Order Placed, Thanks!',
+              type: 'success'
+          });
+          this.$router.push('/profile')
+        })
+        .catch((error) => {
+          this.$notify.error({
+              title: 'Place Order Error',
+              message: error.response.data.message,
+              duration: 0
+          });
+        })
       },
       handleSelect(key) {
         if (key === '1') {

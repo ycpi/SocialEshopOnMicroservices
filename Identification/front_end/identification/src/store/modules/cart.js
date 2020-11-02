@@ -47,7 +47,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     username: orderInfo.username,
-                    id: orderInfo.cartID
+                    ids: orderInfo.itemIDs
                 },config
                 ).then(response => {
                     var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id, rate: -1, comment: ''};
@@ -112,7 +112,7 @@ const actions = {
                     for (let order in orders) {
                         let ID = order.id
                         for (let i = 0; i < state.cart.length; i++) {
-                            if (state.cart[i].id === ID) {
+                            if (state.cart[i].id - ID === 0) {
                                 commit('REMOVE_CART', ID)
                             }
                         }
