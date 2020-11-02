@@ -16,6 +16,8 @@ public class SingleInventory {
 
     private String description;
 
+    private String tag;
+
     public SingleInventory(Inventory inventory) {
         this.id = inventory.getId();
         this.userName = inventory.getUser().getUsername();
@@ -23,6 +25,7 @@ public class SingleInventory {
         this.cost = inventory.getCost();
         this.amount = inventory.getAmount();
         this.description = inventory.getDescription();
+        this.tag = inventory.getTag();
     }
 
     public Long getId() {
@@ -72,4 +75,8 @@ public class SingleInventory {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public  String getTag(){return  tag; }
+
+    public void setTag(String tag) {this.tag = tag;}
 }

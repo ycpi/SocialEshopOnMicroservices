@@ -2,6 +2,7 @@ package com.socialeshop.identification.controllers;
 
 import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.models.Inventory;
+import com.socialeshop.identification.models.Cart;
 import com.socialeshop.identification.payloads.*;
 import com.socialeshop.identification.repositories.InventoryRepository;
 import com.socialeshop.identification.repositories.UserRepository;
