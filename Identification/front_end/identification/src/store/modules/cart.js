@@ -24,7 +24,9 @@ const mutations = {
 const actions = {
     getCart({ commit }, username) {
         let url = '/api/cart/username=' + username
-        axios.get(url).then(response => {   
+        var token = getToken()
+        var config = {headers:{Authorization: 'Bearer ' + token}}
+        axios.get(url,{},config).then(response => {   
             var cart = []
                 var orders= response.data.cartList
                 for (var i = 0; i < orders.length; i++) {
@@ -37,7 +39,9 @@ const actions = {
     },
     getOrder({ commit }, username) {
         let url = '/api/order?username=' + username
-        axios.get(url).then(response => {   
+        var token = getToken()
+        var config = {headers:{Authorization: 'Bearer ' + token}}
+        axios.get(url,{},config).then(response => {   
             var ordersBuf = []
             var orders= response.data.ordersList
             for (var i = 0; i < orders.length; i++) {
