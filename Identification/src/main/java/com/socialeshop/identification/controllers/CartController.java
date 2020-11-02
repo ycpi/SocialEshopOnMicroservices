@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/cart")
 public class CartController {
     @Autowired
@@ -31,20 +32,21 @@ public class CartController {
     @Autowired
     InventoryRepository inventoryRepository;
 
-/*    // Get method: input: username   return : list of cart
+    // Get method: input: username   return : list of cart
+    @CrossOrigin(origins = "*")
     @GetMapping("")
     public ResponseEntity<?> getAllItemsInCart(@Valid @RequestParam(value = "username") String username){
         System.out.println("Get cart: current username: "+ username);
         List<Cart> cartList_db = cartRepository.findAll();
-        List<Cart> cartList = new ArrayList<>();
+        List<SingleCart> cartList = new ArrayList<>();
         for(Cart cart: cartList_db){
             if(cart.getUser().getUsername().endsWith(username))
-                cartList.add(new Cart(cart));
+                cartList.add(new SingleCart(cart));
         }
         return ResponseEntity.ok(new GetCartResponse(cartList));
-    }*/
+    }
 
-    @PostMapping("/user")
+/*    @PostMapping("/user")
     public ResponseEntity<?> getCart(@Valid @RequestBody GetUsernameRequest getUsernameRequest) {
         System.out.println("Get cart: current username: "+ getUsernameRequest.getUsername());
         List<Cart> cartList_db = cartRepository.findAll();
@@ -54,7 +56,7 @@ public class CartController {
                 cartList.add(new Cart(cart));
         }
         return ResponseEntity.ok(new GetCartResponse(cartList));
-    }
+    }*/
 
     @PostMapping("/add")
     public ResponseEntity<?> addCart(@Valid @RequestBody AddCartRequest addCartRequest){

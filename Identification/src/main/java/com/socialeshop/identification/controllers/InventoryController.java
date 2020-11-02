@@ -42,6 +42,7 @@ public class InventoryController {
         return ResponseEntity.ok(new InventoryResponse(inventoryList));
     }
 
+
     // Only return items under the tag
     @GetMapping("")
     public ResponseEntity<?> getAllInventoryByTag(@Valid @RequestParam(value = "tag") String tag){
