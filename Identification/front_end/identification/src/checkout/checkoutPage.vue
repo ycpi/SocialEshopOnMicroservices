@@ -9,7 +9,22 @@
         </el-menu>
         </el-row>
         <el-row class="body">
-            Orders to be Checked Out: {{this.orders}}
+          <div class="container">
+            <div v-for="(order, index) in orders" :key="index">
+              <el-row class="infoRow">
+                <i class="el-icon-goods"></i>    {{order.item}}
+              </el-row>
+              <el-row class="infoRow">
+                <i class="el-icon-coin"></i>    {{order.num}}
+              </el-row>
+              <el-row class="infoRow">
+                <i class="el-icon-money"></i>    {{order.price}}
+              </el-row>
+            </div>
+            <el-row>
+                <el-button type="primary"  @click="onClickPlaceOrder" class="buyButton" round>Place Order</el-button>
+            </el-row>
+          </div>
         </el-row>
   </div>
 </template>
@@ -25,37 +40,21 @@ export default {
   created() {
       let Order = this.$route.params.order
       let orderSplit = Order.split(',')
+      let cart = this.$store.getters.cart
       for (var i  = 0; i < orderSplit.length; i++) {
-          this.orders.push(orderSplit[i])
+          for (var j = 0; j < cart.length; j++) {
+            if (cart[j].id - orderSplit[i] === 0) {
+              this.orders.push(cart[j])
+              break
+            }
+          }
       }
   },
   computed : {
-      item() {
-        return this.$store.getters.item.find(item => item.name === this.itemname);
-      },
   },
   methods: {
-      pickNum() {
-          console.log(this.num)
-      },
-      onClickPick() {
-          this.$store.dispatch('cart/addOrderToCart',this.itemname,this.num)
-            .then(() => {
-              this.$notify({
-                    title: 'Order Added to Cart',
-                    message: 'Order Added to Cart',
-                    type: 'success'
-                });
-                this.num = 1
-            })
-            .catch((error) => {
-              this.$notify.error({
-                    title: 'Add Cart Error',
-                    message: error.response.data.message,
-                    duration: 0
-                });
-                this.num = 1
-            })
+      onClickPlaceOrder() {
+
       },
       handleSelect(key) {
         if (key === '1') {
@@ -93,26 +92,11 @@ export default {
   .body {
       margin-top: 10%;
   }
-  td, th {
-    padding: 5px;
-  }
-  table {
+  .container {
+    width: 60%;
+    height: 60%;
     margin-left: auto;
     margin-right: auto;
-  }
-  .pick {
-      padding-top: 20px;
-      padding-bottom: 20px;
-  }
-  .picker {
-      margin-left: 10px;
-      margin-right: 10px;
-  }
-  .robot-title {
-    text-align: left;
-    padding-right: 200px;
-  }
-  .cost {
-    text-align: right;
+    border:solid; 
   }
 </style>

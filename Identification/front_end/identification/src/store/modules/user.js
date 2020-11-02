@@ -47,7 +47,7 @@ const mutations = {
         session.setEmail('')
         state.address = ''
         session.setAddress('')
-    }
+    },
 }
 const actions = {
     login({commit}, userPwd) {
