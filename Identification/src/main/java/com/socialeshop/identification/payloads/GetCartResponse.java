@@ -5,17 +5,17 @@ import com.socialeshop.identification.models.Cart;
 import java.util.List;
 
 public class GetCartResponse {
-    private List<Cart> cartList;
+    private List<SingleCart> cartList;
 
-    public GetCartResponse(List<Cart> cartList) {
+    public GetCartResponse(List<SingleCart> cartList) {
         this.cartList = cartList;
     }
 
-    public List<Cart> getCartList() {
+    public List<SingleCart> getCartList() {
         return cartList;
     }
 
-    public void setCartList(List<Cart> cartList) {
+    public void setCartList(List<SingleCart> cartList) {
         this.cartList = cartList;
     }
 }
