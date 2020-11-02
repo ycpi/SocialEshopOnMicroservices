@@ -23,7 +23,7 @@ const mutations = {
 }
 const actions = {
     getCart({ commit }, username) {
-        let url = '/api/cart/username=' + username
+        let url = '/api/cart?username=' + username
         var token = getToken()
         var config = {headers:{Authorization: 'Bearer ' + token}}
         axios.get(url,{},config).then(response => {   
