@@ -42,6 +42,14 @@ public class Cart {
 
     }
 
+    public Cart(Cart cart){
+        this.id = cart.getId();
+        this.user = cart.getUser();
+        this.inventory = cart.getInventory();
+        this.cost = cart.getCost();
+        this.amount = cart.getAmount();
+    }
+
     public User getUser() {
         return user;
     }
