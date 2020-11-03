@@ -76,17 +76,25 @@ const actions = {
     },
     */
     placeOrder({commit}, orderInfo) {
+        console.log(orderInfo)
+        let orderList = orderInfo.orders
         var token = getToken()
         var url = '/api/cart/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     username: orderInfo.username,
-                    orders: orderInfo.orders
+                    orders: orderList
                 },config
                 ).then(response => {
-                    var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id, rate: -1, comment: ''};
-                    commit('ADD_ORDER', order)
+                    let status = response.data.checkoutStatus
+                    for (let i = 0; i < status.length; i++) {
+                        console.log(status[i])
+                        if ((status[i]-0) > 0) {
+                            var order = {price: orderList[i].price, item: orderList[i].item, num: orderList[i].num, id: status[i], rate: -1, comment: ''};
+                            commit('ADD_ORDER', order)
+                        }
+                    }
                     resolve(response)
             }).catch (error => {
                 reject(error)
