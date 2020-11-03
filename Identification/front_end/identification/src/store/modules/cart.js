@@ -79,7 +79,7 @@ const actions = {
         console.log(orderInfo)
         let orderList = orderInfo.orders
         var token = getToken()
-        var url = '/api/cart/add'
+        var url = '/api/order/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
         return new Promise((resolve, reject) => {
             axios.post(url,{
