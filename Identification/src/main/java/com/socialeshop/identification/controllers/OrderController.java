@@ -44,7 +44,7 @@ public class OrderController {
         }
         return ResponseEntity.ok(new GetCartResponse(cartList));
     }
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<?> postOrder(@Valid @RequestBody PostOrderRequest postOrderRequest){
         String username = postOrderRequest.getUsername();
         List<Cart> orderList = postOrderRequest.getOrderList();

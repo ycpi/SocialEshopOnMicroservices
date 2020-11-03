@@ -2,18 +2,19 @@ package com.socialeshop.identification.payloads;
 
 import com.socialeshop.identification.models.Cart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostOrderRequest {
     private String username;
-    private List<Cart> orderList;
+    private List<Cart> orders = new ArrayList<>();
 
     public String getUsername() {
         return username;
     }
 
     public List<Cart> getOrderList() {
-        return orderList;
+        return orders;
     }
 
     public void setUsername(String username) {
@@ -21,6 +22,6 @@ public class PostOrderRequest {
     }
 
     public void setOrderList(List<Cart> orderList) {
-        this.orderList = orderList;
+        this.orders = orderList;
     }
 }

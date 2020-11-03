@@ -81,8 +81,6 @@ public class CartController {
         } else {
             cart.setUser(null);
         }
-
-
         //return price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id  to the front end
         //return ResponseEntity.ok(new MessageResponse("post success"));
         int cost = 0;
