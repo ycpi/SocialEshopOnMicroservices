@@ -10,15 +10,15 @@
         </el-row>
         <el-row class="body">
           <div class="container">
-            <div v-for="(order, index) in orders" :key="index">
+            <div class = "tab" v-for="(order, index) in orders" :key="index">
               <el-row class="infoRow">
-                <i class="el-icon-goods"></i>    {{order.item}}
+                <i class="el-icon-goods"> Item: </i>    {{order.item}}
               </el-row>
               <el-row class="infoRow">
-                <i class="el-icon-coin"></i>    {{order.num}}
+                <i class="el-icon-coin"> Amount: </i>    {{order.num}}
               </el-row>
               <el-row class="infoRow">
-                <i class="el-icon-money"></i>    {{order.price}}
+                <i class="el-icon-money"> Price: </i>    ${{order.price}}
               </el-row>
             </div>
             <el-row>
@@ -111,9 +111,19 @@ export default {
   }
   .container {
     width: 60%;
-    height: 60%;
+    height: 80%;
     margin-left: auto;
     margin-right: auto;
-    border:solid; 
+  }
+  .tab {
+    width: 90%;
+    padding: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    background: aliceblue;
+    border-color: (3, 227, 252); 
+    border-radius: 12px;
   }
 </style>
