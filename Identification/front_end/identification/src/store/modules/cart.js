@@ -1,7 +1,7 @@
 import {getToken} from '@/utils/authTool'
 import axios from 'axios'
 const state = {
-    cart: [{price: 1, item: 'xxx', num: 2, id: 0},{price: 2, item: 'yyy', num: 2, id: 1}],
+    cart: [],
     order: []
 }
 const mutations = {
@@ -93,6 +93,12 @@ const actions = {
                         if ((status[i]-0) > 0) {
                             var order = {price: orderList[i].price, item: orderList[i].item, num: orderList[i].num, id: status[i], rate: -1, comment: ''};
                             commit('ADD_ORDER', order)
+                            let ID = orderList[i].id
+                            for (let j = 0; j < state.cart.length; j++) {
+                                if (state.cart[j].id - ID === 0) {
+                                    commit('REMOVE_CART', i)
+                                }
+                            }
                         }
                     }
                     resolve(response)
@@ -139,6 +145,7 @@ const actions = {
                     amount: orderInfo.num
                 },config
                 ).then(response => {
+                    console.log("cart id: ", response.data)
                     var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id};
                     commit('ADD_CART', order)
                     resolve(response)
