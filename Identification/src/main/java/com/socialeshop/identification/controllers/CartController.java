@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/cart")
 public class CartController {
     @Autowired
@@ -33,7 +32,6 @@ public class CartController {
     InventoryRepository inventoryRepository;
 
     // Get method: input: username   return : list of cart
-    @CrossOrigin(origins = "*")
     @GetMapping("")
     public ResponseEntity<?> getAllItemsInCart(@Valid @RequestParam(value = "username") String username){
         System.out.println("Get cart: current username: "+ username);
@@ -68,6 +66,8 @@ public class CartController {
         // get the inventory via its id
         Optional<Inventory> inventory = inventoryRepository.findById(itemId);
         Cart cart = new Cart();
+        // store to cart table
+        cart.setAmount(addCartRequest.getAmount());
         if(user.isPresent()){
             cart.setUser(user.get());
             if(inventory.isPresent()){
@@ -81,17 +81,21 @@ public class CartController {
         } else {
             cart.setUser(null);
         }
-        cartRepository.saveAndFlush(cart);
-        Long cartId = cart.getId();
+
+
         //return price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id  to the front end
         //return ResponseEntity.ok(new MessageResponse("post success"));
         int cost = 0;
 
         if(inventory.isPresent()){
             cost = inventory.get().getCost() * addCartRequest.getAmount();
+            // store to cart
+            cart.setCost(cost);
         }
-        System.out.println("Costs:"+cost +" itemName:" + addCartRequest.getItem()+" amount:"+ addCartRequest.getAmount() +" id:"+itemId);
-        return ResponseEntity.ok(new AddCartResponse(cost, addCartRequest.getItem(),addCartRequest.getAmount(),itemId));
+        cartRepository.saveAndFlush(cart);
+        Long cartId = cartRepository.count();
+        System.out.println("Costs:"+cost +" itemName:" + addCartRequest.getItem()+" amount:"+ addCartRequest.getAmount() +" id:"+cartId);
+        return ResponseEntity.ok(new AddCartResponse(cost, addCartRequest.getItem(),addCartRequest.getAmount(),cartId));
     }
 
     // remove items from cart
@@ -100,8 +104,16 @@ public class CartController {
         List<Cart> orders = removeItemsRequest.getOrders();
         // orders will not be empty for sure
         for(Cart item : orders){
-            System.out.println("To be remove - item id: "+ item.getId());
-            cartRepository.delete(item);
+            long deleteID = item.getId();
+            Optional<Cart> cartOptional = cartRepository.findById(deleteID);
+            if(cartOptional.isPresent()){
+                Cart curCart = cartOptional.get();
+                cartRepository.delete(curCart);
+                System.out.println("Delete Cart with ID: "+ deleteID +"succesfully!");
+            }
+            else{
+                System.out.println("Delete Cart with ID: "+ deleteID +"failed!");
+            }
         }
         return ResponseEntity.ok(new MessageResponse("Remove success"));
     }

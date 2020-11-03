@@ -31,7 +31,18 @@ public class Cart {
     @Column(name = "amount", nullable = true)
     private int amount;
 
+    // the following columns are used for order
+    @Column(name = "isOrder", nullable = true)
+    private boolean isOrder;
+
+    @Column(name = "comment", nullable = true)
+    private String comment;
+
+    @Column(name = "rate", nullable = true)
+    private int rate;
+
     public Cart(User user,Inventory inventory, int amount, int cost) {
+        this.id = 0L;
         this.user = user;
         this.inventory = inventory;
         this.cost = cost;
@@ -39,7 +50,6 @@ public class Cart {
     }
     public Cart(){
         this.id = 0L;
-
     }
 
     public Cart(Cart cart){
@@ -50,49 +60,78 @@ public class Cart {
         this.amount = cart.getAmount();
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public Cart(User user, Inventory inventory, int cost, int amount, boolean isOrder, String comment, int rate) {
+        this.id = 0L;
         this.user = user;
+        this.inventory = inventory;
+        this.cost = cost;
+        this.amount = amount;
+        this.isOrder = isOrder;
+        this.comment = comment;
+        this.rate = rate;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public User getUser() {
+        return user;
     }
 
     public Inventory getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
     public int getCost() {
         return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public int getAmount() {
         return amount;
     }
 
+    public boolean isOrder() {
+        return isOrder;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     public void setAmount(int amount) {
         this.amount = amount;
     }
 
+    public void setOrder(boolean order) {
+        isOrder = order;
+    }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-
-
-
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
 }
