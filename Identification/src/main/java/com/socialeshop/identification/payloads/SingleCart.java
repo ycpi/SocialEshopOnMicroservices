@@ -5,57 +5,37 @@ import com.socialeshop.identification.models.User;
 
 public class SingleCart {
     private long id;
-    private User user;
-    private Inventory inventory;
+    private String username;
+    private String inventoryname;
     private int cost;
     private int amount;
 
-    public SingleCart(long id, User user, Inventory inventory, int cost, int amount) {
+    public SingleCart(long id, String username, String inventoryname, int cost, int amount) {
         this.id = id;
-        this.user = user;
-        this.inventory = inventory;
+        this.username = username;
+        this.inventoryname = inventoryname;
         this.cost = cost;
         this.amount = amount;
     }
 
     public SingleCart(Cart cart){
         this.id = cart.getId();
-        this.user = cart.getUser();
-        this.inventory = cart.getInventory();
+        this.username = cart.getUser().getUsername();
+        this.inventoryname = cart.getInventory().getItemName();
         this.cost = cart.getCost();
         this.amount = cart.getAmount();
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     public long getId() {
         return id;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public Inventory getInventory() {
-        return inventory;
+    public String getInventoryname() {
+        return inventoryname;
     }
 
     public int getCost() {
@@ -64,5 +44,25 @@ public class SingleCart {
 
     public int getAmount() {
         return amount;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setInventoryname(String inventoryname) {
+        this.inventoryname = inventoryname;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
