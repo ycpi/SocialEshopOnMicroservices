@@ -31,7 +31,7 @@ const actions = {
                 var orders= response.data.cartList
                 console.log("cart: ", response.data)
                 for (var i = 0; i < orders.length; i++) {
-                    cart.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id});
+                    cart.push({price: orders[i].cost, item: orders[i].inventoryname, num: orders[i].amount, id: orders[i].id});
                 }
                 commit('SET_CART', cart)
             }).catch(error => {

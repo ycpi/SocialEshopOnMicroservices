@@ -56,7 +56,11 @@ export default {
   },
   methods: {
       onClickPlaceOrder() {
-        let info = {username:this.username, orders: this.orders}
+        let orders = []
+        for (let i = 0; i < this.orders.length; i++) {
+          orders.push(this.orders[i].id)
+        }
+        let info = {username:this.username, orders: orders}
         this.$store.dispatch('cart/placeOrder',info)
         .then(() => {
           this.$notify({
