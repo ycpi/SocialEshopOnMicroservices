@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: "myspring-sha256-1"
-          image: "gcr.io/proven-wavelet-290518/myspring:v4"
+          image: "gcr.io/proven-wavelet-290518/myspring:v7"
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"

@@ -10,7 +10,7 @@
 
         <el-form-item prop="username">
             <span>
-            <i class="el-icon-user"></i>
+            <i class="el-icon-user"> Username</i>
             </span>
             <el-input
             ref="username"
@@ -25,7 +25,7 @@
 
         <el-form-item prop="email">
             <span>
-            <i class="el-icon-message"></i>
+            <i class="el-icon-message"> Email</i>
             </span>
             <el-input
             ref="email"
@@ -41,7 +41,7 @@
         <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
             <el-form-item prop="password">
             <span>
-                <i class="el-icon-key"></i>
+                <i class="el-icon-key"> Password</i>
             </span>
             <el-input
                 :key="passwordType"
@@ -64,7 +64,7 @@
 
         <el-form-item prop="address">
             <span>
-            <i class="el-icon-house"></i>
+            <i class="el-icon-house"> Address</i>
             </span>
             <el-input
             ref="address"
@@ -284,7 +284,7 @@ $text:black;
   overflow: hidden;
   .login-form {
     position: relative;
-    width: 520px;
+    width: 580px;
     max-width: 100%;
     padding: 70px 35px 0;
     margin: 0 auto;

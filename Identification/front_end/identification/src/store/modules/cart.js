@@ -29,6 +29,7 @@ const actions = {
         axios.get(url,{},config).then(response => {   
             var cart = []
                 var orders= response.data.cartList
+                console.log("cart: ", response.data)
                 for (var i = 0; i < orders.length; i++) {
                     cart.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id});
                 }
@@ -43,7 +44,8 @@ const actions = {
         var config = {headers:{Authorization: 'Bearer ' + token}}
         axios.get(url,{},config).then(response => {   
             var ordersBuf = []
-            var orders= response.data.ordersList
+            var orders= response.data.cartList
+            console.log("order: ", response.data)
             for (var i = 0; i < orders.length; i++) {
                 ordersBuf.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id, rate: orders[i].rate, comment:orders[i].comment});
             }
@@ -76,20 +78,20 @@ const actions = {
     },
     */
     placeOrder({commit}, orderInfo) {
-        console.log(orderInfo)
         let orderList = orderInfo.orders
         var token = getToken()
         var url = '/api/order/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
+        console.log("list: ", orderList)
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     username: orderInfo.username,
                     orders: orderList
                 },config
                 ).then(response => {
+                    console.log(response.data)
                     let status = response.data.checkoutStatus
                     for (let i = 0; i < status.length; i++) {
-                        console.log(status[i])
                         if ((status[i]-0) > 0) {
                             var order = {price: orderList[i].price, item: orderList[i].item, num: orderList[i].num, id: status[i], rate: -1, comment: ''};
                             commit('ADD_ORDER', order)

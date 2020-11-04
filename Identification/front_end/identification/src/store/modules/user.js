@@ -73,6 +73,40 @@ const actions = {
             })
         })
     },
+    verify(nullcontext, userPwd) {
+        console.log(nullcontext,userPwd)
+        return new Promise((resolve, reject) => {
+            axios.post('/api/auth/verify',{
+                username: userPwd.user,
+                password: userPwd.password
+            }).then(() => {
+                resolve()
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
+    edit({commit}, userInfo) {
+        console.log(userInfo)
+        let username = userInfo.username
+        let password = userInfo.password
+        let email = userInfo.email
+        let address = userInfo.address
+        var url = '/api/auth/edit'
+        return new Promise((resolve, reject) => {
+            axios.post(url,{
+                username: username,
+                password: password,
+                email: email,
+                address: address
+            }).then(response => {
+                commit('RESET_USER')
+                resolve(response)
+            }).catch (error => {
+                reject(error)
+            })
+        })
+    },
     register({commit}, userInfo) {
         const { username, password, email, address, isBusiness } = userInfo
         var url = '/api/auth/signup'
@@ -86,7 +120,9 @@ const actions = {
                 email: email,
                 address: address
             }).then(response => {
-                commit('RESET_USER')
+                commit('SET_NAME',username)
+                commit('SET_EMAIL',email)
+                commit('SET_ADDRESS',address)
                 resolve(response)
             }).catch (error => {
                 reject(error)

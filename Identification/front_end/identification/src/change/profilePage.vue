@@ -2,16 +2,17 @@
   <div class="login-container">
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+        <el-menu-item index="2">Profile</el-menu-item>
     </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
         <div class="title-container">
-            <h3 class="title">Sign Up</h3>
+            <h3 class="title">Edit Profile: {{this.loginForm.orgname}}</h3>
         </div>
 
         <el-form-item prop="username">
             <span>
-            <i class="el-icon-user"> Username</i>
+            <i class="el-icon-user"> New Username</i>
             </span>
             <el-input
             ref="username"
@@ -26,7 +27,7 @@
 
         <el-form-item prop="email">
             <span>
-            <i class="el-icon-message"> Email</i>
+            <i class="el-icon-message"> New Email</i>
             </span>
             <el-input
             ref="email"
@@ -42,7 +43,7 @@
         <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
             <el-form-item prop="password">
             <span>
-                <i class="el-icon-key"> Password</i>
+                <i class="el-icon-key"> New Password</i>
             </span>
             <el-input
                 :key="passwordType"
@@ -65,7 +66,7 @@
 
         <el-form-item prop="address">
             <span>
-            <i class="el-icon-location-outline"> Address</i>
+            <i class="el-icon-location-outline"> New Address</i>
             </span>
             <el-input
             ref="address"
@@ -81,8 +82,6 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
 
     </el-form>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickLogin">Have Account? Login!</el-button>
-    <el-button type="text" style="width:50%;margin-bottom:30px;" @click="onClickBReg">Sign Up as Business Owner</el-button>
   </div>
 </template>
 
@@ -122,11 +121,12 @@ export default {
     }
     return {
       loginForm: {
+        orgname: '',
+        orgpassword: '',
         username: '',
         password: '',
         email:    '',
         adress:   '',
-        isBusiness: false,
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -156,7 +156,12 @@ export default {
     }
   },
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
+      let name = this.$route.params.nameparam
+      this.loginForm.orgname = name
+      this.verifyUser(name)
+      this.loginForm.username = name
+      this.loginForm.email = this.$store.getters.email
+      this.loginForm.address = this.$store.getters.address
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -171,6 +176,44 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    verifyUser(name) {
+        this.$prompt('Please Enter Password to Verify Before Editing Profile', 'Notice', {
+          showClose: false,
+          confirmButtonText: 'Verify',
+          cancelButtonText: 'Cancel',
+          inputPattern: /^[a-zA-Z\d\s:]{6,}$/,
+          inputErrorMessage: 'The password can not be less than 6 characters',
+        }).then(({ value }) => {
+          this.$store.dispatch('user/verify', {user: name, password: value})
+            .then(() => {
+                this.$message({
+                    type: 'success',
+                    message: 'Verification Successful'
+                });
+                this.loginForm.password = value
+            }).catch(() => {
+                this.$confirm('Wrong Password, Please Retry?', 'Error', {
+                    confirmButtonText: 'Retry',
+                    cancelButtonText: 'Cancel',
+                    type: 'error'
+                    }).then(() => {
+                        this.verifyUser(name)
+                    }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Edit Profile Canceled'
+                    });
+                    this.onClickPersonal()       
+                });
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Edit Profile Canceled'
+          });
+          this.onClickPersonal()     
+      });
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -195,19 +238,19 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/register', this.loginForm, this.isBusiness)
+          this.$store.dispatch('user/edit', this.loginForm)
             .then(() => {
               this.$notify({
                 title: 'Success',
-                message: 'Sign Up Success, User: '+this.loginForm.username,
+                message: 'Edit Profile Success, User: '+this.loginForm.username,
                 type: 'success'
               });
-              this.$router.push('/')
+              this.$router.push('/profile')
               this.loading = false
             })
             .catch((error) => {
               this.$notify.error({
-                    title: 'Sign Up Error',
+                    title: 'Edit Profile Error',
                     message: error.response.data.message,
                     duration: 0
                 });
@@ -222,7 +265,12 @@ export default {
     handleSelect(key) {
         if (key === '1') {
           this.$router.push('/')
+        } else {
+            this.onClickPersonal()
         }
+    },
+    onClickPersonal() {
+        this.$router.push('/profile');
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -250,7 +298,7 @@ $cursor: black;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 75%;
     input {
       background: transparent;
       border: 0px;
@@ -285,7 +333,7 @@ $text:black;
   overflow: hidden;
   .login-form {
     position: relative;
-    width: 580px;
+    width: 600px;
     max-width: 100%;
     padding: 70px 35px 0;
     margin: 0 auto;

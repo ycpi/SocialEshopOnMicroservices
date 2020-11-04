@@ -10,6 +10,7 @@ import UploadPage from '../upload/uploadPage.vue'
 import BuyPage from '../buy/buyPage.vue'
 import ChangeItemPage from '../change/itemPage.vue'
 import CheckoutPage from '../checkout/checkoutPage.vue'
+import ChangeProfilePage from '../change/profilePage.vue'
 import store from '../store';
 
 Vue.use(Router);
@@ -113,6 +114,14 @@ export const constantRoutes = [
       default: CheckoutPage,
     },
     meta: { authorize: ['normal'] }
+  },{
+    path: '/editprofile/:nameparam',
+    name: 'EditProfile',
+    beforeEnter: checkAuthenticated,
+    components: {
+      default: ChangeProfilePage,
+    },
+    meta: { authorize: ['business','normal'] }
   },{ path: '*', redirect: '/' }
 ]
 export default new Router({

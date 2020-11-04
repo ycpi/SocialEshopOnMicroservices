@@ -53,9 +53,8 @@ const actions = {
         axios.get(url).then(result => {
                 var items = []
                 var item = result.data.inventoryList
-                console.log()
+                console.log("business item: ", item)
                 for (var i = 0; i < item.length; i++) {
-                    console.log(item[i].tag)
                     items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id, tag:item[i].tag});
                 }
                 commit('SET_ITEM', items)

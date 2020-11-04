@@ -131,6 +131,42 @@
             </tbody>
           </table>
         </div>
+        <div class="Items" v-if="checkClient() && selectedOrder()">
+          <h3 class="title">Your Orders</h3>
+          <table>
+            <thead>
+              <tr>
+                <th class="item-title">
+                  Item
+                </th>
+                <th class="Amount">
+                  Amount
+                </th>
+                <th class="Price">
+                  Price
+                </th>
+                <th class="check">
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(order, index) in order" :key="index">
+                <td class="item-title">
+                    {{order.item}}
+                </td>
+                <td class="Amount">
+                    {{order.num}}
+                </td>
+                <td class="Price">
+                    {{order.price}}
+                </td>
+                <td class="check">
+                    <el-button type="primary" icon="el-icon-edit" size="small" @click="onClickComment(order.id)"></el-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </el-col>
       </el-row>
   </el-row>
@@ -164,11 +200,11 @@ export default {
     },
     order() {
       //this.$store.dispatch('order/getOrder',this.name).then(() => {return this.$store.getters.order;})
-      return this.$store.getters.cart;
+      return this.$store.getters.order;
     },
     businessOrder() {
       //this.$store.dispatch('order/getBusinessOrder',this.name).then(() => {return this.$store.getters.businessorder;})
-      return this.$store.getters.cart;
+      return this.$store.getters.order;
     }
   },
   methods: {
@@ -227,8 +263,12 @@ export default {
       checkClient() {
        return (this.$store.getters.role === 'normal')
       },
+      onClickComment(id) {
+        console.log("comment: ", id)
+      },
       onClickEditInfo() {
-        console.log("edit info")
+        let nameparam = this.name
+        this.$router.push({ name: 'EditProfile', params: { nameparam: nameparam } })
       },
       onClickChange(name,id) {
         let nameId = name + ',' + id
