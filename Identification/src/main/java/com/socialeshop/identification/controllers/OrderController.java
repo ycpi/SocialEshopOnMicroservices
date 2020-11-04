@@ -47,30 +47,30 @@ public class OrderController {
     @PostMapping("/add")
     public ResponseEntity<?> postOrder(@Valid @RequestBody PostOrderRequest postOrderRequest){
         String username = postOrderRequest.getUsername();
-        List<Cart> orderList = postOrderRequest.getOrderList();
+        List<Long> orderList = postOrderRequest.getOrderList();
         System.out.println("Place Order: Username: "+ username);
         // return a list of int to indicate the statue of orders
         List<Long> orderStatueList = new LinkedList<Long>();
 
         // update the status in cart table
-        for (Cart order : orderList){
-            int amountInOrder = order.getAmount();
-            Optional<Cart> cartOptional = cartRepository.findById(order.getId());
+        for (Long orderId : orderList){
+            Optional<Cart> cartOptional = cartRepository.findById(orderId);
             if(cartOptional.isPresent()){
                 int amountInInventory = cartOptional.get().getInventory().getAmount();
-                System.out.println("amountInOrder: " + amountInOrder+ "amountInInventory: " + amountInInventory);
+                int amountInOrder = cartOptional.get().getAmount();
+                System.out.println("amountInOrder: " + amountInOrder + "amountInInventory: " + amountInInventory);
                 if(amountInInventory < amountInOrder){
                     // out of stock
                     orderStatueList.add((long)-1);
                 }
                 else{
-                    orderStatueList.add(order.getId());
+                    orderStatueList.add(orderId);
                 }
                 Cart curCart = cartOptional.get();
                 curCart.setOrder(true);
             }
             else{
-                System.out.println("Can't place the order with id "+ order.getId()+" since doesn't exist");
+                System.out.println("Can't place the order with id " + orderId + " since doesn't exist");
             }
         }
         return ResponseEntity.ok(new PostOrderResponse(orderStatueList));

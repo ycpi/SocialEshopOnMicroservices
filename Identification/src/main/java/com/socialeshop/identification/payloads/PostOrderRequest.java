@@ -7,13 +7,13 @@ import java.util.List;
 
 public class PostOrderRequest {
     private String username;
-    private List<Cart> orders = new ArrayList<>();
+    private List<Long> orders = new ArrayList<>();
 
     public String getUsername() {
         return username;
     }
 
-    public List<Cart> getOrderList() {
+    public List<Long> getOrderList() {
         return orders;
     }
 
@@ -21,7 +21,7 @@ public class PostOrderRequest {
         this.username = username;
     }
 
-    public void setOrderList(List<Cart> orderList) {
+    public void setOrderList(List<Long> orderList) {
         this.orders = orderList;
     }
 }

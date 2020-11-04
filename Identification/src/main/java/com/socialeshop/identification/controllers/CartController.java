@@ -38,8 +38,12 @@ public class CartController {
         List<Cart> cartList_db = cartRepository.findAll();
         List<SingleCart> cartList = new ArrayList<>();
         for(Cart cart: cartList_db){
-            if(cart.getUser().getUsername().endsWith(username))
-                cartList.add(new SingleCart(cart));
+            // check isOrder flag
+            if(!cart.isOrder()){
+                if(cart.getUser().getUsername().endsWith(username))
+                    cartList.add(new SingleCart(cart));
+            }
+
         }
         return ResponseEntity.ok(new GetCartResponse(cartList));
     }
