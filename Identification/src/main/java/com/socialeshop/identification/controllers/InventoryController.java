@@ -119,6 +119,7 @@ Json Fomat
             curInventory.setAmount(amount);
             curInventory.setTag(tag);
             curInventory.setDescription(description);
+            inventoryRepository.saveAndFlush(curInventory);
             System.out.println("Edit succesfully!");
         }
         else{
