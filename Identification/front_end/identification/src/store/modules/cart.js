@@ -79,6 +79,7 @@ const actions = {
     */
     placeOrder({commit}, orderInfo) {
         let orderList = orderInfo.orders
+        let test = 2
         var token = getToken()
         var url = '/api/order/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
@@ -86,7 +87,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     username: orderInfo.username,
-                    orders: orderList
+                    orders: test
                 },config
                 ).then(response => {
                     console.log(response.data)

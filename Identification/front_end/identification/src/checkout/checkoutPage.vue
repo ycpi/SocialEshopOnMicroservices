@@ -58,7 +58,7 @@ export default {
       onClickPlaceOrder() {
         let orders = []
         for (let i = 0; i < this.orders.length; i++) {
-          orders.push(this.orders[i].id)
+          orders.push(this.orders[i])
         }
         let info = {username:this.username, orders: orders}
         this.$store.dispatch('cart/placeOrder',info)
