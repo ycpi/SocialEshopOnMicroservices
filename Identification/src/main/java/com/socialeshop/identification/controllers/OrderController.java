@@ -46,14 +46,18 @@ public class OrderController {
     }
     @PostMapping("/add")
     public ResponseEntity<?> postOrder(@Valid @RequestBody PostOrderRequest postOrderRequest){
-        String username = postOrderRequest.getUsername();
-        List<Long> orderList = postOrderRequest.getOrderList();
+        //String username = postOrderRequest.getUsername();
+        //long orderL = postOrderRequest.getOrders();
+        List<String> orders = postOrderRequest.getOrders();
+        String username = orders.get(0);
+        orders.remove(0);
         System.out.println("Place Order: Username: "+ username);
         // return a list of int to indicate the statue of orders
         List<Long> orderStatueList = new LinkedList<Long>();
 
         // update the status in cart table
-        for (Long orderId : orderList){
+        for (String orderIdString : orders){
+            Long orderId = Long.parseLong(orderIdString);
             Optional<Cart> cartOptional = cartRepository.findById(orderId);
             if(cartOptional.isPresent()){
                 int amountInInventory = cartOptional.get().getInventory().getAmount();
@@ -66,8 +70,8 @@ public class OrderController {
                 else{
                     orderStatueList.add(orderId);
                 }
-                Cart curCart = cartOptional.get();
-                curCart.setOrder(true);
+                cartOptional.get().setOrder(true);
+                cartRepository.saveAndFlush(cartOptional.get());
             }
             else{
                 System.out.println("Can't place the order with id " + orderId + " since doesn't exist");

@@ -6,9 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostOrderRequest {
-    String username;
-    List<Long> orders = new ArrayList<>();
+    //String username;
+    List<String> orders = new ArrayList<>();
+    //Long orders;
 
+    public void setOrders(List<String> orders) {
+        this.orders = orders;
+    }
+
+    public List<String> getOrders() {
+        return orders;
+    }
+
+
+    /*
     public String getUsername() {
         return username;
     }
@@ -24,4 +35,6 @@ public class PostOrderRequest {
     public void setOrderList(List<Long> orderList) {
         this.orders = orderList;
     }
+
+ */
 }
