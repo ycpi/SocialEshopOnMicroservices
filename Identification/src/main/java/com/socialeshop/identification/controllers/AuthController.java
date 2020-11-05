@@ -152,8 +152,25 @@ public class AuthController {
         return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: The password is wrong!"));
+    }
+    @PostMapping("/edit")
+    public ResponseEntity<?> editProfile(@Valid @RequestBody EditProfileRequest editProfileRequest){
+        String username = editProfileRequest.getUsername();
+        String email = editProfileRequest.getEmail();
+        String address = editProfileRequest.getAddress();
 
+        Optional<User> user = userRepository.findByUsername(username);
 
+        if(user.isPresent()){
+            user.get().setAddress(address);
+            user.get().setEmail(email);
+            userRepository.saveAndFlush(user.get());
+            return ResponseEntity.ok(new MessageResponse("Edit Profile Success!"));
+        }
+        else{
+            System.out.println("Cannot find the user!");
+        }
+        return ResponseEntity.badRequest().body("Error: Cannot find the user!");
     }
 
 }
