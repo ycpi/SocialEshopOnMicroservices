@@ -5,10 +5,7 @@ import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.Security.jwt.JwtUtils;
 import com.socialeshop.identification.models.ERole;
 import com.socialeshop.identification.models.User;
-import com.socialeshop.identification.payloads.JwtResponse;
-import com.socialeshop.identification.payloads.LoginRequest;
-import com.socialeshop.identification.payloads.MessageResponse;
-import com.socialeshop.identification.payloads.SignupRequest;
+import com.socialeshop.identification.payloads.*;
 import com.socialeshop.identification.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -125,6 +123,37 @@ public class AuthController {
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyUser(@Valid @RequestBody VerifyUserRequest verifyUserRequest){
+        String username = verifyUserRequest.getUsername();
+        String password = verifyUserRequest.getPassword();
+
+        // get password token
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username,password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        if(userRepository.existsByUsername(username)){
+            Optional<User> user = userRepository.findByUsername(username);
+            if(user.isPresent()){
+                if(user.get().getPassword().endsWith(userDetails.getPassword())){
+                    return ResponseEntity.ok(new MessageResponse("Success!"));
+                }
+                else{
+                    return ResponseEntity.badRequest().body(new MessageResponse("Error: Cann't find the user!"));
+                }
+            }
+        }
+        return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: The password is wrong!"));
+
+
     }
 
 }
