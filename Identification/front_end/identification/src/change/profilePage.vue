@@ -6,13 +6,13 @@
     </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
-        <div class="title-container">
-            <h3 class="title">Edit Profile: {{this.loginForm.orgname}}</h3>
+         <div class="title-container">
+            <h3 class="title">Edit Profile: {{this.loginForm.username}}</h3>
         </div>
 
         <el-form-item prop="email">
             <span>
-            <i class="el-icon-message"> New Email</i>
+            <i class="el-icon-message"> Email</i>
             </span>
             <el-input
             ref="email"
@@ -27,7 +27,7 @@
 
         <el-form-item prop="address">
             <span>
-            <i class="el-icon-location-outline"> New Address</i>
+            <i class="el-icon-location-outline"> Address</i>
             </span>
             <el-input
             ref="address"
@@ -75,18 +75,18 @@ export default {
     }
     const validatePassword = (rule, value, callback) => {
         if (value.length < 6) {
-            callback(new Error('The password can not be less than 6 characters'))
+            callback(new Error('The password can not be less than 6 digits'))
         } else {
             callback()
         }
     }
     return {
       loginForm: {
-        orgname: '',
         username: '',
-        email:    '',
-        adress:   '',
-        unverified: true
+        password: '',
+        email:    this.$store.getters.email,
+        address:   this.$store.getters.address,
+        isBusiness: false,
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -116,17 +116,14 @@ export default {
     }
   },
   created() {
-      let name = this.$route.params.nameparam
-      this.loginForm.orgname = name
-      this.loginForm.username = name
-      this.loginForm.email = this.$store.getters.email
-      this.loginForm.address = this.$store.getters.address
+    let name = this.$route.params.nameparam
+    this.loginForm.username = name
   },
   mounted() {
     if (this.loginForm.email === '') {
       this.$refs.email.focus()
     } else if (this.loginForm.address === '') {
-      this.$refs.address.focus()
+      this.$refs.password.focus()
     }
   },
   destroyed() {
@@ -134,6 +131,9 @@ export default {
   },
   methods: {
     onClickVerifyUser() {
+        if (this.loginForm.oldPassword.length < 6) {
+            return
+        }
         this.$store.dispatch('user/verify', {user: this.loginForm.orgname, password: this.loginForm.oldPassword})
         .then(() => {
                 this.$message({
@@ -264,7 +264,7 @@ $text:black;
   overflow: hidden;
   .login-form {
     position: relative;
-    width: 600px;
+    width: 640px;
     max-width: 100%;
     padding: 70px 35px 0;
     margin: 0 auto;

@@ -106,7 +106,7 @@ const actions = {
     },
     edit({commit}, userInfo) {
         console.log(userInfo)
-        let oldusername = userInfo.orgname
+        let oldusername = userInfo.username
         let email = userInfo.email
         let address = userInfo.address
         var url = '/api/auth/edit'
