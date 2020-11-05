@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostOrderRequest {
-    private String username;
-    private List<Long> orders = new ArrayList<>();
+    String username;
+    List<Long> orders = new ArrayList<>();
 
     public String getUsername() {
         return username;
