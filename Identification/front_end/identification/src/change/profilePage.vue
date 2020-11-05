@@ -43,6 +43,33 @@
         <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
             <el-form-item prop="password">
             <span>
+                <i class="el-icon-key"> Old Password</i>
+            </span>
+            <el-input
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
+                :disabled="!this.loginForm.unverified"
+                placeholder="You Need to Verify with Old Password to Change Password"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+                @keyup.native="checkCapslock"
+                @blur="capsTooltip = false"
+                @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+                <i class="el-icon-view"></i>
+                &nbsp;
+                <el-button plain size=small icon="el-icon-edit"></el-button>
+            </span>
+            </el-form-item>
+        </el-tooltip>
+
+        <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+            <el-form-item prop="password">
+            <span>
                 <i class="el-icon-key"> New Password</i>
             </span>
             <el-input
@@ -50,7 +77,8 @@
                 ref="password"
                 v-model="loginForm.password"
                 :type="passwordType"
-                placeholder="Password"
+                :disabled="this.loginForm.unverified"
+                placeholder="You Need to Verify with Old Password to Change Password"
                 name="password"
                 tabindex="2"
                 autocomplete="on"
@@ -127,6 +155,7 @@ export default {
         password: '',
         email:    '',
         adress:   '',
+        unverified: true
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -158,7 +187,7 @@ export default {
   created() {
       let name = this.$route.params.nameparam
       this.loginForm.orgname = name
-      this.verifyUser(name)
+      //this.verifyUser(name)
       this.loginForm.username = name
       this.loginForm.email = this.$store.getters.email
       this.loginForm.address = this.$store.getters.address
@@ -298,7 +327,7 @@ $cursor: black;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 75%;
+    width: 70%;
     input {
       background: transparent;
       border: 0px;
@@ -333,7 +362,7 @@ $text:black;
   overflow: hidden;
   .login-form {
     position: relative;
-    width: 600px;
+    width: 640px;
     max-width: 100%;
     padding: 70px 35px 0;
     margin: 0 auto;

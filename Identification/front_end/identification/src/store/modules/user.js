@@ -89,14 +89,12 @@ const actions = {
     edit({commit}, userInfo) {
         console.log(userInfo)
         let username = userInfo.username
-        let password = userInfo.password
         let email = userInfo.email
         let address = userInfo.address
         var url = '/api/auth/edit'
         return new Promise((resolve, reject) => {
             axios.post(url,{
                 username: username,
-                password: password,
                 email: email,
                 address: address
             }).then(response => {

@@ -78,16 +78,18 @@ const actions = {
     },
     */
     placeOrder({commit}, orderInfo) {
-        let orderList = orderInfo.orders
-        let test = 2
+        let orderList = []
+        orderList.push(orderInfo.username)
+        for (let i = 0; i < orderInfo.orders.length; i++) {
+            orderList.push(orderInfo.orders[i].id+'')
+        }
         var token = getToken()
         var url = '/api/order/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
         console.log("list: ", orderList)
         return new Promise((resolve, reject) => {
             axios.post(url,{
-                    username: orderInfo.username,
-                    orders: test
+                    orders: orderList
                 },config
                 ).then(response => {
                     console.log(response.data)
