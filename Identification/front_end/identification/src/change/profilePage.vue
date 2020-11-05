@@ -41,28 +41,29 @@
         </el-form-item>
 
         <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-            <el-form-item prop="password">
+            <el-form-item prop="oldPassword">
             <span>
                 <i class="el-icon-key"> Old Password</i>
             </span>
             <el-input
                 :key="passwordType"
-                ref="password"
-                v-model="loginForm.password"
+                ref="oldPassword"
+                v-model="loginForm.oldPassword"
                 :type="passwordType"
                 :disabled="!this.loginForm.unverified"
                 placeholder="You Need to Verify with Old Password to Change Password"
-                name="password"
+                name="oldPassword"
                 tabindex="2"
                 autocomplete="on"
                 @keyup.native="checkCapslock"
                 @blur="capsTooltip = false"
                 @keyup.enter.native="handleLogin"
-            />
+            >
+            </el-input>
             <span class="show-pwd" @click="showPwd">
                 <i class="el-icon-view"></i>
                 &nbsp;
-                <el-button plain size=small icon="el-icon-edit"></el-button>
+                <el-button plain size=small slot="append" @click="onClickVerifyUser()">Verify</el-button>
             </span>
             </el-form-item>
         </el-tooltip>
@@ -142,7 +143,7 @@ export default {
     }
     const validatePassword = (rule, value, callback) => {
         if (value.length < 6) {
-            callback(new Error('The password can not be less than 6 digits'))
+            callback(new Error('The password can not be less than 6 characters'))
         } else {
             callback()
         }
@@ -151,6 +152,7 @@ export default {
       loginForm: {
         orgname: '',
         orgpassword: '',
+        oldPassword: '',
         username: '',
         password: '',
         email:    '',
@@ -187,7 +189,6 @@ export default {
   created() {
       let name = this.$route.params.nameparam
       this.loginForm.orgname = name
-      //this.verifyUser(name)
       this.loginForm.username = name
       this.loginForm.email = this.$store.getters.email
       this.loginForm.address = this.$store.getters.address
@@ -205,43 +206,17 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
-    verifyUser(name) {
-        this.$prompt('Please Enter Password to Verify Before Editing Profile', 'Notice', {
-          showClose: false,
-          confirmButtonText: 'Verify',
-          cancelButtonText: 'Cancel',
-          inputPattern: /^[a-zA-Z\d\s:]{6,}$/,
-          inputErrorMessage: 'The password can not be less than 6 characters',
-        }).then(({ value }) => {
-          this.$store.dispatch('user/verify', {user: name, password: value})
-            .then(() => {
+    onClickVerifyUser() {
+        this.$store.dispatch('user/verify', {user: this.loginForm.orgname, password: this.loginForm.oldPassword})
+        .then(() => {
                 this.$message({
                     type: 'success',
                     message: 'Verification Successful'
                 });
-                this.loginForm.password = value
-            }).catch(() => {
-                this.$confirm('Wrong Password, Please Retry?', 'Error', {
-                    confirmButtonText: 'Retry',
-                    cancelButtonText: 'Cancel',
-                    type: 'error'
-                    }).then(() => {
-                        this.verifyUser(name)
-                    }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: 'Edit Profile Canceled'
-                    });
-                    this.onClickPersonal()       
-                });
-            })
+                this.loginForm.unverified = false
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Edit Profile Canceled'
-          });
-          this.onClickPersonal()     
-      });
+            this.$message.error('Wrong Password, Verification Failed');
+        })
     },
     checkCapslock(e) {
       const { key } = e
