@@ -43,6 +43,7 @@ export default new Vuex.Store({
     addRoutes: state => state.permission.addRoutes,
     routes: state => state.permission.routes,
     cart: state => state.cart.cart,
+    order: state => state.cart.order,
     item: state => state.category.items,
     key: state => state.permission.vuepsw
   },

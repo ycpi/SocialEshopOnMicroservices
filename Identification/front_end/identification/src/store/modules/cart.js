@@ -45,9 +45,9 @@ const actions = {
         axios.get(url,{},config).then(response => {   
             var ordersBuf = []
             var orders= response.data.cartList
-            console.log("order: ", response.data)
+            console.log("orders: ", orders)
             for (var i = 0; i < orders.length; i++) {
-                ordersBuf.push({price: orders[i].cost, item: orders[i].item, num: orders[i].amount, id: orders[i].id, rate: orders[i].rate, comment:orders[i].comment});
+                ordersBuf.push({price: orders[i].cost, item: orders[i].inventoryname, num: orders[i].amount, id: orders[i].id, rate: orders[i].rate, comment:orders[i].comment});
             }
             commit('SET_ORDER', ordersBuf)
             }).catch(error => {
@@ -86,7 +86,6 @@ const actions = {
         var token = getToken()
         var url = '/api/order/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
-        console.log("list: ", orderList)
         return new Promise((resolve, reject) => {
             axios.post(url,{
                     orders: orderList
@@ -96,7 +95,7 @@ const actions = {
                     let status = response.data.checkoutStatus
                     for (let i = 0; i < status.length; i++) {
                         if ((status[i]-0) > 0) {
-                            var order = {price: orderList[i].price, item: orderList[i].item, num: orderList[i].num, id: status[i], rate: -1, comment: ''};
+                            var order = {price: orderInfo.orders[i].price, item: orderInfo.orders[i].item, num: orderInfo.orders[i].num, id: status[i], rate: -1, comment: ''};
                             commit('ADD_ORDER', order)
                             let ID = orderList[i].id
                             for (let j = 0; j < state.cart.length; j++) {

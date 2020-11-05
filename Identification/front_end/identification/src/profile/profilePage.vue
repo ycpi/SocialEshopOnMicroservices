@@ -35,9 +35,10 @@
           <el-row class="infoRow">
             <i class="el-icon-location-outline"></i>    {{this.address}}
           </el-row>
-          <el-row>
-            <el-button plain @click="onClickEditInfo" class="infoButton" >Edit Profile</el-button>
-          </el-row>
+          <div>
+            <el-button type="primary" plain @click="onClickEditInfo" class="infoButton" icon="el-icon-edit">Profile</el-button>
+            <el-button  @click="onClickEditPsw" class="infoButton" plain icon="el-icon-edit">Password</el-button>
+          </div>
           </el-row>
         </div>
         <div class="Cart" v-if="checkClient() && selectedCart()">
@@ -270,6 +271,10 @@ export default {
         let nameparam = this.name
         this.$router.push({ name: 'EditProfile', params: { nameparam: nameparam } })
       },
+      onClickEditPsw() {
+        let nameparam = this.name
+        this.$router.push({ name: 'EditPassword', params: { nameparam: nameparam } })
+      },
       onClickChange(name,id) {
         let nameId = name + ',' + id
         this.$router.push({ name: 'Edit', params: { nameid: nameId } })
@@ -377,7 +382,9 @@ export default {
     text-align: left;
   }
   .infoButton {
-    width: 100%;
+    width: 45%;
+    padding-left: 1%;
+    padding-right: 1%;
   }
  .body {
     height: 100%;

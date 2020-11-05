@@ -11,6 +11,7 @@ import BuyPage from '../buy/buyPage.vue'
 import ChangeItemPage from '../change/itemPage.vue'
 import CheckoutPage from '../checkout/checkoutPage.vue'
 import ChangeProfilePage from '../change/profilePage.vue'
+import ChangePasswordPage from '../change/passwordPage.vue'
 import store from '../store';
 
 Vue.use(Router);
@@ -120,6 +121,14 @@ export const constantRoutes = [
     beforeEnter: checkAuthenticated,
     components: {
       default: ChangeProfilePage,
+    },
+    meta: { authorize: ['business','normal'] }
+  },{
+    path: '/editpassword/:nameparam',
+    name: 'EditPassword',
+    beforeEnter: checkAuthenticated,
+    components: {
+      default: ChangePasswordPage,
     },
     meta: { authorize: ['business','normal'] }
   },{ path: '*', redirect: '/' }

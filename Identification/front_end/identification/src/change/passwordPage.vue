@@ -7,39 +7,63 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
         <div class="title-container">
-            <h3 class="title">Edit Profile: {{this.loginForm.orgname}}</h3>
+            <h3 class="title">Edit Password: {{this.loginForm.orgname}}</h3>
         </div>
 
-        <el-form-item prop="email">
+        <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+            <el-form-item prop="oldPassword">
             <span>
-            <i class="el-icon-message"> New Email</i>
+                <i class="el-icon-key"> Old Password</i>
             </span>
             <el-input
-            ref="email"
-            v-model="loginForm.email"
-            placeholder="Email"
-            name="email"
-            type="text"
-            tabindex="1"
-            autocomplete="on"
-            />
-        </el-form-item>
+                class="oldpassword"
+                :key="passwordType"
+                ref="oldPassword"
+                v-model="loginForm.oldPassword"
+                :type="passwordType"
+                :disabled="!this.loginForm.unverified"
+                placeholder="You Need to Verify with Old Password to Change Password"
+                name="oldPassword"
+                tabindex="2"
+                autocomplete="on"
+                @keyup.native="checkCapslock"
+                @blur="capsTooltip = false"
+                @keyup.enter.native="handleLogin"
+            >
+            </el-input>
+            <span class="show-pwd" @click="showPwd">
+                <i class="el-icon-view"></i>
+                &nbsp;
+                <el-button v-if="this.loginForm.unverified" plain size=small slot="append" @click="onClickVerifyUser()">Verify</el-button>
+            </span>
+            </el-form-item>
+        </el-tooltip>
 
-        <el-form-item prop="address">
+        <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+            <el-form-item prop="password">
             <span>
-            <i class="el-icon-location-outline"> New Address</i>
+                <i class="el-icon-key"> New Password</i>
             </span>
             <el-input
-            ref="address"
-            v-model="loginForm.address"
-            placeholder="Address"
-            name="address"
-            type="text"
-            tabindex="1"
-            autocomplete="on"
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
+                :disabled="this.loginForm.unverified"
+                placeholder="You Need to Verify with Old Password to Change Password"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+                @keyup.native="checkCapslock"
+                @blur="capsTooltip = false"
+                @keyup.enter.native="handleLogin"
             />
-        </el-form-item>
-
+            <span class="show-pwd" @click="showPwd">
+                <i class="el-icon-view"></i>
+            </span>
+            </el-form-item>
+        </el-tooltip>
+        
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
 
     </el-form>
@@ -83,7 +107,10 @@ export default {
     return {
       loginForm: {
         orgname: '',
+        orgpassword: '',
+        oldPassword: '',
         username: '',
+        password: '',
         email:    '',
         adress:   '',
         unverified: true
@@ -123,10 +150,8 @@ export default {
       this.loginForm.address = this.$store.getters.address
   },
   mounted() {
-    if (this.loginForm.email === '') {
-      this.$refs.email.focus()
-    } else if (this.loginForm.address === '') {
-      this.$refs.address.focus()
+    if (this.loginForm.oldPassword === '') {
+      this.$refs.password.focus()
     }
   },
   destroyed() {
@@ -149,12 +174,6 @@ export default {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
     },
-    onClickLogin() {
-        this.$router.push('/login');
-    },
-    onClickBReg() {
-        this.$router.push('/business/register');
-    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -169,7 +188,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/edit', this.loginForm)
+          this.$store.dispatch('user/editPassword', {username: this.loginForm.orgname, password: this.loginForm.password})
             .then(() => {
               this.$notify({
                 title: 'Success',
@@ -181,7 +200,7 @@ export default {
             })
             .catch((error) => {
               this.$notify.error({
-                    title: 'Edit Profile Error',
+                    title: 'Edit Password Error',
                     message: error.response.data.message,
                     duration: 0
                 });
@@ -264,7 +283,7 @@ $text:black;
   overflow: hidden;
   .login-form {
     position: relative;
-    width: 600px;
+    width: 640px;
     max-width: 100%;
     padding: 70px 35px 0;
     margin: 0 auto;
