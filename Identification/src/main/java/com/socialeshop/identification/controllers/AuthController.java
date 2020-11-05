@@ -131,6 +131,7 @@ public class AuthController {
         String username = verifyUserRequest.getUsername();
         String password = verifyUserRequest.getPassword();
 
+        String passwordToken = encoder.encode(password);
         // get password token
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username,password));
@@ -172,6 +173,25 @@ public class AuthController {
             System.out.println("Cannot find the user!");
         }
         return ResponseEntity.badRequest().body("Error: Cannot find the user!");
+    }
+
+    @PostMapping("/edit/password")
+    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPassword editPassword){
+        String username = editPassword.getUsername();
+        String password = editPassword.getPassword();
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if(user.isPresent()){
+
+            // get password token
+            String passwordToken = encoder.encode(password);
+            user.get().setPassword(passwordToken);
+            userRepository.saveAndFlush(user.get());
+            return ResponseEntity.ok(new MessageResponse("Edit Password Success!"));
+
+        }
+        return ResponseEntity.badRequest().body("Error: Edit password failed!");
     }
 
 }
