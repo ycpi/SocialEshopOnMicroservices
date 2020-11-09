@@ -62,7 +62,7 @@ export const constantRoutes = [
     },
     meta: { authorize: [] }
   }, {
-    path: '/profile',
+    path: '/profile-:tab-:ind',
     beforeEnter: checkAuthenticated,
     component: ProfilePage,
     name: 'Profile',

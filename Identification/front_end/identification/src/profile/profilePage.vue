@@ -3,6 +3,7 @@
     <el-row class="head">
       <el-menu :default-active="activeIndex" class="el-menu-h" mode="horizontal" @select="handleSelectH">
       <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+      <el-menu-item index="4" ><i class="el-icon-user-solid"></i></el-menu-item>
       <el-menu-item index="2" v-if="checkClient()">Shopping</el-menu-item>
       <el-menu-item index="3" v-else>Post Item</el-menu-item>
       <el-menu-item index="6" class="right-menu-2">Log Out</el-menu-item>
@@ -10,7 +11,7 @@
     </el-row>
     <el-row class = "body">
       <el-col :span="6" class="nav">
-        <el-menu :default-active="activeIndex" class="el-menu-v" @select="handleSelectV">
+        <el-menu :default-active="this.activeIndexV" class="el-menu-v" @select="handleSelectV">
         <el-menu-item index="1" >Account Info</el-menu-item>
         <el-menu-item index="2" v-if="checkClient()">Your Cart</el-menu-item>
         <el-menu-item index="4" v-else>Your Posted Items</el-menu-item>
@@ -58,6 +59,8 @@
                 <th class="Price">
                   Cost
                 </th>
+                <th class="Edit">
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -75,13 +78,16 @@
                     {{order.num}}
                 </td>
                 <td class="Price">
-                    {{order.price}}
+                    ${{order.price}}
+                </td>
+                <td class="Edit">
+                    <el-button type="success" icon="el-icon-edit" size="mini" @click="onClickEditCart(order.item, order.num, order.id)"></el-button>
                 </td>
               </tr>
             </tbody>
           </table>
           <div>
-              <el-button type="primary" icon="el-icon-money" size="small" @click="onClickCheckOut">Check Out</el-button>
+              <el-button type="primary" icon="el-icon-money" size="small" @click="onClickCheckOut">CheckOut</el-button>
               <el-button type="danger" icon="el-icon-delete" size="small" @click="onClickRemoveCart">Remove</el-button>
           </div>
         </div>
@@ -114,7 +120,7 @@
                     {{item.name}}
                 </td>
                 <td class="Price">
-                    {{item.cost}}
+                    ${{item.cost}}
                 </td>
                 <td class="Amount">
                     {{item.amount}}
@@ -159,7 +165,7 @@
                     {{order.num}}
                 </td>
                 <td class="Price">
-                    {{order.price}}
+                    ${{order.price}}
                 </td>
                 <td class="check">
                     <el-button v-if="checkClient()" type="primary" size="small" @click="onClickComment(order.id)">Leave Comment</el-button>
@@ -186,12 +192,14 @@ export default {
       selected: [],
       selectAll: false,
       activeIndex: '1',
-      selectedContent: 'info'
+      activeIndexV: this.$route.params.ind,
+      selectedContent: this.$route.params.tab
     }
   },
   created() {
     this.getInfo()
     this.getOrders()
+    this.selectedContent = this.$route.params.tab
   },
   computed: {
     cart() {
@@ -227,7 +235,7 @@ export default {
           this.onClickShop()
         } else if (key === '3') {
           this.onClickUpload()
-        } else {
+        } else if (key === '6') {
           this.onClickLogout()
         }
       },
@@ -262,6 +270,29 @@ export default {
       },
       onClickComment(id) {
         console.log("comment: ", id)
+      },
+      onClickEditCart(item, num, id) {
+        console.log(item,id)
+        this.$prompt('Please Enter New Amount to Buy. Old Amount: ' + num, 'Edit Cart: '+item, {
+          confirmButtonText: 'Submit',
+          cancelButtonText: 'Cancel',
+          inputPattern: '',
+          inputErrorMessage: 'Please Enter a Valid Number'
+        }).then(({ value }) => {
+          this.$store.dispatch('cart/editCart', {newAmount: value, id: id}).then(() => {
+              this.$message({
+                type: 'success',
+                message: 'Edit Cary Success, New Amount: ' + num
+              });
+            }).catch((error) => {
+              this.$message.error('Edit Cart Failed: '+error);
+            });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Edit Cart Canceled'
+          });       
+        });
       },
       onClickEditInfo() {
         let nameparam = this.name

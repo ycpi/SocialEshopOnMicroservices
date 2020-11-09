@@ -17,6 +17,10 @@ const mutations = {
     ADD_CART: (state, order) => {
         state.cart.push(order)
     },
+    EDIT_CART: (state, order, index) => {
+        state.cart[index].price = order.price
+        state.cart[index].num = order.num
+    },
     REMOVE_CART: (state, ID) => {
         state.cart.splice(ID,1)
     }
@@ -135,6 +139,34 @@ const actions = {
         })
     },
     */
+    //new
+    editCart({ commit }, editInfo) {
+        console.log(editInfo)
+        var token = getToken()
+        var url = '/api/cart/edit'
+        var config = {headers:{Authorization: 'Bearer ' + token}}
+        return new Promise((resolve, reject) => {
+            axios.post(url,{
+                    newAmount: editInfo.newAmount,
+                    id: editInfo.id
+                },config
+                ).then(response => {
+                    console.log("cart id: ", response.data)
+                    var order = {price: response.data.cost, num: response.data.amount};
+                    let index = 0
+                    for (let i = 0; i < state.cart.length; i++) {
+                        if (state.cart[i].id === editInfo.id) {
+                            index = i
+                            break
+                        }
+                    }
+                    commit('EDIT_CART', order, index)
+                    resolve(response)
+            }).catch (error => {
+                reject(error)
+            })
+        })
+    },
     //new
     addOrderToCart({ commit }, orderInfo) {
         console.log(orderInfo)

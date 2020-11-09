@@ -2,7 +2,9 @@
   <div class="login-container">
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
-        <el-menu-item index="2">Profile</el-menu-item>
+        <el-menu-item index="2"><i class="el-icon-user-solid"></i></el-menu-item>
+        <el-menu-item index="4">Posted</el-menu-item>
+        <el-menu-item index="3">Customer Orders</el-menu-item>
     </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
@@ -195,16 +197,20 @@ export default {
     handleSelect(key) {
         if (key === '1') {
           this.$router.push('/')
-        } else {
-            this.onClickPersonal()
+        } else if (key === '3') {
+            this.onClickPersonal('sell','5')
+        } else if (key === '4') {
+           this.onClickPersonal('posted','4')
+        } else if (key === '2') {
+            this.onClickPersonal('info','1')
         }
     },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
     },
-    onClickPersonal() {
-        this.$router.push('/profile');
+    onClickPersonal(tab,ind) {
+        this.$router.push({ name: 'Profile', params: { tab: tab, ind: ind } })
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
@@ -219,7 +225,7 @@ export default {
               });
               this.loading = false
               this.$refs.loginForm.resetFields();
-              this.$router.push('/profile')
+              this.onClickPersonal('posted','4')
             }).catch((error) => {
               console.log(error)
               this.$notify.error({

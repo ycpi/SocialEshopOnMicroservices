@@ -2,7 +2,9 @@
   <div class="ShopPageContainer">
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
-        <el-menu-item index="2">Profile</el-menu-item>
+        <el-menu-item index="2"><i class="el-icon-user-solid"></i></el-menu-item>
+        <el-menu-item index="3">Your Cart</el-menu-item>
+        <el-menu-item index="4">Your Orders</el-menu-item>
         <el-menu-item index="6" class="right-menu-2">Log Out</el-menu-item>
       </el-menu>
       <el-col :span="6" class="nav">
@@ -82,7 +84,11 @@ export default {
             if (key === '1') {
                 this.onClickHome()
             } else if (key === '2') {
-                this.onClickProfile()
+                this.onClickProfile('info','1')
+            } else if (key === '3') {
+                this.onClickProfile('cart','2')
+            } else if (key === '4') {
+                this.onClickProfile('order','3')
             } else {
                 this.onClickLogout()
             }
@@ -121,8 +127,8 @@ export default {
         onClickHome() {
             this.$router.push('/');
         },
-        onClickProfile() {
-            this.$router.push('/profile');
+        onClickProfile(tab,ind) {
+            this.$router.push({ name: 'Profile', params: { tab: tab, ind: ind } })
         },
         onClickCheck(name) {
             this.$router.push({ name: 'Buy', params: { name: name } })

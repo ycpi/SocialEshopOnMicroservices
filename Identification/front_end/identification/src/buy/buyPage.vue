@@ -3,8 +3,10 @@
         <el-row >
         <el-menu :default-active="activeIndex" class="el-menu-h" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
+        <el-menu-item index="2"><i class="el-icon-user-solid"></i></el-menu-item>
         <el-menu-item index="4" >Shopping</el-menu-item>
-        <el-menu-item index="2" >Profile</el-menu-item>
+        <el-menu-item index="5" >Your Cart</el-menu-item>
+        <el-menu-item index="6" >Your Orders</el-menu-item>
         <el-menu-item index="3" class="right-menu-2">Log Out</el-menu-item>
         </el-menu>
         </el-row>   
@@ -67,7 +69,11 @@ export default {
         if (key === '1') {
             this.onClickHome()
         } else if (key === '2') {
-            this.onClickProfile()
+            this.onClickProfile('info','1')
+        } else if (key === '5') {
+            this.onClickProfile('cart','2')
+        } else if (key === '6') {
+            this.onClickProfile('order','3')
         } else if (key === '4') {
             this.onClickShop()
         } else {
@@ -80,9 +86,9 @@ export default {
       onClickShop() {
         this.$router.push('/shop');
       },
-      onClickProfile() {
-        this.$router.push('/profile');
-        },
+      onClickProfile(tab,ind) {
+        this.$router.push({ name: 'Profile', params: { tab: tab, ind: ind } })
+      },
       onClickLogout() {
         this.$store.dispatch('user/logout')
           .then(() => {

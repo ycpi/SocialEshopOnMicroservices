@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
-        <el-menu-item index="2">Profile</el-menu-item>
+        <el-menu-item index="2"><i class="el-icon-user-solid"></i></el-menu-item>
     </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
@@ -197,11 +197,11 @@ export default {
         if (key === '1') {
           this.$router.push('/')
         } else {
-            this.onClickPersonal()
+            this.onClickPersonal('info','1')
         }
     },
-    onClickPersonal() {
-        this.$router.push('/profile');
+    onClickPersonal(tab,ind) {
+        this.$router.push({ name: 'Profile', params: { tab: tab, ind: ind } })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
