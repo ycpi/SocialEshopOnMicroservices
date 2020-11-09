@@ -17,9 +17,9 @@ const mutations = {
     ADD_CART: (state, order) => {
         state.cart.push(order)
     },
-    EDIT_CART: (state, order, index) => {
-        state.cart[index].price = order.price
-        state.cart[index].num = order.num
+    EDIT_CART: (state, info) => {
+        state.cart[info.index].price = info.order.price
+        state.cart[info.index].num = info.order.num
     },
     REMOVE_CART: (state, ID) => {
         state.cart.splice(ID,1)
@@ -141,7 +141,6 @@ const actions = {
     */
     //new
     editCart({ commit }, editInfo) {
-        console.log(editInfo)
         var token = getToken()
         var url = '/api/cart/edit'
         var config = {headers:{Authorization: 'Bearer ' + token}}
@@ -151,7 +150,6 @@ const actions = {
                     id: editInfo.id
                 },config
                 ).then(response => {
-                    console.log("cart id: ", response.data)
                     var order = {price: response.data.cost, num: response.data.amount};
                     let index = 0
                     for (let i = 0; i < state.cart.length; i++) {
@@ -160,7 +158,7 @@ const actions = {
                             break
                         }
                     }
-                    commit('EDIT_CART', order, index)
+                    commit('EDIT_CART', {order: order, index: index})
                     resolve(response)
             }).catch (error => {
                 reject(error)

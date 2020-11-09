@@ -272,21 +272,24 @@ export default {
         console.log("comment: ", id)
       },
       onClickEditCart(item, num, id) {
-        console.log(item,id)
         this.$prompt('Please Enter New Amount to Buy. Old Amount: ' + num, 'Edit Cart: '+item, {
           confirmButtonText: 'Submit',
           cancelButtonText: 'Cancel',
-          inputPattern: '',
+          inputPattern: /^[1-9][0-9]*$/,
           inputErrorMessage: 'Please Enter a Valid Number'
         }).then(({ value }) => {
-          this.$store.dispatch('cart/editCart', {newAmount: value, id: id}).then(() => {
-              this.$message({
-                type: 'success',
-                message: 'Edit Cary Success, New Amount: ' + num
+          if (value - num != 0) {
+            this.$store.dispatch('cart/editCart', {newAmount: value, id: id}).then(() => {
+                this.$message({
+                  type: 'success',
+                  message: 'Edit Cary Success, New Amount: ' + num
+                });
+              }).catch((error) => {
+                this.$message.error('Edit Cart Failed: '+error);
               });
-            }).catch((error) => {
-              this.$message.error('Edit Cart Failed: '+error);
-            });
+          } else {
+            this.$message.error('Edit Cart Error: Please Enter a Different Number');
+          }
         }).catch(() => {
           this.$message({
             type: 'info',
