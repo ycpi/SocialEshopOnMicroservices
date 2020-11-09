@@ -107,8 +107,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         System.out.println(loginRequest.getUsername()+","+loginRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = null;
+        try{
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Login failed!"));
+        }
+
         
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -132,8 +139,14 @@ public class AuthController {
         String password = verifyUserRequest.getPassword();
         String passwordToken = encoder.encode(password);
         // get password token
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username,password));
+        Authentication authentication = null;
+        try { // fixed: CORS bug
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Login failed!"));
+        }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);

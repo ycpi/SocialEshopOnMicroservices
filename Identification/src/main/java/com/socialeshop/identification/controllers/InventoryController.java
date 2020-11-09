@@ -102,7 +102,7 @@ Json Fomat
                     description: description
  */
     @PostMapping("/edit")
-    public ResponseEntity<?> deleteInventory(@Valid @RequestBody EditRequest editRequest){
+    public ResponseEntity<?> editInventory(@Valid @RequestBody EditRequest editRequest){
         Long editID = editRequest.getId();
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("edit userName:"+userName+ "edit ID:"+ editID);
@@ -119,6 +119,7 @@ Json Fomat
             curInventory.setAmount(amount);
             curInventory.setTag(tag);
             curInventory.setDescription(description);
+            curInventory.setCost(cost);
             inventoryRepository.saveAndFlush(curInventory);
             System.out.println("Edit succesfully!");
         }
@@ -131,7 +132,7 @@ Json Fomat
 
 
     @PostMapping("/delete")
-    public ResponseEntity<?> editInventory(@Valid @RequestBody DeleteRequest deleteRequest){
+    public ResponseEntity<?> deleteInventory(@Valid @RequestBody DeleteRequest deleteRequest){
         System.out.println("ID: " + deleteRequest.getId());
         Long deleteID = deleteRequest.getId();
 
