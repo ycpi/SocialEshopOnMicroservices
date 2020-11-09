@@ -1,6 +1,7 @@
 package com.socialeshop.identification.controllers;
 
 import com.socialeshop.identification.Security.UserDetailsImpl;
+import com.socialeshop.identification.models.ERole;
 import com.socialeshop.identification.models.Inventory;
 import com.socialeshop.identification.models.Cart;
 import com.socialeshop.identification.payloads.*;
@@ -38,6 +39,19 @@ public class OrderController {
         System.out.println("Get cart: current username: "+ username);
         List<Cart> cartList_db = cartRepository.findAll();
         List<SingleCart> cartList = new ArrayList<>();
+        // check if business or normal user
+        ERole curUserRole = ERole.normal;
+        if(userRepository.findByUsername(username).isPresent()){
+            curUserRole = userRepository.findByUsername(username).get().getRole();
+        }
+        // if business user
+        if(curUserRole.equals(ERole.business)){
+            for(Cart cart: cartList_db){
+                if(cart.isOrder() && cart.getInventory().getUser().getUsername().equals(username))
+                    cartList.add(new SingleCart(cart));
+            }
+        }
+        // if nornal user
         for(Cart cart: cartList_db){
             if(cart.isOrder() && cart.getUser().getUsername().endsWith(username))
                 cartList.add(new SingleCart(cart));

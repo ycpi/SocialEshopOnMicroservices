@@ -130,7 +130,6 @@ public class AuthController {
     public ResponseEntity<?> verifyUser(@Valid @RequestBody VerifyUserRequest verifyUserRequest){
         String username = verifyUserRequest.getUsername();
         String password = verifyUserRequest.getPassword();
-
         String passwordToken = encoder.encode(password);
         // get password token
         Authentication authentication = authenticationManager.authenticate(
