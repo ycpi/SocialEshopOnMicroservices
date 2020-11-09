@@ -4,9 +4,9 @@
       <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
       <el-menu-item index="2" v-if="checkLogin()">Log In</el-menu-item>
       <el-menu-item index="3" v-if="checkLogin()">Sign Up</el-menu-item>
+      <el-menu-item index="8" v-if="!checkLogin()"><i class="el-icon-user-solid"></i></el-menu-item>
       <el-menu-item index="4" v-else-if="checkClient()">Shopping</el-menu-item>
       <el-menu-item index="5" v-else>Post Item</el-menu-item>
-      <el-menu-item index="8" v-if="!checkLogin()">Profile</el-menu-item>
       <el-menu-item index="7" v-if="checkLogin()" class="right-menu-2"><a href="https://github.com/ycpi/SocialEshopOnMicroservices"><i class="el-icon-more"></i></a></el-menu-item>
       <el-menu-item index="6" v-else class="right-menu-2">Log Out</el-menu-item>
     </el-menu>

@@ -14,7 +14,7 @@
 
       <el-form-item prop="username">
         <span>
-          <i class="el-icon-user"></i>
+          <i class="el-icon-user"> Username</i>
         </span>
         <el-input
           ref="username"
@@ -30,7 +30,7 @@
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span>
-            <i class="el-icon-key"></i>
+            <i class="el-icon-key"> Password</i>
           </span>
           <el-input
             :key="passwordType"

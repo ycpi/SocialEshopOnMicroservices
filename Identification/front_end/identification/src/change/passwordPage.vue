@@ -20,7 +20,7 @@
                 :key="passwordType"
                 ref="oldPassword"
                 v-model="loginForm.oldPassword"
-                :type="passwordType"
+                :type="oldpasswordType"
                 :disabled="!this.loginForm.unverified"
                 placeholder="You Need to Verify with Old Password to Change Password"
                 name="oldPassword"
@@ -31,8 +31,8 @@
                 @keyup.enter.native="handleLogin"
             >
             </el-input>
-            <span class="show-pwd" @click="showPwd">
-                <i class="el-icon-view"></i>
+            <span class="show-pwd">
+                <i class="el-icon-view" @click="showOldPwd"></i>
                 &nbsp;
                 <el-button v-if="this.loginForm.unverified" plain size=small slot="append" @click="onClickVerifyUser()">Verify</el-button>
             </span>
@@ -122,6 +122,7 @@ export default {
         address: [{ required: true, trigger: 'blur', validator: validateAddress }]
       },
       passwordType: 'password',
+      oldpasswordType: 'password',
       capsTooltip: false,
       loading: false,
       showDialog: false,
@@ -184,6 +185,16 @@ export default {
         this.$refs.password.focus()
       })
     },
+    showOldPwd() {
+      if (this.oldpasswordType === 'password') {
+        this.oldpasswordType = ''
+      } else {
+        this.oldpasswordType = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.oldPassword.focus()
+      })
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -192,7 +203,7 @@ export default {
             .then(() => {
               this.$notify({
                 title: 'Success',
-                message: 'Edit Profile Success, User: '+this.loginForm.username,
+                message: 'Change Password Success',
                 type: 'success'
               });
               this.$router.push('/profile')

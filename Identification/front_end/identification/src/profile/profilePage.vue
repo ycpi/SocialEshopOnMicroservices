@@ -36,9 +36,9 @@
             <i class="el-icon-location-outline"></i>    {{this.address}}
           </el-row>
           <div>
-            <el-button type="primary" plain @click="onClickEditInfo" class="infoButton" icon="el-icon-edit">Profile</el-button>
-            <el-button  @click="onClickEditPsw" class="infoButton" plain icon="el-icon-edit">Password</el-button>
+            <el-button type="primary" plain @click="onClickEditInfo" class="infoButton"> Edit Profile</el-button>
           </div>
+          <el-button  @click="onClickEditPsw" class="infoButton" plain> Change Password</el-button>
           </el-row>
         </div>
         <div class="Cart" v-if="checkClient() && selectedCart()">
@@ -132,7 +132,7 @@
             </tbody>
           </table>
         </div>
-        <div class="Items" v-if="checkClient() && selectedOrder()">
+        <div class="Items" v-if="(checkClient() && selectedOrder()) || (!checkClient() && selectedSell())">
           <h3 class="title">Your Orders</h3>
           <table>
             <thead>
@@ -162,7 +162,8 @@
                     {{order.price}}
                 </td>
                 <td class="check">
-                    <el-button type="primary" icon="el-icon-edit" size="small" @click="onClickComment(order.id)"></el-button>
+                    <el-button v-if="checkClient()" type="primary" size="small" @click="onClickComment(order.id)">Leave Comment</el-button>
+                    <el-button v-else type="primary" size="small" @click="onClickComment(order.id)">Check Comment</el-button>
                 </td>
               </tr>
             </tbody>
@@ -200,11 +201,6 @@ export default {
       return this.$store.getters.item;
     },
     order() {
-      //this.$store.dispatch('order/getOrder',this.name).then(() => {return this.$store.getters.order;})
-      return this.$store.getters.order;
-    },
-    businessOrder() {
-      //this.$store.dispatch('order/getBusinessOrder',this.name).then(() => {return this.$store.getters.businessorder;})
       return this.$store.getters.order;
     }
   },
@@ -218,7 +214,7 @@ export default {
       getOrders() {
         if (this.role === 'business') {
             this.$store.dispatch('category/getBusinessItems',this.name)
-            this.$store.dispatch('category/getOrder',this.name)
+            this.$store.dispatch('cart/getOrder',this.name)
         } else if (this.role === 'normal') {
             this.$store.dispatch('cart/getCart',this.name)
             this.$store.dispatch('cart/getOrder',this.name)
@@ -382,9 +378,8 @@ export default {
     text-align: left;
   }
   .infoButton {
-    width: 45%;
-    padding-left: 1%;
-    padding-right: 1%;
+    width: 96%;
+    padding: 2%;
   }
  .body {
     height: 100%;

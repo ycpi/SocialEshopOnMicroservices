@@ -13,11 +13,13 @@ public class Application {
     }
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-        String authServer = "http://localhost:9090";
-        String cartServer = "http://localhost:9090";
-        String categoryServer = "http://localhost:9090";
-        //String cartServer = "http://10.56.13.17:9090";
-        //String categoryServer = "http://10.56.13.17:9090";
+        //String authServer = "http://localhost:9090";
+        //String cartServer = "http://localhost:9090";
+        //String categoryServer = "http://localhost:9090";
+        String authServer = "http://10.56.13.17:9090";
+        String cartServer = "http://10.56.13.17:9090";
+        String categoryServer = "http://10.56.13.17:9090";
+        String orderServer = "http://10.56.13.17:9090";
         return builder.routes()
                 .route(p -> p
                         .path("/auth/**")
@@ -28,6 +30,9 @@ public class Application {
                 .route(p -> p
                         .path("/category/**")
                         .uri(categoryServer))
+                .route(p -> p
+                        .path("/order/**")
+                        .uri(orderServer))
                 .build();
     }
 }
