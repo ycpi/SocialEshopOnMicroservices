@@ -165,6 +165,8 @@ export default {
       this.$refs.email.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
+    } else {
+      this.$refs.address.focus()
     }
   },
   destroyed() {

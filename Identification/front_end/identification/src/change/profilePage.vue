@@ -176,7 +176,7 @@ export default {
                 message: 'Edit Profile Success, User: '+this.loginForm.username,
                 type: 'success'
               });
-              this.$router.push('/profile')
+              this.onClickPersonal('info','1')
               this.loading = false
             })
             .catch((error) => {

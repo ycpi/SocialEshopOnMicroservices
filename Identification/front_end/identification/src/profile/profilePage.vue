@@ -152,8 +152,6 @@
                 <th class="Price">
                   Price
                 </th>
-                <th class="check">
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -166,10 +164,6 @@
                 </td>
                 <td class="Price">
                     ${{order.price}}
-                </td>
-                <td class="check">
-                    <el-button v-if="checkClient()" type="primary" size="small" @click="onClickComment(order.id)">Leave Comment</el-button>
-                    <el-button v-else type="primary" size="small" @click="onClickComment(order.id)">Check Comment</el-button>
                 </td>
               </tr>
             </tbody>
@@ -237,6 +231,8 @@ export default {
           this.onClickUpload()
         } else if (key === '6') {
           this.onClickLogout()
+        } else if (key === '4') {
+          this.selectedContent = 'info'
         }
       },
       handleSelectV(key) {

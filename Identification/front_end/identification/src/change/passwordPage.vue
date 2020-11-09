@@ -64,7 +64,7 @@
             </el-form-item>
         </el-tooltip>
         
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">Submit</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin" v-bind:disabled=this.loginForm.unverified >Submit</el-button>
 
     </el-form>
   </div>
@@ -206,7 +206,7 @@ export default {
                 message: 'Change Password Success',
                 type: 'success'
               });
-              this.$router.push('/profile')
+              this.onClickPersonal('info','1')
               this.loading = false
             })
             .catch((error) => {
