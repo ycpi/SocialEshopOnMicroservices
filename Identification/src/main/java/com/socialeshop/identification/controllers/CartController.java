@@ -121,4 +121,26 @@ public class CartController {
     }
 
 
+    // edit items from cart
+    @PostMapping("/edit")
+    public ResponseEntity<?> editItems(@Valid @RequestBody EditItemsRequest editItemsRequest){
+        Long id = editItemsRequest.getId();
+        int newAmount = editItemsRequest.getNewAmount();
+
+        Optional<Cart> cartOptional = cartRepository.findById(id);
+
+        if(cartOptional.isPresent()){
+            Cart curCart = cartOptional.get();
+            curCart.setAmount(newAmount);
+            int newCost = curCart.getInventory().getCost() * newAmount;
+            curCart.setCost(newCost);
+            cartRepository.saveAndFlush(curCart);
+            return ResponseEntity.ok(new EditCartResponse(newCost, newAmount));
+        }
+
+        return ResponseEntity.badRequest().body("Edit Cart Failed!");
+
+    }
+
+
 }
