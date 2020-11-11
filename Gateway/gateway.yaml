@@ -1,0 +1,41 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "gateway"
+  namespace: "default"
+  labels:
+    app: "gateway"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "gateway"
+  template:
+    metadata:
+      labels:
+        app: "gateway"
+    spec:
+      containers:
+        - name: "mygateway-sha256-1"
+          image: "gcr.io/proven-wavelet-290518/mygateway:v3"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "gateway-hpa-wejw"
+  namespace: "default"
+  labels:
+    app: "gateway"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "gateway"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80

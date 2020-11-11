@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "com.socialeshop.identification.jwtSecret",
+      "type": "java.lang.String",
+      "description": "Description for com.socialeshop.identification.jwtSecret."
+  }
+] }

@@ -1,0 +1,41 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "springapp-id"
+  namespace: "default"
+  labels:
+    app: "springapp-id"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "springapp-id"
+  template:
+    metadata:
+      labels:
+        app: "springapp-id"
+    spec:
+      containers:
+        - name: "myspring-sha256-1"
+          image: "gcr.io/proven-wavelet-290518/myspring:v10"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "springapp-id-hpa-uv3k"
+  namespace: "default"
+  labels:
+    app: "springapp-id"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "springapp-id"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80

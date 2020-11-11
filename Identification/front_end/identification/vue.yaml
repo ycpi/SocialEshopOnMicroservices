@@ -1,0 +1,41 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "frontend"
+  namespace: "default"
+  labels:
+    app: "frontend"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "frontend"
+  template:
+    metadata:
+      labels:
+        app: "frontend"
+    spec:
+      containers:
+      - name: "myimage-sha256-1"
+        image: "gcr.io/proven-wavelet-290518/myvue:v10"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "frontend-hpa-vvhv"
+  namespace: "default"
+  labels:
+    app: "frontend"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "frontend"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80

@@ -1,10 +1,7 @@
-![Gradle Package](https://github.com/ycpi/SocialEshopOnMicroservices/workflows/Gradle%20Package/badge.svg)
-
-
 # SocialEshopOnMicroservices
-
-
-
+[![CircleCI](https://circleci.com/gh/vercel/micro/tree/master.svg?style=shield)](https://circleci.com/gh/vercel/micro/tree/master)
+[![Install Size](https://packagephobia.now.sh/badge?p=micro)](https://packagephobia.now.sh/result?p=micro)
+![Gradle Package](https://github.com/ycpi/SocialEshopOnMicroservices/workflows/Gradle%20Package/badge.svg)
 
 ## Statement of goals
 Nowadays, many social apps will match you with others based on some quiz. But we think these quizzes can hardly be used to predict one's appetite in making friends. So we are thinking about using the transaction history data to match people up. 
@@ -36,15 +33,17 @@ Nowadays, many social apps will match you with others based on some quiz. But we
 			1. Provide authentication and verification for users 
    
       	- API design:(Followed the format of /ResourceName/{ResourceID}/ChildResourceName/{ChildResourceID})
-      		- URL: http://localhost/profile
+      		- URL: http://localhost/9090/auth
+      		- POST .../signup -> Normal user Sign up
+    		- POST .../signup/business -> Business user sign up
+      		- POST .../login -> Log in
+ 
       		- GET /profile -> Get all profile list
       		- POST /profile ->  Create a new profile
       		- GET /profile/{ID} -> Get the profile with user ID 
       		- PUT /profile/{ID} -> Admend the profile with user ID
       		- DELETE /profile/{ID} -> Delete the profile with user ID 
       		- GET /profile/{ID}/all -> Get all the information in the profile with user ID 
-      		- POST /authorization -> Log in
-      		- DELETE /authorization -> Log out
 					 
     1. Basket module
         - Database:
@@ -62,13 +61,13 @@ Nowadays, many social apps will match you with others based on some quiz. But we
 
     4. Catalog module
 		- Database:
-			ID|Bussiness_User_ID|Name|Type|Price|Count|Discount|Description
+			ID|name|cost|amount|Description
 		- Function:
 			1. CRUD
 			2. add item to basket 
    
    - FrontEnd logic:
-	1. Login\Signup page:
+	3. Login\Signup page:
 		call function in Identification service
 	3. Profile page:
 		call function in Baskets,Ordering services

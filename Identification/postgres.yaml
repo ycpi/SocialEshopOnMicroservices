@@ -1,0 +1,75 @@
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "postgres-id-config-fkhq"
+  namespace: "default"
+  labels:
+    app: "postgres-id"
+data:
+  POSTGRES_DB: "Identification"
+  POSTGRES_HOST_AUTH_METHOD: "trust"
+  POSTGRES_PASSWORD: "123456"
+  POSTGRES_USER: "eshop"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "postgres-id"
+  namespace: "default"
+  labels:
+    app: "postgres-id"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "postgres-id"
+  template:
+    metadata:
+      labels:
+        app: "postgres-id"
+    spec:
+      containers:
+        - name: "mypq-sha256-1"
+          image: "gcr.io/proven-wavelet-290518/mypq:v1"
+          env:
+            - name: "POSTGRES_DB"
+              valueFrom:
+                configMapKeyRef:
+                  key: "POSTGRES_DB"
+                  name: "postgres-id-config-fkhq"
+            - name: "POSTGRES_HOST_AUTH_METHOD"
+              valueFrom:
+                configMapKeyRef:
+                  key: "POSTGRES_HOST_AUTH_METHOD"
+                  name: "postgres-id-config-fkhq"
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  key: "POSTGRES_PASSWORD"
+                  name: "postgres-id-config-fkhq"
+            - name: "POSTGRES_USER"
+              valueFrom:
+                configMapKeyRef:
+                  key: "POSTGRES_USER"
+                  name: "postgres-id-config-fkhq"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "postgres-id-hpa-vmyw"
+  namespace: "default"
+  labels:
+    app: "postgres-id"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "postgres-id"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 1
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80
