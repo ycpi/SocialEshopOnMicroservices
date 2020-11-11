@@ -7,5 +7,5 @@ public interface UserService {
     @GetMapping(
             value    = "/product/{productId}",
             produces = "application/json")
-    User getUser(@PathVariable int productId);
+    UserInfo getUser(@PathVariable int productId);
 }

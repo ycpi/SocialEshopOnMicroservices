@@ -17,7 +17,7 @@ Nowadays, many social apps will match you with others based on some quiz. But we
 		
 		- Security:
   		    - Using spring default security architecture
-  		    - OATH 2(login with 3rd party service account)
+  		    - OATH 2(login with 3rd party com.socialeshop.microservices.composite.inventory.services account)
         
 		- Permission:
     		- Normal com.socialeshop.api.core.user's account permission
@@ -63,7 +63,7 @@ Nowadays, many social apps will match you with others based on some quiz. But we
    
    - FrontEnd logic:
 	3. Login\Signup page:
-		call function in Identification service
+		call function in Identification com.socialeshop.microservices.composite.inventory.services
 	3. Profile page:
 		call function in Baskets,Ordering services
 

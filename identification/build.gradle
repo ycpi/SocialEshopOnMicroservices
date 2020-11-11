@@ -5,7 +5,7 @@ plugins {
     id 'idea'
 }
 
-group = 'com.socialEshop.core.identification'
+group = 'com.socialeshop.core.identification'
 
 dependencies {
     implementation project(':api')

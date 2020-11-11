@@ -1,5 +1,7 @@
 package com.socialeshop.api.core.inventory;
 
+import com.socialeshop.api.core.user.UserInfo;
+
 public class Inventory {
 
     private Long id;
@@ -11,6 +13,10 @@ public class Inventory {
     private int amount;
 
     private String description;
+
+    private String tag;
+
+    private UserInfo userInfo;
 
     public Inventory() {
         this.id = 0L;
@@ -63,5 +69,21 @@ public class Inventory {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 }

@@ -1,0 +1,17 @@
+plugins {
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+    id 'java'
+    id 'idea'
+}
+
+group = 'com.socialEshop.microservices.composite.inventory'
+
+dependencies {
+    implementation project(':api')
+    implementation project(':util')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('io.projectreactor:reactor-test')
+}

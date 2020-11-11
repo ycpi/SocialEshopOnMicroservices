@@ -1,0 +1,12 @@
+server.port: 7000
+server.error.include-message: always
+
+app:
+  inventory_service:
+    host: localhost
+    port: 7001
+
+logging:
+  level:
+    root: INFO
+    com.socialeshop: DEBUG
