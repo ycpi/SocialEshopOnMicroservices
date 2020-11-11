@@ -1,9 +1,7 @@
 package com.socialeshop.identification.repositories;
 
-import com.socialeshop.identification.models.Inventory;
-import com.socialeshop.identification.models.User;
+import com.socialeshop.identification.inventory.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 

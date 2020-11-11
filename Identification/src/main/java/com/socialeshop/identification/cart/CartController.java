@@ -1,17 +1,15 @@
 package com.socialeshop.identification.controllers;
 
-import com.socialeshop.identification.Security.UserDetailsImpl;
 import com.socialeshop.identification.models.Inventory;
 import com.socialeshop.identification.models.Cart;
+import com.socialeshop.identification.order.GetCartResponse;
 import com.socialeshop.identification.payloads.*;
 import com.socialeshop.identification.repositories.CartRepository;
 import com.socialeshop.identification.repositories.InventoryRepository;
 import com.socialeshop.identification.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import com.socialeshop.identification.models.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
