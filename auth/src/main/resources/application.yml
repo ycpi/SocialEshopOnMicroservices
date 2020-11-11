@@ -1,0 +1,6 @@
+server:
+    port: 9401
+
+#spring:
+#    application:
+#        name: auth-service

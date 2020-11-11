@@ -1,7 +1,7 @@
-package com.socialeshop.identification.Security;
+package com.socialeshop.auth.Security;
 
-import com.socialeshop.identification.Security.jwt.AuthEntryPointJwt;
-import com.socialeshop.identification.Security.jwt.AuthTokenFilter;
+import com.socialeshop.auth.Security.jwt.AuthEntryPointJwt;
+import com.socialeshop.auth.Security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.socialeshop.auth.Security.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
 
@@ -58,18 +59,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        com.socialEshop.util.http.cors().and().csrf().disable()
+//        http.cors().and().csrf().disable()
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                http.csrf().disable()
+        http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
 //                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .antMatchers("/auth/**").permitAll()
-                    .antMatchers("/category/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/category/**").permitAll()
+                .antMatchers("/cart/**").permitAll()
+                .antMatchers("/order/**").permitAll()
 //                    .anyRequest().permitAll().and()
-                    .anyRequest().authenticated().and()
-                    .formLogin().and()
-                    .httpBasic();
+                .anyRequest().authenticated().and()
+                .formLogin().and()
+                .httpBasic();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
