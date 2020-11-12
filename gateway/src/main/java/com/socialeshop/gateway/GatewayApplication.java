@@ -13,9 +13,10 @@ public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }
+
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-        String authServer = "http://localhost:9090";
+        String authServer = "http://localhost:9401";
         String cartServer = "http://localhost:9091";
         String categoryServer = "http://localhost:9092";
         String orderServer = "http://localhost:9093";

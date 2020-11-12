@@ -7,9 +7,6 @@ plugins {
 
 group = 'com.socialeshop.microservices.core.cart'
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
-
 repositories {
     mavenCentral()
 }

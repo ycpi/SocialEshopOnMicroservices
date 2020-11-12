@@ -6,9 +6,6 @@ plugins {
 
 group = 'com.socialeshop.gateway'
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
-
 repositories {
     mavenCentral()
 }

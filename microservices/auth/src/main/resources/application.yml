@@ -1,6 +1,23 @@
-server:
-    port: 9401
+server.port: 9401
 
-#spring:
-#    application:
-#        name: auth-service
+server.error.include-message: always
+
+debug: true
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    username: eshop
+    password: 123456
+    url: jdbc:postgresql://localhost:5432/identification
+
+  security:
+    user:
+      name: test
+      password: 123456
+
+jwtSecret: socialSecretKey
