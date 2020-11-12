@@ -1,9 +1,9 @@
 rootProject.name = "SocialEcommerce"
 
-include ':microservices:api'
+include ':api'
 //include ':util'
-include ':microservices:inventory_service'
-include ':microservices:order_service'
-include ':microservices:cart_service'
-include ':microservices:inventory_composite_service'
-include ':microservices:auth'
+include ':inventory_service'
+include ':order_service'
+include ':cart_service'
+include ':inventory_composite_service'
+include ':auth'
