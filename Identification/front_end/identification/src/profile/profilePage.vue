@@ -264,9 +264,6 @@ export default {
       checkClient() {
        return (this.$store.getters.role === 'normal')
       },
-      onClickComment(id) {
-        console.log("comment: ", id)
-      },
       onClickEditCart(item, num, id) {
         this.$prompt('Please Enter New Amount to Buy. Old Amount: ' + num, 'Edit Cart: '+item, {
           confirmButtonText: 'Submit',

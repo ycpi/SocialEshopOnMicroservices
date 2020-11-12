@@ -47,7 +47,7 @@
                     {{item.name}}
                 </td>
                 <td class="cost">
-                    {{item.cost}}
+                    ${{item.cost}}
                 </td>
                 <td class="description">
                     {{item.description}}

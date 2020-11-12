@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: "myimage-sha256-1"
-        image: "gcr.io/proven-wavelet-290518/myvue:v10"
+        image: "gcr.io/proven-wavelet-290518/myvue:v14"
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"

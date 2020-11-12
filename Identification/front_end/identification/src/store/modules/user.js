@@ -5,6 +5,7 @@ import cartModule from './cart'
 import itemModule from './category'
 
 const state = {
+    nil: '',
     token: getToken(),
     name: session.getUsername(),
     role: session.getRole(),
@@ -73,8 +74,8 @@ const actions = {
             })
         })
     },
-    verify(nullcontext, userPwd) {
-        console.log(nullcontext,userPwd)
+    verify({state}, userPwd) {
+        console.log(state.nil)
         var token = getToken()
         var config = {headers:{Authorization: 'Bearer '+ token}}
         return new Promise((resolve, reject) => {
@@ -88,8 +89,8 @@ const actions = {
             })
         })
     },
-    editPassword(nullcontext, userPwd) {
-        console.log(nullcontext, userPwd)
+    editPassword({state}, userPwd) {
+        console.log(state.nil)
         var url = '/api/auth/edit/password'
         var token = getToken()
         var config = {headers:{Authorization: 'Bearer '+ token}}
@@ -105,7 +106,6 @@ const actions = {
         })
     },
     edit({commit}, userInfo) {
-        console.log(userInfo)
         let oldusername = userInfo.username
         let email = userInfo.email
         let address = userInfo.address

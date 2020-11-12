@@ -18,6 +18,7 @@ const mutations = {
         state.cart.push(order)
     },
     EDIT_CART: (state, info) => {
+        console.log(info)
         state.cart[info.index].price = info.order.price
         state.cart[info.index].num = info.order.num
     },
@@ -33,13 +34,11 @@ const actions = {
         axios.get(url,{},config).then(response => {   
             var cart = []
                 var orders= response.data.cartList
-                console.log("cart: ", response.data)
                 for (var i = 0; i < orders.length; i++) {
                     cart.push({price: orders[i].cost, item: orders[i].inventoryname, num: orders[i].amount, id: orders[i].id});
                 }
                 commit('SET_CART', cart)
-            }).catch(error => {
-                console.log("Get Cart Failed: ", error)
+            }).catch(() => {
             });
     },
     getOrder({ commit }, username) {
@@ -49,13 +48,11 @@ const actions = {
         axios.get(url,{},config).then(response => {   
             var ordersBuf = []
             var orders= response.data.cartList
-            console.log("orders: ", orders)
             for (var i = 0; i < orders.length; i++) {
                 ordersBuf.push({price: orders[i].cost, item: orders[i].inventoryname, num: orders[i].amount, id: orders[i].id, rate: orders[i].rate, comment:orders[i].comment});
             }
             commit('SET_ORDER', ordersBuf)
-            }).catch(error => {
-                console.log("Get Order Failed: ", error)
+            }).catch(() => {
             });
     },
    /*
@@ -95,7 +92,6 @@ const actions = {
                     orders: orderList
                 },config
                 ).then(response => {
-                    console.log(response.data)
                     let status = response.data.checkoutStatus
                     for (let i = 0; i < status.length; i++) {
                         if ((status[i]-0) > 0) {
@@ -167,7 +163,6 @@ const actions = {
     },
     //new
     addOrderToCart({ commit }, orderInfo) {
-        console.log(orderInfo)
         var token = getToken()
         var url = '/api/cart/add'
         var config = {headers:{Authorization: 'Bearer ' + token}}
@@ -179,7 +174,6 @@ const actions = {
                     amount: orderInfo.num
                 },config
                 ).then(response => {
-                    console.log("cart id: ", response.data)
                     var order = {price: response.data.cost, item: response.data.item, num: response.data.amount, id: response.data.id};
                     commit('ADD_CART', order)
                     resolve(response)
@@ -190,7 +184,6 @@ const actions = {
     },
     //new
     removeOrderFromCart({commit, state}, orders) {
-        console.log(orders)
         var token = getToken()
         var url = '/api/cart/delete'
         var config = {headers:{Authorization: 'Bearer ' + token}}

@@ -160,7 +160,7 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          this.$message.error('Submit Failed, Check Errors in Form!');
           return false
         }
       })

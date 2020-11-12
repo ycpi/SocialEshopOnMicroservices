@@ -198,7 +198,6 @@ export default {
                 type: 'success'
             });
             }).catch((error) => {
-              console.log(error)
               this.$notify.error({
                     title: 'Post Item Error',
                     message: error,
@@ -207,7 +206,7 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          this.$message.error('Submit Failed, Check Errors in Form!');
           return false
         }
       })

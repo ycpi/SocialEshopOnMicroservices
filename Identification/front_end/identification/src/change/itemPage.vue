@@ -175,7 +175,6 @@ export default {
           this.loginForm.amount = items[i].amount
           this.loginForm.description = items[i].description
           this.loginForm.tag = items[i].tag
-          console.log(items[i].tag)
         }
       }
   },
@@ -227,7 +226,6 @@ export default {
               this.$refs.loginForm.resetFields();
               this.onClickPersonal('posted','4')
             }).catch((error) => {
-              console.log(error)
               this.$notify.error({
                     title: 'Edit Item Error',
                     message: error,
@@ -236,7 +234,7 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          this.$message.error('Submit Failed, Check Errors in Form!');
           return false
         }
       })

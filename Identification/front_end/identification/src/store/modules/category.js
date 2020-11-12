@@ -21,7 +21,6 @@ const mutations = {
 const actions = {
     getItems({ commit }, tag) {
         let url = '/api/category?tag=' + tag
-        console.log(url)
         axios.get(url,).then(result => {   
                 var items = []
                 var item = result.data.inventoryList
@@ -29,8 +28,7 @@ const actions = {
                     items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, tag: item[i].tag, id: item[i].id});
                 }
                 commit('SET_ITEM', items)
-            }).catch (error => {
-                console.log('err:'+error)
+            }).catch (() => {
             });
     },
     //new
@@ -43,8 +41,7 @@ const actions = {
                     items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, tag: item[i].tag, id: item[i].id});
                 }
                 commit('SET_ITEM', items)
-            }).catch (error => {
-                console.log('err:'+error)
+            }).catch (() => {
             });
     },
     //new
@@ -53,14 +50,12 @@ const actions = {
         axios.get(url).then(result => {
                 var items = []
                 var item = result.data.inventoryList
-                console.log("business item: ", item)
                 for (var i = 0; i < item.length; i++) {
                     items.push({name: item[i].itemName, cost: item[i].cost, description: item[i].description, amount: item[i].amount, id: item[i].id, tag:item[i].tag});
                 }
                 commit('SET_ITEM', items)
             })
-            .catch (error => {
-                console.log(error)
+            .catch (() => {
             })
     },
     //new
@@ -132,7 +127,6 @@ const actions = {
                     for (var i = 0; i < state.items.length; i++) {
                         if (state.items[i].id === id) {
                             commit('REMOVE_ITEM',i)
-                            console.log('deleted: ',id)
                             break
                         }
                     }
