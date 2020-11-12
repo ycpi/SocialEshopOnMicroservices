@@ -82,6 +82,8 @@ public class OrderController {
                     orderStatueList.add((long)-1);
                 }
                 else{
+                    // debug: update amount
+                    cartOptional.get().getInventory().setAmount(amountInInventory - amountInOrder);
                     orderStatueList.add(orderId);
                 }
                 cartOptional.get().setOrder(true);
