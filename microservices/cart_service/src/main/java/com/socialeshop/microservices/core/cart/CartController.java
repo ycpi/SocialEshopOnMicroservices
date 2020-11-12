@@ -1,16 +1,16 @@
 package com.socialeshop.microservices.core.cart;
 
 
-import com.socialeshop.api.core.DTO.SingleCart;
-import com.socialeshop.api.core.payloads.MessageResponse;
-import com.socialeshop.api.core.payloads.cart.*;
-import com.socialeshop.api.core.payloads.order.GetCartResponse;
-import com.socialeshop.api.model.Cart;
-import com.socialeshop.api.model.Inventory;
-import com.socialeshop.api.model.User;
-import com.socialeshop.api.repositories.CartRepository;
-import com.socialeshop.api.repositories.InventoryRepository;
-import com.socialeshop.api.repositories.UserRepository;
+import com.socialeshop.microservices.api.core.DTO.SingleCart;
+import com.socialeshop.microservices.api.core.payloads.MessageResponse;
+import com.socialeshop.microservices.api.core.payloads.cart.*;
+import com.socialeshop.microservices.api.core.payloads.order.GetCartResponse;
+import com.socialeshop.microservices.api.model.Cart;
+import com.socialeshop.microservices.api.model.Inventory;
+import com.socialeshop.microservices.api.model.User;
+import com.socialeshop.microservices.api.repositories.CartRepository;
+import com.socialeshop.microservices.api.repositories.InventoryRepository;
+import com.socialeshop.microservices.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

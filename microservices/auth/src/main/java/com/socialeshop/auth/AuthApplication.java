@@ -1,14 +1,13 @@
-package com.socialeshop.microservices.core.cart;
+package com.socialeshop.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@ComponentScan("com.socialeshop")
-public class CartApplication {
+public class AuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CartApplication.class, args);
+        SpringApplication.run(AuthApplication.class, args);
     }
 
 }

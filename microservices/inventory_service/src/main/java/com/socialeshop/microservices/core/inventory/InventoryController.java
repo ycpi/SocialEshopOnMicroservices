@@ -1,16 +1,16 @@
 package com.socialeshop.microservices.core.inventory;
 
-import com.socialeshop.api.core.DTO.SingleInventory;
-import com.socialeshop.api.core.payloads.MessageResponse;
-import com.socialeshop.api.core.payloads.inventory.DeleteRequest;
-import com.socialeshop.api.core.payloads.inventory.EditRequest;
-import com.socialeshop.api.core.payloads.inventory.InventoryResponse;
+import com.socialeshop.microservices.api.core.DTO.SingleInventory;
+import com.socialeshop.microservices.api.core.payloads.MessageResponse;
+import com.socialeshop.microservices.api.core.payloads.inventory.DeleteRequest;
+import com.socialeshop.microservices.api.core.payloads.inventory.EditRequest;
+import com.socialeshop.microservices.api.core.payloads.inventory.InventoryResponse;
 
-import com.socialeshop.api.core.payloads.inventory.UploadResponse;
-import com.socialeshop.api.model.Inventory;
-import com.socialeshop.api.model.User;
-import com.socialeshop.api.repositories.InventoryRepository;
-import com.socialeshop.api.repositories.UserRepository;
+import com.socialeshop.microservices.api.core.payloads.inventory.UploadResponse;
+import com.socialeshop.microservices.api.model.Inventory;
+import com.socialeshop.microservices.api.model.User;
+import com.socialeshop.microservices.api.repositories.InventoryRepository;
+import com.socialeshop.microservices.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;

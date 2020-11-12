@@ -1,18 +1,16 @@
 package com.socialeshop.microservice.core.order;
 
-import com.socialeshop.api.core.DTO.SingleCart;
-import com.socialeshop.api.core.payloads.order.GetCartResponse;
-import com.socialeshop.api.core.payloads.order.PostOrderRequest;
-import com.socialeshop.api.core.payloads.order.PostOrderResponse;
-import com.socialeshop.api.model.Cart;
-import com.socialeshop.api.model.ERole;
-import com.socialeshop.api.repositories.CartRepository;
-import com.socialeshop.api.repositories.InventoryRepository;
-import com.socialeshop.api.repositories.UserRepository;
+import com.socialeshop.microservices.api.core.DTO.SingleCart;
+import com.socialeshop.microservices.api.core.payloads.order.GetCartResponse;
+import com.socialeshop.microservices.api.core.payloads.order.PostOrderRequest;
+import com.socialeshop.microservices.api.core.payloads.order.PostOrderResponse;
+import com.socialeshop.microservices.api.model.Cart;
+import com.socialeshop.microservices.api.model.ERole;
+import com.socialeshop.microservices.api.repositories.CartRepository;
+import com.socialeshop.microservices.api.repositories.InventoryRepository;
+import com.socialeshop.microservices.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
