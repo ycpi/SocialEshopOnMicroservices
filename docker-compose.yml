@@ -14,62 +14,94 @@ services:
       POSTGRES_DB: Identification
 #    restart: unless-stopped
 
-  nacos:
-    image: nacos/nacos-server:1.3.1
-    container_name: nacos
-    depends_on:
-      - postgres
+  gateway:
+    container_name: gateway
+    build: gateway
+    user: root
+    ports:
+      - "9090:9090"
     environment:
-      MODE: standalone
-      NACOS_APPLICATION_PORT: 9999
-      JVM_XMS: 512m
-      JVM_MMS: 320m
-    volumes:
-      - ./docker/nacos/standalone-logs/:/home/nacos/logs
-      - ./docker/nacos/plugins/:/home/nacos/plugins
-      - ./docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
-    ports:
-      - "9999:9999"
-
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus:latest
-    volumes:
-      - ./docker/nacos/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9091:9090"
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
-      - nacos
-    restart: on-failure
+      postgres:
+        condition: service_healthy
 
-  grafana:
-    container_name: grafana
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    restart: on-failure
+  auth:
+    container_name: auth-server
+    build: microservices/auth
+    user: root
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      postgres:
+        condition: service_healthy
 
-#  springbootapp:
-#    container_name: identification-server
-#    build: identification
-#    user: root
+  inventory:
+    container_name: inventory-server
+    build: microservices/inventory_service
+    user: root
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  order:
+    container_name: order-server
+    build: microservices/order_service
+    user: root
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  cart:
+    container_name: cart-server
+    build: microservices/cart_service
+    user: root
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+
+#  nacos:
+#    image: nacos/nacos-server:1.3.1
+#    container_name: nacos
+#    depends_on:
+#      - postgres
+#    environment:
+#      MODE: standalone
+#      NACOS_APPLICATION_PORT: 9999
+#      JVM_XMS: 512m
+#      JVM_MMS: 320m
+#    volumes:
+#      - ./docker/nacos/standalone-logs/:/home/nacos/logs
+#      - ./docker/nacos/plugins/:/home/nacos/plugins
+#      - ./docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
 #    ports:
-#      - "9090:9090"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+#      - "9999:9999"
 #
-#  inventory:
-#    container_name: inventory-server
-#    build: microservices/inventory_service
-#    user: root
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
+#  prometheus:
+#    container_name: prometheus
+#    image: prom/prometheus:latest
+#    volumes:
+#      - ./docker/nacos/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
+#    ports:
+#      - "9091:9090"
 #    depends_on:
-#      postgres:
-#        condition: service_healthy
+#      - nacos
+#    restart: on-failure
+#
+#  grafana:
+#    container_name: grafana
+#    image: grafana/grafana:latest
+#    ports:
+#      - "3000:3000"
+#    restart: on-failure
 
 volumes:
   postgres-data:
