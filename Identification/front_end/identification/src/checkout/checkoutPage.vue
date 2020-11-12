@@ -74,7 +74,7 @@ export default {
         .catch((error) => {
           this.$notify.error({
               title: 'Place Order Error',
-              message: error.response.data.message,
+              message: error.message,
               duration: 0
           });
         })

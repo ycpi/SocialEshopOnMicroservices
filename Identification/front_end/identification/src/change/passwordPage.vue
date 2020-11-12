@@ -24,7 +24,7 @@
                 :disabled="!this.loginForm.unverified"
                 placeholder="You Need to Verify with Old Password to Change Password"
                 name="oldPassword"
-                tabindex="2"
+                tabindex="1"
                 autocomplete="on"
                 @keyup.native="checkCapslock"
                 @blur="capsTooltip = false"

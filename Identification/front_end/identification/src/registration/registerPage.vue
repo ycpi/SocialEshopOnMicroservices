@@ -1,8 +1,5 @@
 <template>
   <div class="login-container">
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1"><i class="el-icon-s-home"></i></el-menu-item>
-    </el-menu>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
         <div class="title-container">
@@ -11,7 +8,7 @@
 
         <el-form-item prop="username">
             <span>
-            <i class="el-icon-user"> Username</i>
+            <i class="el-icon-user"></i>
             </span>
             <el-input
             ref="username"
@@ -26,7 +23,7 @@
 
         <el-form-item prop="email">
             <span>
-            <i class="el-icon-message"> Email</i>
+            <i class="el-icon-message"></i>
             </span>
             <el-input
             ref="email"
@@ -34,7 +31,7 @@
             placeholder="Email"
             name="email"
             type="text"
-            tabindex="1"
+            tabindex="2"
             autocomplete="on"
             />
         </el-form-item>
@@ -42,7 +39,7 @@
         <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
             <el-form-item prop="password">
             <span>
-                <i class="el-icon-key"> Password</i>
+                <i class="el-icon-key"></i>
             </span>
             <el-input
                 :key="passwordType"
@@ -51,7 +48,7 @@
                 :type="passwordType"
                 placeholder="Password"
                 name="password"
-                tabindex="2"
+                tabindex="3"
                 autocomplete="on"
                 @keyup.native="checkCapslock"
                 @blur="capsTooltip = false"
@@ -65,7 +62,7 @@
 
         <el-form-item prop="address">
             <span>
-            <i class="el-icon-location-outline"> Address</i>
+            <i class="el-icon-house"></i>
             </span>
             <el-input
             ref="address"
@@ -73,7 +70,7 @@
             placeholder="Address"
             name="address"
             type="text"
-            tabindex="1"
+            tabindex="4"
             autocomplete="on"
             />
         </el-form-item>
@@ -96,26 +93,26 @@ export default {
         if (validUsername(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct user name with A-Z, a-z, 0-9'))
+            callback(new Error('Please enter the correct usersname with A-Z, a-z, 0-9'))
         }
     }
     const validateEmail = (rule, value, callback) => {
         if (validEmail(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct email address with format \'xxx@xxx.xxx\''))
+            callback(new Error('Please enter the correct email address with format \'example@example.com\''))
         }
     }
     const validateAddress = (rule, value, callback) => {
         if (validAddress(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct address'))
+            callback(new Error('Please enter the correct address with A-Z, a-z, 0-9, _, ., -, /, #, (, ), \\ '))
         }
     }
     const validatePassword = (rule, value, callback) => {
         if (value.length < 6) {
-            callback(new Error('The password can not be less than 6 digits'))
+            callback(new Error('The password can not be less than 6 characters'))
         } else {
             callback()
         }
@@ -139,7 +136,6 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
-      activeIndex: '1',
       otherQuery: {}
     }
   },
@@ -165,8 +161,6 @@ export default {
       this.$refs.email.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
-    } else {
-      this.$refs.address.focus()
     }
   },
   destroyed() {
@@ -199,11 +193,6 @@ export default {
           this.loading = true
           this.$store.dispatch('user/register', this.loginForm, this.isBusiness)
             .then(() => {
-              this.$notify({
-                title: 'Success',
-                message: 'Sign Up Success, User: '+this.loginForm.username,
-                type: 'success'
-              });
               this.$router.push('/')
               this.loading = false
             })
@@ -216,15 +205,10 @@ export default {
               this.loading = false
             })
         } else {
-          this.$message.error('Submit Failed, Check Errors in Form!');
+          console.log('error submit!!')
           return false
         }
       })
-    },
-    handleSelect(key) {
-        if (key === '1') {
-          this.$router.push('/')
-        }
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -287,9 +271,9 @@ $text:black;
   overflow: hidden;
   .login-form {
     position: relative;
-    width: 580px;
+    width: 520px;
     max-width: 100%;
-    padding: 70px 35px 0;
+    padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
   }

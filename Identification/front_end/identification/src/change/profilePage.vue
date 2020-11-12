@@ -35,7 +35,7 @@
             placeholder="Address"
             name="address"
             type="text"
-            tabindex="1"
+            tabindex="2"
             autocomplete="on"
             />
         </el-form-item>
@@ -63,14 +63,14 @@ export default {
         if (validEmail(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct email address with format \'xxx@xxx.xxx\''))
+            callback(new Error('Please enter the correct email address with format \'example@example.com\''))
         }
     }
     const validateAddress = (rule, value, callback) => {
         if (validAddress(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct address'))
+            callback(new Error('Please enter the correct address with A-Z, a-z, 0-9, _, ., /, #, (, ), \\ '))
         }
     }
     const validatePassword = (rule, value, callback) => {

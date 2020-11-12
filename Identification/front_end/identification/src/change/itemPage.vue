@@ -37,7 +37,7 @@
             placeholder="New Price"
             name="price"
             type="text"
-            tabindex="1"
+            tabindex="2"
             autocomplete="on"
             />
         </el-form-item>
@@ -52,7 +52,7 @@
             placeholder="New Amount"
             name="amount"
             type="text"
-            tabindex="1"
+            tabindex="3"
             autocomplete="on"
             />
         </el-form-item>
@@ -67,7 +67,7 @@
             placeholder="New Description"
             name="description"
             type="textarea"
-            tabindex="1"
+            tabindex="4"
             autocomplete="on"
             />
         </el-form-item>
@@ -102,7 +102,7 @@ export default {
         if (validItemname(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct item name without special characters.'))
+            callback(new Error('Please enter the correct item name without special characters'))
         }
     }
     const validatePrice = (rule, value, callback) => {
@@ -121,7 +121,7 @@ export default {
     }
     const validateDescription = (rule, value, callback) => {
         if (!validDescription(value)) {
-            callback(new Error('Please enter 1-3 sentences of description'))
+            callback(new Error('Please enter 1-3 sentences of description, must include a-z, A-Z characters'))
         } else {
             callback()
         }

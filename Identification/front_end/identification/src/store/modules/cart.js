@@ -94,8 +94,9 @@ const actions = {
                 ).then(response => {
                     let status = response.data.checkoutStatus
                     for (let i = 0; i < status.length; i++) {
+                        console.log(status[i])
                         if ((status[i]-0) > 0) {
-                            var order = {price: orderInfo.orders[i].price, item: orderInfo.orders[i].item, num: orderInfo.orders[i].num, id: status[i], rate: -1, comment: ''};
+                            var order = {price: orderInfo.orders[i].price, item: orderInfo.orders[i].item, num: orderInfo.orders[i].item, id: status[i], rate: -1, comment: ''};
                             commit('ADD_ORDER', order)
                             let ID = orderList[i].id
                             for (let j = 0; j < state.cart.length; j++) {
@@ -103,6 +104,9 @@ const actions = {
                                     commit('REMOVE_CART', i)
                                 }
                             }
+                        } else {
+                            let error = {message: "Place Order: " + orderInfo.orders[i].item+ ", " + orderInfo.orders[i].num + " error, not enough stock."}
+                            reject(error)
                         }
                     }
                     resolve(response)

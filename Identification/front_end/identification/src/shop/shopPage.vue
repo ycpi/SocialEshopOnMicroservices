@@ -53,7 +53,7 @@
                     {{item.description}}
                 </td>
                 <td class="check">
-                    <el-button type="primary" icon="el-icon-arrow-right" size="small" @click="onClickCheck(item.name)" circle></el-button>
+                    <el-button type="primary" size="small" @click="onClickCheck(item.name)">Buy</el-button>
                 </td>
                 </tr>
             </tbody>
@@ -137,6 +137,9 @@ export default {
             if (/\S/.test(this.search)) {
                 this.$store.dispatch('category/searchItem',this.search)
                 .then(() => {
+                    if (this.availableItems.length === 0) {
+                        this.$message('Item Not Found');
+                    }
                     this.found = true
                 })
                 .catch((error) => {

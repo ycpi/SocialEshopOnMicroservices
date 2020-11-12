@@ -67,16 +67,18 @@ export default {
       if (validUsername(value)) {
         callback()
       } else {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('Please enter the correct username with A-Z, a-z, 0-9'))
       }
     }
+    /*
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('The password can not be less than 6 characters'))
       } else {
         callback()
       }
     }
+    */
     return {
       loginForm: {
         username: '',
@@ -84,7 +86,7 @@ export default {
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        //password: [{ required: false, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       capsTooltip: false,

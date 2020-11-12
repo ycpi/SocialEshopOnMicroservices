@@ -14,7 +14,7 @@
         <li>Price: {{item.cost}}</li>
         <li>Description: {{item.description}}</li>
         <el-row class="pick">
-        <el-input-number class="picker" v-model="num" @change="pickNum" :min="1" :max="100" size="small" label="pick number"></el-input-number>
+        <el-input-number class="picker" v-model="num" @change="pickNum" :min="1" size="small" label="pick number"></el-input-number>
         <el-button type="success" @click="onClickPick" icon="el-icon-shopping-cart-1" round size="small">Add to Cart</el-button>
         </el-row>
   </div>

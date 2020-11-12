@@ -33,7 +33,7 @@
             placeholder="Email"
             name="email"
             type="text"
-            tabindex="1"
+            tabindex="2"
             autocomplete="on"
             />
         </el-form-item>
@@ -50,7 +50,7 @@
                 :type="passwordType"
                 placeholder="Password"
                 name="password"
-                tabindex="2"
+                tabindex="3"
                 autocomplete="on"
                 @keyup.native="checkCapslock"
                 @blur="capsTooltip = false"
@@ -72,7 +72,7 @@
             placeholder="Address"
             name="address"
             type="text"
-            tabindex="1"
+            tabindex="4"
             autocomplete="on"
             />
         </el-form-item>
@@ -95,26 +95,26 @@ export default {
         if (validUsername(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct user name with A-Z, a-z, 0-9'))
+            callback(new Error('Please enter the correct username with A-Z, a-z, 0-9'))
         }
     }
     const validateEmail = (rule, value, callback) => {
         if (validEmail(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct email address with format \'xxx@xxx.xxx\''))
+            callback(new Error('Please enter the correct email address with format \'example@example.com\''))
         }
     }
     const validateAddress = (rule, value, callback) => {
         if (validAddress(value)) {
             callback()
         } else {
-            callback(new Error('Please enter the correct address'))
+            callback(new Error('Please enter the correct address with A-Z, a-z, 0-9, _, ., /, #, (, ), \\ '))
         }
     }
     const validatePassword = (rule, value, callback) => {
         if (value.length < 6) {
-            callback(new Error('The password can not be less than 6 digits'))
+            callback(new Error('The password can not be less than 6 characters'))
         } else {
             callback()
         }
