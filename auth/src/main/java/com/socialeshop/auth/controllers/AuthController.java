@@ -4,6 +4,9 @@ import com.socialeshop.api.core.payloads.JwtResponse;
 import com.socialeshop.api.core.payloads.LoginRequest;
 import com.socialeshop.api.core.payloads.MessageResponse;
 import com.socialeshop.api.core.payloads.SignupRequest;
+import com.socialeshop.api.core.payloads.user.EditPassword;
+import com.socialeshop.api.core.payloads.user.EditProfileRequest;
+import com.socialeshop.api.core.payloads.user.VerifyUserRequest;
 import com.socialeshop.api.model.ERole;
 import com.socialeshop.api.model.Role;
 import com.socialeshop.api.model.User;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,9 +39,6 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -60,7 +61,7 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new com.socialeshop.api.core.user's account
+        // Create new user's account
         System.out.println("username:"+signUpRequest.getUsername());
         User user = new User(signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),
@@ -68,11 +69,12 @@ public class AuthController {
                 signUpRequest.getEmail()
         );
 
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.normal)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
+//        Set<Role> roles = new HashSet<>();
+//        Role userRole = roleRepository.findByName(ERole.normal)
+//                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        roles.add(userRole);
+//        user.setRoles(roles);
+        user.setRole(ERole.normal);
         userRepository.saveAndFlush(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -92,7 +94,7 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new com.socialeshop.api.core.user's account
+        // Create new user's account
         System.out.println("username:"+signUpRequest.getUsername());
         User user = new User(signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),
@@ -100,11 +102,12 @@ public class AuthController {
                 signUpRequest.getEmail()
         );
 
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.business)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
+//        Set<Role> roles = new HashSet<>();
+//        Role userRole = roleRepository.findByName(ERole.business)
+//                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        roles.add(userRole);
+//        user.setRoles(roles);
+        user.setRole(ERole.business);
         userRepository.saveAndFlush(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -114,12 +117,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         System.out.println(loginRequest.getUsername()+","+loginRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = null;
+        try{
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Login failed!"));
+        }
+
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
-
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
@@ -130,7 +139,81 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getAddress(),
                 roles));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyUser(@Valid @RequestBody VerifyUserRequest verifyUserRequest){
+        String username = verifyUserRequest.getUsername();
+        String password = verifyUserRequest.getPassword();
+        String passwordToken = encoder.encode(password);
+        // get password token
+        Authentication authentication = null;
+        try { // fixed: CORS bug
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Login failed!"));
+        }
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        if(userRepository.existsByUsername(username)){
+            Optional<User> user = userRepository.findByUsername(username);
+            if(user.isPresent()){
+                if(user.get().getPassword().endsWith(userDetails.getPassword())){
+                    return ResponseEntity.ok(new MessageResponse("Success!"));
+                }
+                else{
+                    return ResponseEntity.badRequest().body(new MessageResponse("Error: Cann't find the user!"));
+                }
+            }
+        }
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Error: The password is wrong!"));
+    }
+    @PostMapping("/edit")
+    public ResponseEntity<?> editProfile(@Valid @RequestBody EditProfileRequest editProfileRequest){
+        String username = editProfileRequest.getUsername();
+        String email = editProfileRequest.getEmail();
+        String address = editProfileRequest.getAddress();
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if(user.isPresent()){
+            user.get().setAddress(address);
+            user.get().setEmail(email);
+            userRepository.saveAndFlush(user.get());
+            return ResponseEntity.ok(new MessageResponse("Edit Profile Success!"));
+        }
+        else{
+            System.out.println("Cannot find the user!");
+        }
+        return ResponseEntity.badRequest().body("Error: Cannot find the user!");
+    }
+
+    @PostMapping("/edit/password")
+    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPassword editPassword){
+        String username = editPassword.getUsername();
+        String password = editPassword.getPassword();
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if(user.isPresent()){
+
+            // get password token
+            String passwordToken = encoder.encode(password);
+            user.get().setPassword(passwordToken);
+            userRepository.saveAndFlush(user.get());
+            return ResponseEntity.ok(new MessageResponse("Edit Password Success!"));
+
+        }
+        return ResponseEntity.badRequest().body("Error: Edit password failed!");
     }
 
 }

@@ -1,7 +1,8 @@
 package com.socialeshop.api.core.payloads;
 
 
-import com.socialeshop.api.core.inventory.Inventory;
+
+import com.socialeshop.api.model.Inventory;
 
 import java.util.List;
 
