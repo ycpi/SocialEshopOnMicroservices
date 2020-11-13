@@ -85,8 +85,9 @@ public class OrderController {
                     // debug: update amount
                     cartOptional.get().getInventory().setAmount(amountInInventory - amountInOrder);
                     orderStatueList.add(orderId);
+                    cartOptional.get().setOrder(true);
                 }
-                cartOptional.get().setOrder(true);
+
                 cartRepository.saveAndFlush(cartOptional.get());
             }
             else{
