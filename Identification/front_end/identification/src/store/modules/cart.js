@@ -93,6 +93,7 @@ const actions = {
                 },config
                 ).then(response => {
                     let status = response.data.checkoutStatus
+                    console.log(status)
                     for (let i = 0; i < status.length; i++) {
                         console.log(status[i])
                         if ((status[i]-0) > 0) {
