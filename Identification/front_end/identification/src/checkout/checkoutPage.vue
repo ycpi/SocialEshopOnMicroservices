@@ -65,17 +65,22 @@ export default {
         let info = {username:this.username, orders: orders}
         this.$store.dispatch('cart/placeOrder',info)
         .then((response) => {
+          let noffset = 0
           for (let i = 0; i < response.fail.length; i++) {
             this.$notify.error({
               title: 'Place Order Error',
               message: response.fail[i].message,
+              offset: noffset
             });
+            noffset += 25
           }
           for (let i = 0; i < response.success.length; i++) {
             this.$notify({
               title: response.success[i].message,
-              type: 'success'
+              type: 'success',
+              offset: noffset
             });
+            noffset += 25
           }
           this.onClickProfile('order','3')
         })
