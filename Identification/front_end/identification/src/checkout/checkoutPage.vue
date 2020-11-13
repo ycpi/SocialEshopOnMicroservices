@@ -72,7 +72,7 @@ export default {
               message: response.fail[i].message,
               offset: noffset
             });
-            noffset += 25
+            noffset += 40
           }
           for (let i = 0; i < response.success.length; i++) {
             this.$notify({
@@ -80,7 +80,7 @@ export default {
               type: 'success',
               offset: noffset
             });
-            noffset += 25
+            noffset += 40
           }
           this.onClickProfile('order','3')
         })
