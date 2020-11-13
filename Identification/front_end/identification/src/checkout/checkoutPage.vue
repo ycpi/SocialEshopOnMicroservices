@@ -64,11 +64,19 @@ export default {
         }
         let info = {username:this.username, orders: orders}
         this.$store.dispatch('cart/placeOrder',info)
-        .then(() => {
-          this.$notify({
-              title: 'Order Placed, Thanks!',
+        .then((response) => {
+          for (let i = 0; i < response.fail.length; i++) {
+            this.$notify.error({
+              title: 'Place Order Error',
+              message: response.fail[i].message,
+            });
+          }
+          for (let i = 0; i < response.success.length; i++) {
+            this.$notify({
+              title: response.success[i].message,
               type: 'success'
-          });
+            });
+          }
           this.onClickProfile('order','3')
         })
         .catch((error) => {
